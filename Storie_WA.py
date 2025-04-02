@@ -191,6 +191,36 @@ def invia_storia(driver, file_path, testo=""):
         print("[ERRORE] Problemi nella pubblicazione dello status:", e)
 
 
+
+
+def extract_posts_from_php(file_path, base_url):
+    """
+    Legge il file PHP (che contiene l'array $posts) ed estrae i valori associati alle chiavi
+    "slug", "summary" e "image". Prepone la base_url allo slug per ottenere l'URL completo.
+    Restituisce una lista di dizionari, uno per post.
+    """
+    with open(file_path, "r", encoding="utf-8") as f:
+        content = f.read()
+    # Rimuovi newline per semplificare le regex
+    content = " ".join(content.split())
+    # Trova tutti i blocchi che corrispondono a un post (tra { e })
+    posts_blocks = re.findall(r'\{(.*?)\}', content)
+    posts = []
+    for block in posts_blocks:
+        slug_match = re.search(r'"slug"\s*=>\s*"([^"]+)"', block)
+        summary_match = re.search(r'"summary"\s*=>\s*"([^"]+)"', block)
+        image_match = re.search(r'"image"\s*=>\s*"([^"]+)"', block)
+        if slug_match:
+            post = {}
+            post["slug"] = base_url + slug_match.group(1)
+            if summary_match:
+                post["summary"] = summary_match.group(1)
+            if image_match:
+                post["image"] = image_match.group(1)
+            posts.append(post)
+    return posts
+    
+    
 if __name__ == "__main__":
     # Assicurati di avere definito la funzione setup_driver() altrove
     php_file = "posts.php"  # File PHP esterno che contiene l'array dei post
