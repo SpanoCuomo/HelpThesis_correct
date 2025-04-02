@@ -1,3 +1,6 @@
+
+
+
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -178,7 +181,7 @@ def invia_storia(driver, file_path, testo=""):
 
     # 6. Clicca sul pulsante per pubblicare lo status
     try:
-        xp_send_status = "//button[@aria-label='Invia']"
+        xp_send_status = "//div[@role='button' and @aria-label='Invia']"
         send_button = WebDriverWait(driver, 10).until(
             EC.element_to_be_clickable((By.XPATH, xp_send_status))
         )
@@ -188,13 +191,21 @@ def invia_storia(driver, file_path, testo=""):
         print("[ERRORE] Problemi nella pubblicazione dello status:", e)
 
 list =posts = [
+    
+    {    "slug": "https://aiutotesi.altervista.org/uda.html",
+        "summary": "Voi avere informazioni in più? Contattaci! https://wa.me/+393870608777",
+        "description": "Descrizione delle metodologie didattiche nella scuola italiana, dai modelli tradizionali alle strategie innovative.",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\cliccabile.pdf"
+    },
+
     {
         "slug": "https://aiutotesi.altervista.org/blog/blog_1_metodologie_didattiche.php",
         "title": "Metodologia didattiche",
         "subtitle": "Una panoramica sulle strategie didattiche innovative e tradizionali",
         "summary": "Scopri come le metodologie didattiche, da quelle tradizionali a quelle innovative, trasformano l'apprendimento.",
         "description": "Descrizione delle metodologie didattiche nella scuola italiana, dai modelli tradizionali alle strategie innovative.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_1_metodologie_didattiche.PNG"
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_1_metodologie_didattiche.PNG",
+        Metodologie_Didattiche_Nella_Scuola.mp4
     },
     {
         "slug": "https://aiutotesi.altervista.org/blog/blog_2_Come_preparare_UDA_vincente.php",
@@ -202,7 +213,8 @@ list =posts = [
         "subtitle": "Dalla scelta del tema alla definizione degli obiettivi",
         "summary": "Una guida pratica per realizzare Unità Didattiche efficaci e coinvolgenti.",
         "description": "Come realizzare Unità Didattiche efficaci e coerenti.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_2_Come_preparare_UDA_vincente.PNG"
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_2_Come_preparare_UDA_vincente.PNG",
+        Come_preparare_un_UDA_vincente.mp4
     },
     {
         "slug": "https://aiutotesi.altervista.org/blog/blog_3_Lezione_Simulata.php",
@@ -210,7 +222,8 @@ list =posts = [
         "subtitle": "Tecniche e strumenti per una lezione coinvolgente",
         "summary": "Scopri come organizzare una lezione simulata di successo per migliorare l’apprendimento.",
         "description": "Suggerimenti e tecniche per una lezione simulata efficace.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_3_Lezione_Simulata.PNG"
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_3_Lezione_Simulata.PNG",
+        Lezione_Simulata_Suggerimenti_Pratici.mp4
     },
     {
         "slug": "https://aiutotesi.altervista.org/blog/blog_4_compiti_autentici.php",
@@ -218,7 +231,8 @@ list =posts = [
         "subtitle": "Esperienze di apprendimento reale",
         "summary": "Scopri come i compiti autentici stimolano la creatività e il problem solving degli studenti.",
         "description": "Il valore dei compiti autentici nell'apprendimento e nella valutazione.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_4_compiti_autentici.PNG"
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_4_compiti_autentici.PNG",
+        Lezione_Simulata_Suggerimenti_Pratici.mp4
     },
     {
         "slug": "https://aiutotesi.altervista.org/blog/blog_5_clil.php",
@@ -226,7 +240,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Scopri come rendere le tue lezioni più interattive e personalizzate grazie a piattaforme e risorse digitali.",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_5_clil.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_5_clil.PNG",
+        CLIL_apprendimento_integrato_di_lingua_e_contenuti.mp4
         "content": " fj "
     },
     {
@@ -235,7 +250,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Questo metodo nasce dall’idea che la lingua si impari meglio quando viene utilizzata in situazioni autentiche: per esempio...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_6_didattica_digitale.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_6_didattica_digitale.PNG",
+        Didattica_digitale_risorse_e_strumenti_online.mp4
         "content": " tu "
     },
     {
@@ -244,7 +260,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Definire poche regole chiare, costruite insieme alla classe. Quando gli studenti partecipano...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_7_gestione_classe.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_7_gestione_classe.PNG",
+        Gestione_Del_Tempo_In_Classe.mp4
         "content": " j "
     },
     {
@@ -253,7 +270,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Adottare le competenze chiave come orizzonte educativo fa sì che la didattica non sia solo trasmissione...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_8_Competenze_chiave_nelle_UDA.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_8_Competenze_chiave_nelle_UDA.PNG",
+        Competenze_chiave_nelle_UDA.mp4
         "content": " j "
     },
     {
@@ -262,7 +280,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Fornire contenuti multimediali (video, slide, podcast) da visionare a casa consente agli studenti con...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_9_Strategie_inclusive.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_9_Strategie_inclusive.PNG",
+        Competenze_chiave_nelle_UDA.mp4
         "content": " j "
     },
     {
@@ -271,7 +290,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "I compiti pratici, ancorati a contesti reali, stimolano la partecipazione attiva e la motivazione degli studenti...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_10_Valutazione_autentica.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_10_Valutazione_autentica.PNG",
+        Valutazione_autentica_nelle_UDA.mp4
         "content": " j "
     },
     {
@@ -280,7 +300,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Gli studenti imparano insegnando o spiegando ai compagni. Questo sistema valorizza...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_11_Peer_Teaching_Cooperative_Learning.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_11_Peer_Teaching_Cooperative_Learning.PNG",
+        Peer_Teaching_e_Cooperative_Learning.mp4
         "content": " j "
     },
     {
@@ -289,7 +310,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Analizzare un tema da prospettive diverse (storica, scientifica, letteraria, artistica) consente una comprensione più ampia...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_12_Progettare_UDA_interdisciplinari.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_12_Progettare_UDA_interdisciplinari.PNG",
+        Progettare_UDA_interdisciplinari.mp4
         "content": " j "
     },
     {
@@ -298,7 +320,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Questo metodo può essere facilmente integrato nelle UDA (Unità Didattiche di Apprendimento) e nelle...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_13_Didattica_laboratoriale.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_13_Didattica_laboratoriale.PNG",
+        Didattica_laboratoriale.mp4
         "content": " j "
     },
     {
@@ -307,7 +330,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Il Universal Design for Learning (UDL) è un insieme di principi e linee guida che mirano a rendere la didattica accessibile a tutti...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_14_UDL_e_inclusione.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_14_UDL_e_inclusione.PNG",
+        UDL_e_inclusione.mp4
         "content": " j "
     },
     {
@@ -316,7 +340,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "L’apprendimento creativo e la gamification (o ludicizzazione) si fondano sull’idea che...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_15_Apprendimento_creativo_e_gamification.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_15_Apprendimento_creativo_e_gamification.PNG",
+        "video": r"https://iutotesi.altervista.org/ImmaginiSitoTesi/Video/Apprendimento_creativo_e_gamification.mp4",
         "content": " j "
     },
     {
@@ -325,7 +350,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "Nel processo di apprendimento, il feedback e l’autovalutazione rivestono un ruolo chiave per guidare gli studenti a ...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_16_Feedback_e_autovalutazione.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_16_Feedback_e_autovalutazione.PNG",
+        Feedback_e_autovalutazione.mp4
         "content": " j "
     },
     {
@@ -334,7 +360,8 @@ list =posts = [
         "subtitle": "Strumenti e risorse online per innovare la didattica",
         "summary": "L’interazione tra scuola e famiglia rappresenta un elemento cruciale per promuovere il successo formativo e lo sviluppo...",
         "description": "I vantaggi di integrare strumenti online, piattaforme e metodologie digitali per potenziare l’insegnamento e l’apprendimento.",
-        "image": "C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\blog_17_Interazione_scuola_famiglia.PNG",
+        "image": r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\blog_17_Interazione_scuola_famiglia.PNG",
+        Interazione_scuola_famiglia.mp4
         "content": " j "
     }
 ]
@@ -351,8 +378,8 @@ list =posts = [
 if __name__ == "__main__":
     # Assicurati di avere definito la funzione setup_driver() altrove
     driver = setup_driver(
-        user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
-        profile_directory="Profile 5"
+        user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data",
+        profile_directory="Profile 2"
     )
     
     # Apri WhatsApp Web
@@ -361,11 +388,11 @@ if __name__ == "__main__":
     time.sleep(15)
     
     # Esempio: pubblica status per i post dal numero 2 al 7 (indice 1 fino a 6)
-    for post in posts[8:10]:
+    for post in posts[0:]:
         # Recupera il percorso dell'immagine e il testo (description) dal post
         image_path = post["image"]
         # Aggiungiamo lo slug al testo in modo che l'URL sia visibile nello status
-        text = post["description"]  + post["slug"]
+        text = post["summary"]  + post["slug"]
         
         # Invia lo status con l'immagine e il testo
         invia_storia(driver, image_path, text)
