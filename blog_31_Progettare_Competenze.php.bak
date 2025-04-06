@@ -1,0 +1,205 @@
+<?php
+// Includi l’elenco dei post e individua il post corrente
+include('posts.php');
+
+// Se non viene passato 'slug', usa il nome del file corrente
+if (!isset($_GET['slug'])) {
+  $currentSlug = basename(__FILE__);
+} else {
+  $currentSlug = $_GET['slug'];
+}
+
+// Trova l'indice del post corrente
+$currentIndex = -1;
+foreach ($posts as $i => $post) {
+  if ($post['slug'] === $currentSlug) {
+    $currentIndex = $i;
+    break;
+  }
+}
+if ($currentIndex === -1) {
+  echo "Post non trovato.";
+  exit;
+}
+
+// Salva il post corrente in una variabile dedicata
+$currentPost = $posts[$currentIndex];
+
+// Calcola l'indice dell'articolo precedente e successivo (navigazione circolare)
+$total = count($posts);
+$prevIndex = ($currentIndex - 1 + $total) % $total;
+$nextIndex = ($currentIndex + 1) % $total;
+
+// Avvia l'output buffering per catturare il contenuto specifico della pagina
+ob_start();
+?>
+
+
+<script>!function(d,l,e,s,c){e=d.createElement("script");e.src="//ad.altervista.org/js.ad/size=728X90/?ref="+encodeURIComponent(l.hostname+l.pathname)+"&r="+Date.now();s=d.scripts;c=d.currentScript||s[s.length-1];c.parentNode.insertBefore(e,c)}(document,location)</script>
+
+<h1>Progettazione per competenze e valutazione formativa: dal “cosa sai” al “cosa sai fare”</h1>
+
+<p>
+  Passare a una <strong>didattica per competenze</strong> significa focalizzarsi non solo
+  sui contenuti disciplinari, ma anche sull’abilità di utilizzarli in contesti reali.
+  La <em>valutazione formativa</em>, invece, mira a fornire feedback continui per
+  orientare lo studente nel suo percorso di apprendimento.
+</p>
+
+<h2>Perché progettare per competenze</h2>
+<ul>
+  <li>
+    <strong>Approccio pratico:</strong> gli studenti imparano a contestualizzare le conoscenze,
+    collegandole alle esperienze quotidiane o professionali.
+  </li>
+  <li>
+    <strong>Integrazione tra discipline:</strong> le competenze sono spesso trasversali,
+    favorendo un lavoro sinergico tra diverse aree di studio.
+  </li>
+  <li>
+    <strong>Maggiore motivazione:</strong> se gli studenti vedono l’utilità di ciò che imparano,
+    aumenta il loro coinvolgimento.
+  </li>
+</ul>
+
+<h2>Come progettare unità didattiche per competenze</h2>
+<ol>
+  <li>
+    <strong>Definire le competenze chiave:</strong> stabilisci quali conoscenze, abilità
+    e attitudini vuoi sviluppare (es. competenza digitale, problem solving, lavoro di gruppo).
+  </li>
+  <li>
+    <strong>Pianificare attività autentiche:</strong> prediligi progetti o compiti che richiedano
+    di applicare concretamente ciò che si è appreso.
+  </li>
+  <li>
+    <strong>Valutazione in itinere:</strong> utilizza check-list, rubriche e questionari
+    per raccogliere feedback e sostenere gli studenti.
+  </li>
+</ol>
+
+<p>
+  Il <strong>focus sulle competenze</strong> aiuta a formare cittadini capaci di agire in
+  situazioni complesse, con un apprendimento che resta <em>significativo</em> nel tempo.
+</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<!-- Sezione "Altri articoli del nostro Blog" (dinamica) -->
+<div class="blog-intro">
+  <h2>Altri articoli del nostro Blog</h2>
+  <p>
+    Se ti è piaciuto questo contenuto, potresti trovare interessanti altri articoli dedicati ad argomenti simili.
+  </p>
+</div>
+
+
+
+<div class="blog-list">
+  <!-- Articolo precedente -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$prevIndex]['title']; ?></h3>
+    <p><?php echo $posts[$prevIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$prevIndex]['slug']; ?>?slug=<?php echo $posts[$prevIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+
+  <!-- Articolo successivo -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$nextIndex]['title']; ?></h3>
+    <p><?php echo $posts[$nextIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$nextIndex]['slug']; ?>?slug=<?php echo $posts[$nextIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+</div>
+
+
+
+<br>
+
+
+<h5>Il nostro team offre consulenza nella redazione di lavori per concorso, corsi 30/60 CFU e TFA.</h5> 
+<p>Puoi contattarci gratuitamente al  <a href="tel:3780608777"><strong>378-060-8777</strong></a>, anche tramite <a href="https://wa.me/3780608777" target="_blank"> <strong>WA</strong></a>.</p>
+<h5>  <a href="https://aiutotesi.altervista.org/uda.html#target_esterno">Oppure puoi acquistare il nostro libro, disponibile nella Home</a>
+
+</h5>
+
+
+
+<!-- Pulsante per tornare alla Home -->
+<div style="text-align:center; margin-top: 2rem;">
+  <a href="/uda.html" class="btn-back">Torna alla Home</a>
+</div>
+
+
+
+
+
+
+
+<?php
+// Cattura il contenuto specifico nel buffer
+$content = ob_get_clean();
+
+// Definisci le variabili per meta tag e titolo relative al post corrente
+$title          = $currentPost['title'];
+$og_title       = $currentPost['title'];
+$og_description = $currentPost['summary'];
+$og_image       = $currentPost['image'];
+
+// Includi il template base e renderizza la pagina
+require 'base_blog.php';
+renderTemplate($title, $og_title, $og_description, $og_image, $content);
+?>

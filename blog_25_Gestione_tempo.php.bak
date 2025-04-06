@@ -1,0 +1,243 @@
+<?php
+// Includi l’elenco dei post e individua il post corrente
+include('posts.php');
+
+// Se non viene passato 'slug', usa il nome del file corrente
+if (!isset($_GET['slug'])) {
+  $currentSlug = basename(__FILE__);
+} else {
+  $currentSlug = $_GET['slug'];
+}
+
+// Trova l'indice del post corrente
+$currentIndex = -1;
+foreach ($posts as $i => $post) {
+  if ($post['slug'] === $currentSlug) {
+    $currentIndex = $i;
+    break;
+  }
+}
+if ($currentIndex === -1) {
+  echo "Post non trovato.";
+  exit;
+}
+
+// Salva il post corrente in una variabile dedicata
+$currentPost = $posts[$currentIndex];
+
+// Calcola l'indice dell'articolo precedente e successivo (navigazione circolare)
+$total = count($posts);
+$prevIndex = ($currentIndex - 1 + $total) % $total;
+$nextIndex = ($currentIndex + 1) % $total;
+
+// Avvia l'output buffering per catturare il contenuto specifico della pagina
+ob_start();
+?>
+
+
+<script>!function(d,l,e,s,c){e=d.createElement("script");e.src="//ad.altervista.org/js.ad/size=728X90/?ref="+encodeURIComponent(l.hostname+l.pathname)+"&r="+Date.now();s=d.scripts;c=d.currentScript||s[s.length-1];c.parentNode.insertBefore(e,c)}(document,location)</script>
+
+<h1>Feedback e autovalutazione</h1>
+
+<p>
+  Nel processo di apprendimento, il <strong>feedback</strong> e l’<strong>autovalutazione</strong>
+  rivestono un ruolo chiave per guidare gli studenti a <em>riflettere</em> sui propri progressi,
+  acquisire consapevolezza dei punti di forza e individuare le aree di miglioramento. Un uso
+  sistematico di rubriche, checklist e momenti di riflessione promuove lo sviluppo di abilità
+  metacognitive e favorisce la <strong>responsabilizzazione</strong> dello studente, rendendolo
+  protagonista del proprio percorso di crescita.
+</p>
+
+<h2>Perché integrare il feedback e l’autovalutazione?</h2>
+<ul>
+  <li>
+    <strong>Promuovere l’autonomia:</strong> quando gli studenti imparano a valutarsi in modo
+    critico, sviluppano capacità di gestione del proprio apprendimento e divengono più
+    consapevoli del processo.
+  </li>
+  <li>
+    <strong>Aumentare la motivazione:</strong> un feedback personalizzato, unito a momenti di
+    autovalutazione, accresce l’interesse per l’attività didattica e rende gli obiettivi
+    più chiari e raggiungibili.
+  </li>
+  <li>
+    <strong>Migliorare la qualità dell’apprendimento:</strong> riflettere su errori e successi
+    aiuta a consolidare le competenze acquisite, trasformando gli esiti in occasioni di crescita.
+  </li>
+  <li>
+    <strong>Favorire la metacognizione:</strong> comprendere come si apprende (strategie, stili,
+    abitudini di studio) permette di ottimizzare tempi ed energie, e di personalizzare
+    il percorso formativo.
+  </li>
+</ul>
+
+<h2>Tipologie di feedback</h2>
+<p>
+  Quando parliamo di feedback, possiamo riferirci a diverse forme di interazione che
+  contribuiscono a orientare e sostenere l’apprendimento:
+</p>
+<ul>
+  <li>
+    <strong>Feedback immediato:</strong> fornito durante o subito dopo l’attività, aiuta lo
+    studente a correggere rapidamente eventuali errori e a <em>rassicurarlo</em> sulla direzione
+    intrapresa.
+  </li>
+  <li>
+    <strong>Feedback differito:</strong> elaborato in un secondo momento (ad esempio, dopo la
+    correzione di un elaborato). Permette di approfondire gli aspetti critici e suggerire
+    percorsi di recupero o di potenziamento.
+  </li>
+  <li>
+    <strong>Feedback tra pari:</strong> gli studenti si confrontano sui risultati, si scambiano
+    consigli e impressioni, sviluppando al contempo competenze relazionali e senso di
+    responsabilità reciproca.
+  </li>
+</ul>
+
+<h2>Strumenti per l’autovalutazione</h2>
+<p>
+  L’<strong>autovalutazione</strong> è la pratica mediante la quale lo studente riflette
+  in prima persona sui propri risultati e sul processo. Per incentivarla, è utile proporre
+  diversi strumenti:
+</p>
+<ul>
+  <li>
+    <strong>Rubriche di valutazione:</strong> descrivono in modo chiaro i criteri e i livelli
+    di competenza attesi (es. insufficiente, base, intermedio, avanzato), aiutando l’alunno
+    a capire su quale “gradino” si colloca.
+  </li>
+  <li>
+    <strong>Checklist di competenze:</strong> elenchi strutturati (ad esempio, “So creare
+    una mappa concettuale”, “So spiegare il fenomeno X con parole mie”) da spuntare
+    autonomamente, monitorando i progressi.
+  </li>
+  <li>
+    <strong>Diari di bordo o journal:</strong> spazi in cui annotare impressioni, dubbi,
+    riflessioni sugli apprendimenti. Possono essere cartacei o digitali, favorendo la
+    consapevolezza del proprio percorso.
+  </li>
+</ul>
+
+<h2>Momenti di riflessione in classe</h2>
+<p>
+  Per rendere efficace un approccio basato su feedback e autovalutazione, è fondamentale
+  ritagliare <em>tempi specifici</em> durante la lezione o al termine di una UDA:
+</p>
+<ul>
+  <li>
+    <strong>Briefing iniziale:</strong> prima di avviare un’attività, chiarisci gli obiettivi
+    formativi e i criteri di valutazione, in modo che gli studenti sappiano cosa ci si
+    aspetta da loro.
+  </li>
+  <li>
+    <strong>Follow-up intermedio:</strong> a metà percorso, verifica come procede l’attività,
+    invita gli alunni a esprimere eventuali criticità e a proporre soluzioni.
+  </li>
+  <li>
+    <strong>Debriefing finale:</strong> alla fine dell’Unità Didattica o della lezione simulata,
+    coinvolgi tutti in un confronto aperto sui risultati raggiunti, le difficoltà incontrate
+    e le strategie migliori da adottare in futuro.
+  </li>
+</ul>
+
+<h2>Esempi di applicazione</h2>
+<ul>
+  <li>
+    <strong>Progetti collaborativi:</strong> durante un lavoro di gruppo, ogni studente può
+    compilare una mini-checklist dei propri contributi, evidenziando punti di forza e
+    aspetti da migliorare.
+  </li>
+  <li>
+    <strong>Compiti autentici:</strong> dopo la consegna di un progetto in cui si simula
+    un contesto reale, l’insegnante fornisce un feedback puntuale, mentre lo studente
+    riflette su cosa ha funzionato e su quali competenze vorrebbe approfondire.
+  </li>
+  <li>
+    <strong>Portfolio personale:</strong> raccogliere progressivamente elaborati e appunti,
+    accompagnandoli con brevi riflessioni. Nel tempo, si ottiene un quadro completo
+    dell’evoluzione delle abilità e delle conoscenze.
+  </li>
+</ul>
+
+<h2>Conclusioni</h2>
+<p>
+  Introdurre <strong>feedback</strong> e <strong>autovalutazione</strong> nel quotidiano
+  scolastico significa mettere al centro l’<em>apprendimento attivo</em> e la crescita
+  personale di ogni studente. Rubriche, checklist e momenti strutturati di riflessione
+  rendono il percorso più chiaro, aiutando gli alunni a <strong>prendere coscienza</strong>
+  delle proprie responsabilità e a sviluppare <strong>strategie metacognitive</strong>.
+  In questo modo, l’insegnamento non si limita a trasmettere contenuti, ma diventa
+  <strong>accompagnamento</strong> costante verso la costruzione di competenze solide
+  e durature.
+</p>
+
+
+
+<!-- Sezione "Altri articoli del nostro Blog" (dinamica) -->
+<div class="blog-intro">
+  <h2>Altri articoli del nostro Blog</h2>
+  <p>
+    Se ti è piaciuto questo contenuto, potresti trovare interessanti altri articoli dedicati ad argomenti simili.
+  </p>
+</div>
+
+
+
+<div class="blog-list">
+  <!-- Articolo precedente -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$prevIndex]['title']; ?></h3>
+    <p><?php echo $posts[$prevIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$prevIndex]['slug']; ?>?slug=<?php echo $posts[$prevIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+
+  <!-- Articolo successivo -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$nextIndex]['title']; ?></h3>
+    <p><?php echo $posts[$nextIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$nextIndex]['slug']; ?>?slug=<?php echo $posts[$nextIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+</div>
+
+
+
+<br>
+
+
+<h5>Il nostro team offre consulenza nella redazione di lavori per concorso, corsi 30/60 CFU e TFA.</h5> 
+<p>Puoi contattarci gratuitamente al  <a href="tel:3780608777"><strong>378-060-8777</strong></a>, anche tramite <a href="https://wa.me/3780608777" target="_blank"> <strong>WA</strong></a>.</p>
+<h5>  <a href="https://aiutotesi.altervista.org/uda.html#target_esterno">Oppure puoi acquistare il nostro libro, disponibile nella Home</a>
+
+</h5>
+
+
+
+<!-- Pulsante per tornare alla Home -->
+<div style="text-align:center; margin-top: 2rem;">
+  <a href="/uda.html" class="btn-back">Torna alla Home</a>
+</div>
+
+
+
+
+
+
+
+<?php
+// Cattura il contenuto specifico nel buffer
+$content = ob_get_clean();
+
+// Definisci le variabili per meta tag e titolo relative al post corrente
+$title          = $currentPost['title'];
+$og_title       = $currentPost['title'];
+$og_description = $currentPost['summary'];
+$og_image       = $currentPost['image'];
+
+// Includi il template base e renderizza la pagina
+require 'base_blog.php';
+renderTemplate($title, $og_title, $og_description, $og_image, $content);
+?>

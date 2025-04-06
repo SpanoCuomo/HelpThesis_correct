@@ -1,0 +1,1157 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>UDA e Lezioni Simulate</title>
+  <meta name="description" content="Scopri i nostri servizi di consulenza UDA e lezioni simulate per il concorso docente. Offriamo supporto personalizzato per tutte le classi di concorso, dalla primaria alla secondaria, per aiutarti a superare il concorso e diventare insegnante.">
+  <meta name="keywords" content="UDA, lezioni simulate, concorso docenti, consulenza UDA, scuola primaria, scuola secondaria, abilitazione all'insegnamento">
+
+  <!-- Favicon -->
+  <link rel="icon" href="https://aiutotesi.altervista.org/ImmaginiSitoTesi/Homepage/favicon_32_32.png" sizes="32x32" />
+  <script src="https://www.paypal.com/sdk/js?client-id=AVgOe80DIZOat6nmgxNDxoC-D2xibQTIcJupVzzIMMdvCBPh4k0MX7zebPE1vYSSFQ9f7W_k2UXvW_CG&currency=EUR&intent=capture"></script>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Bootstrap Bundle JS (include Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+  <!-- Il tuo CSS e eventuali altri script -->
+  <!-- Stile base -->
+  <style>
+  
+  /* Sezione Blog */
+.blog {
+  margin: 2rem 0;
+  background-color: #fff;
+  padding: 2rem 1rem;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.blog-intro {
+  text-align: left;
+  margin-bottom: 1.5rem;
+}
+
+.blog-intro p {
+  margin-bottom: 0.75rem;
+  font-size: 1rem;
+  color: #555;
+}
+
+.blog-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.blog-card {
+  background-color: #f9f9f9;
+  padding: 1.5rem;
+  border-radius: 8px;
+  border: 1px solid #eee;
+  max-width: 350px;
+  flex: 1 1 calc(33.333% - 1rem);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+}
+
+.blog-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+}
+
+.blog-card h3 {
+  font-size: 1.3rem;
+  margin-bottom: 0.5rem;
+  color: #333;
+}
+
+.blog-card p {
+  font-size: 1rem;
+  color: #555;
+  margin-bottom: 1rem;
+}
+
+.blog-card .btn-servizio {
+  display: inline-block;
+  background-color: #e66325;
+  color: #fff;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: background-color 0.3s ease;
+}
+
+.blog-card .btn-servizio:hover {
+  background-color: #cc521b;
+}
+
+/* Responsività per le blog-card */
+@media (max-width: 768px) {
+  .blog-card {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
+
+  /* Eventuali personalizzazioni per il carousel delle recensioni */
+    .review-carousel blockquote {
+      font-style: italic;
+      background-color: #f8f9fa;
+      padding: 1rem;
+      border-left: 5px solid #e66325;
+      margin: 0;
+    }
+    .review-carousel footer {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #555;
+    }
+  .prezzo-originale {
+    color: #999;
+  }
+  .prezzo-scontato {
+    color: #e60000;
+    font-weight: bold;
+  }
+
+  
+  
+/* Modal Overlay */
+.modal {
+  display: none; /* Nascosto di default */
+  position: fixed;
+  z-index: 1000;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0,0,0,0.8); /* Sfondo semi-trasparente */
+}
+
+.modal-content {
+  background-color: #fefefe;
+  margin: 5% auto;
+  padding: 20px;
+  border: 1px solid #888;
+  width: 80%;
+  max-width: 900px;
+  position: relative;
+  border-radius: 8px;
+}
+
+/* Bottone di chiusura */
+.modal-content .close {
+  position: absolute;
+  top: 10px;
+  right: 20px;
+  color: #aaa;
+  font-size: 28px;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* Iframe per il PDF */
+.modal-content iframe {
+  width: 100%;
+  height: 500px; /* Regola in base alle tue esigenze */
+  border: none;
+}
+
+/* Sezione bottoni nel modal */
+.modal-buttons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+}
+
+/* (Eventuali stili già presenti per i bottoni btn-primary e btn-secondary verranno ereditati) */
+
+  
+  
+  
+    /* RESET DI BASE */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+    body {
+      background-color: #e66325;
+      color: #333;
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
+
+    /* CONTAINER */
+    .container {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      background: #fff;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+
+    /* HEADER */
+    .header {
+      margin-bottom: 2rem;
+    }
+    .header h1 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #e66325;
+    }
+    .header p {
+      font-size: 1.2rem;
+      color: #555;
+    }
+
+    /* SEZIONE DESCRIZIONE */
+    .description {
+      text-align: left;
+      margin-bottom: 2rem;
+    }
+    .description h2 {
+      font-size: 1.5rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .description p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+
+
+	  /* Contenitore dei link (già presente o da aggiungere) */
+  .navigation_prew {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;  /* Centra i blocchi */
+    gap: 1rem;                /* Spaziatura tra i blocchi */
+    margin-top: 2rem;
+  }
+
+  /* Blocco di preview che sostituisce il bottone */
+
+
+
+/* Blocco di preview che sostituisce il bottone */
+.preview-page {
+  display: inline-block;
+  width: 300px;                   /* Puoi regolare la larghezza secondo le tue esigenze */
+  aspect-ratio: 16 / 9;           /* Aspect ratio 16:9 (tipico per Google Slides) */
+  background-size: cover;
+  background-position: center;
+  border: 2px solid #e66325;
+  border-radius: 4px;
+  position: relative;
+  text-decoration: none;
+  transition: transform .6s ease;  /* Transizione più lenta */
+}
+
+.preview-page:hover {
+  transform: scale(1.05); /* Ingrandisce del 5% al passaggio del mouse */
+}
+
+/* Overlay per il testo */
+.preview-page .overlay-text {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: rgba(0, 0, 0, 0.8);  /* Rettangolo scuro più opaco */
+  color: #fff;
+  text-align: center;
+  padding: 0.7rem;                /* Maggiore padding per evidenziare il rettangolo */
+  font-size: 1.rem;              /* Testo più grande */
+  font-weight: bold;
+  border-bottom-left-radius: 4px;
+  border-bottom-right-radius: 4px;
+}
+
+
+
+
+
+
+
+    /* PULSANTI DI NAVIGAZIONE */
+    .navigation, .navigation_CENT {
+      display: flex;
+      justify-content: space-between;
+      gap: 1rem;
+      margin-top: 2rem;
+      flex-wrap: wrap;
+    }
+    .navigation_CENT {
+      justify-content: center; /* Centra orizzontalmente */
+    }
+    .btn {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: bold;
+      transition: background-color 0.3s ease, transform 0.6s ease;
+      text-align: center;
+      flex: 1 1 auto;
+      min-width: 150px;
+    }
+    .btn-primary {
+      background-color: #e66325;
+      color: #fff;
+    }
+    .btn-primary:hover {
+      background-color: #cc521b;
+      transform: scale(1.05);
+    }
+    .btn-secondary {
+      background-color: #555;
+      color: #fff;
+    }
+    .btn-secondary:hover {
+      background-color: #333;
+      transform: scale(1.05);
+    }
+
+    /* BOTTONI DI PAGAMENTO */
+    .btn-paypal, .btn-satispay {
+      color: white;
+      padding: 0.75rem 1.5rem;
+      border: none;
+      border-radius: 6px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      text-align: center;
+      width: 100%; /* Per dispositivi mobili */
+      max-width: 300px; /* Limita la larghezza massima */
+      margin: 0.5rem auto; /* Centra i bottoni e aggiunge margine verticale */
+    }
+
+    /* Stile specifico per PayPal */
+    .btn-paypal {
+      background-color: #2997DB;
+    }
+    .btn-paypal:hover {
+      background-color: #1f7cbf; /* Colore più scuro al hover */
+      transform: scale(1.05);
+    }
+
+    /* Stile specifico per Satispay */
+    .btn-satispay {
+      background-color: #f74a43;
+    }
+    .btn-satispay:hover {
+      background-color: #d13d35; /* Colore più scuro al hover */
+      transform: scale(1.05);
+    }
+
+    /* LISTA DI LINK AI SERVIZI */
+    .other-services {
+      margin-top: 3rem;
+      text-align: left;
+    }
+    .other-services h3 {
+      font-size: 1.3rem;
+      margin-bottom: 1rem;
+    }
+    .other-services ul {
+      list-style: none;
+      padding: 0;
+    }
+    .other-services li {
+      margin-bottom: 1rem;
+    }
+    .other-services a {
+      color: #e66325;
+      font-weight: bold;
+      text-decoration: none;
+    }
+    .other-services a:hover {
+      text-decoration: underline;
+    }
+    
+    /* PAYPAL BUTTON CONTAINER */
+    .paypal-button-container {
+      margin-top: 1rem;
+    }
+
+    /* PROVE */
+    .prova {
+      text-align: center;
+      margin-bottom: 2rem;
+    }
+    .prova h2 {
+      font-size: 1.3rem;
+      margin-bottom: 0.5rem;
+      color: #333;
+    }
+    .prova p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 0.5rem;
+    }
+
+    /* BTN-BACK */
+    .btn-back {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      border-radius: 6px;
+      font-weight: bold;
+      background-color: #555;
+      color: #fff;
+      text-align: center;
+      text-decoration: none;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+      margin-top: 2rem;
+    }
+    .btn-back:hover {
+      background-color: #333;
+      transform: scale(1.05);
+    }
+
+    /* RESPONSIVENESS */
+    @media (max-width: 768px) {
+      .container {
+        margin: 1rem;
+        padding: 0.8rem;
+      }
+      .header h1 {
+        font-size: 1.8rem;
+      }
+      .header p {
+        font-size: 1rem;
+      }
+      .description h2 {
+        font-size: 1.3rem;
+      }
+      .description p {
+        font-size: 0.95rem;
+      }
+      .btn {
+        padding: 0.6rem 1.2rem;
+        min-width: 120px;
+      }
+      .other-services h3 {
+        font-size: 1.1rem;
+      }
+      .prova h2 {
+        font-size: 1.1rem;
+      }
+      .prova p {
+        font-size: 0.95rem;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .navigation, .navigation_CENT {
+        flex-direction: column;
+        align-items: center;
+      }
+      .btn, .btn-back {
+        width: 100%;
+        max-width: 300px;
+      }
+      .other-services h3 {
+        font-size: 1rem;
+      }
+      .prova h2 {
+        font-size: 1rem;
+      }
+      .prova p {
+        font-size: 0.9rem;
+      }
+      .btn-back {
+        width: 100%;
+        max-width: 300px;
+      }
+    }
+
+    /* ---- STILE DEL BOTTONE A FORMA DI COPERTINA DI LIBRO ---- */
+    .book-cover-button {
+      display: inline-block;
+      width: 150px; /* Larghezza personalizzabile */
+      /* Mantiene le proporzioni A4 (1:1.414) */
+      aspect-ratio: 1 / 1.414;
+      background-image: url('book_cover.PNG'); /* Sostituisci con l'URL della tua immagine di copertina */
+	  background-size: cover;
+	  background-position: center;
+	  border: 2px solid #e66325;
+	  border-radius: 4px;
+	  text-decoration: none;
+	  position: relative;
+	  margin: 1rem auto;
+	  transition: width 0.3s ease;  /* transizione per la larghezza */
+	}
+
+.book-cover-button:hover {
+  width: 170px;  /* larghezza al passaggio del mouse */
+}
+    .book-cover-button::after {
+      content: 'Scarica PDF';
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: rgba(0, 0, 0, 0.5);
+      color: #fff;
+      text-align: center;
+      padding: 0.5rem;
+      font-size: 0.9rem;
+      border-bottom-left-radius: 4px;
+      border-bottom-right-radius: 4px;
+    }
+  </style>
+  
+  
+</head>
+<body>
+
+  <div class="container">
+    <!-- Header della pagina -->
+    <div class="header">
+      <h1>UDA e Lezioni Simulate</h1>
+      <p>Preparazione personalizzata per le tue esigenze didattiche.</p>
+    </div>
+	
+	
+	
+	
+	
+	
+	
+    <!-- Sezione Descrizione -->
+    <div class="description">
+      <h2>Cos'è il servizio "UDA e Lezioni Simulate"?</h2>
+      <p>Ti offriamo un supporto completo per la creazione di Unità Didattiche di Apprendimento (UDA) e lezioni simulate, progettate per raggiungere i tuoi obiettivi didattici in modo efficace e innovativo.</p>
+      <p>Ogni UDA e lezione simulata viene personalizzata per rispettare le linee guida ministeriali e adattata ai bisogni specifici dei tuoi studenti.</p>
+
+      <h2>Come funziona?</h2>
+      <p>
+         1. Ci comunichi il tema o l'obiettivo didattico della tua UDA o lezione simulata.<br>
+         2. Noi iniziamo a creare un documento di circa 8-10 pagine che serve a te per iniziare a preparare il discorso ed a noi come base per le slides.<br>
+         3. Lavoriamo insieme per definire il formato, gli strumenti e i contenuti necessari.<br>
+         4. Controlli il testo e concordiamo eventuali modifiche.<br>
+         5. Quando ci dai l'OK, tu inizi a studiare il testo per prepararti il discorso e noi creiamo le slides.<br>
+         6. Ti inviamo le slides: ogni correzione è inclusa.<br>
+      </p>
+      <h2>Tempistiche?</h2>
+      <p>2 ore per avere il testo ed altre 2 per le slides: il lavoro è personalizzato e non può essere di bassa qualità: serve tempo.</p>
+      
+      <h2>Per il pagamento?</h2>
+      <p>
+         Il costo varia in base alla classe di concorso.<br>
+         Per tutelarti, chiediamo un anticipo del 30% ed il saldo alla consegna delle slides.
+      </p>
+    </div>
+
+    <h2>Vuoi vedere qualche lavoro?</h2>
+    <p>Di seguito parte di alcuni lavori che puoi visionare senza problemi.</p>
+	<p>I lavori contengono sia slides sia il testo per la preparazione.</p>
+
+   <!-- <div class="navigation">
+      <a href="/Esempio ADSS-merged.pdf" class="btn btn-primary">Esempio ADSS</a>
+      <a href="/A048.pdf" class="btn btn-primary">Esempio A048</a>
+      <a href="/A046.pdf" class="btn btn-primary">Esempio A046</a>
+      <a href="/A026.pdf" class="btn btn-primary">Esempio A026/27</a>
+    </div>
+-->
+
+	<div class="navigation_prew">
+  <!-- Ogni link è un elemento <a> con la classe "preview-page".
+       L'attributo style imposta l'immagine di sfondo (la preview della pagina).
+       All'interno è presente uno <span> con il testo che compare in overlay. -->
+  <a href="/EsempioADSS-merged.pdf" 
+  data-preview="/EsempioADSS-merged.pdf" 
+     data-full="/EsempioADSS-merged.pdf" 
+  class="preview-page" 
+  style="background-image: url('ImmaginiSitoTesi/ADSS_prew.PNG');">
+    <span class="overlay-text">Esempio ADSS</span>
+  </a>
+  
+  <a href="/A048.pdf" 
+    data-preview="/A048.pdf" 
+     data-full="/A048.pdf" 
+  class="preview-page" 
+  style="background-image: url('ImmaginiSitoTesi/A048_preview.PNG');">
+    <span class="overlay-text">Esempio A048</span>
+  </a>
+  <!--
+  <a href="/A046.pdf" class="preview-page" style="background-image: url('ImmaginiSitoTesi/A046_preview.PNG');">
+    <span class="overlay-text">Esempio A046</span>
+  </a>
+  -->
+  
+  <a href="/A026.pdf" 
+    data-preview="/A026.pdf" 
+    data-full="/A026.pdf" 
+	class="preview-page" 
+    style="background-image: url('ImmaginiSitoTesi/A026_preview.PNG');">
+    <span class="overlay-text">Esempio A026/27</span>
+  </a>
+  
+  
+  <a href="ImmaginiSitoTesi/EEEE_slides_1.pdf"
+    data-preview="/ImmaginiSitoTesi/EEEE_slides_1.pdf" 
+    data-full="/ImmaginiSitoTesi/EEEE_slides_1.pdf" 
+	class="preview-page" 
+    style="background-image: url('ImmaginiSitoTesi/EEEE_1.PNG');">
+    <span class="overlay-text">Esempio EEEE</span>
+  </a>
+  
+  
+    <a href="ImmaginiSitoTesi/mat_slid_8ppù_compressed.pdf"
+    data-preview="/ImmaginiSitoTesi/mat_slid_8pp_compressed.pdf" 
+    data-full="/ImmaginiSitoTesi/mat_slid_8pp_compressed.pdf" 
+	class="preview-page" 
+    style="background-image: url('/ImmaginiSitoTesi/mat_slid_8pp_compressed.PNG');">
+    <span class="overlay-text">Esempio A026</span>
+  </a>
+  
+  <!---<a href="ImmaginiSitoTesi/Primaria_posto_com (1).pdf"
+    data-preview="/ImmaginiSitoTesi/Primaria_posto_com (1).pdf" 
+    data-full="/ImmaginiSitoTesi/Primaria_posto_com (1).pdf" 
+	class="preview-page" 
+    style="background-image: url('/ImmaginiSitoTesi/z_pri_.PNG');">
+    <span class="overlay-text">Esempio Primaria</span>
+  </a>--->
+  
+    
+  <a href="ImmaginiSitoTesi/y_prim (1)_compressed.pdf"
+    data-preview="/ImmaginiSitoTesi/y_prim (1)_compressed.pdf" 
+    data-full="/ImmaginiSitoTesi/y_prim (1)_compressed.pdf" 
+	class="preview-page" 
+    style="background-image: url('/ImmaginiSitoTesi/y_prim.PNG');">
+    <span class="overlay-text">Esempio Primaria</span>
+  </a>
+  
+  
+  
+</div>
+
+
+
+    <!-- Pulsanti di Navigazione Centrale -->
+    <div class="navigation_CENT">
+      <a href="/index.html" class="btn btn-secondary">Torna alla Home</a>
+    </div>
+
+    <!-- Link ad altri servizi -->
+    <h3>Scopri anche:</h3>
+    <div class="navigation">
+      <a href="/progetti-universitari.html" class="btn btn-primary">Progetti Universitari in Ambito Scientifico</a>
+      <a href="/tesi-di-laurea.html" class="btn btn-primary">Tesi di Laurea</a>
+      <a href="/TFA.html" class="btn btn-primary">TFA</a>
+    </div>
+  </div>
+
+  <!-- Sezione Download Prove/PDF a Pagamento (già presente, commentata) -->
+  <!--
+  ... (sezione commentata)
+  -->
+
+  <!-- Sezione Download Manuale a Pagamento -->
+  <div class="container">
+    <div class="header">
+      <h1>Vuoi prepararti in modo autonomo?</h1>
+      <p>Acquista il nostro manuale, in cui viene spiegato tutto ciò che bisogna sapere per prepararti al meglio per la tua prova scritta, con tutti i riferimenti normativi.</p>
+    </div>
+    <div class="prova">
+      <h2>CHI EDUCA IMPARA: STRUMENTI PER IL TUO FUTURO.</h2>
+      <h3>La chiave del sapere. Edizione 2025.</h3>
+     <!-- <p><strong>Prezzo: €27.00</strong></p> -->
+	    <p><strong>Prezzo: </strong><span class="prezzo-originale"><del>€27.00</del></span>
+  <span class="prezzo-scontato">€12.00</span></p>
+  
+    <h2>Scarica la preview gratuita</h2>
+    <p>Clicca sulla copertina per scaricare il file PDF.</p>
+    
+<a href="/preview_book.pdf" 
+	id="target_esterno"
+   class="book-cover-button preview-page" 
+   data-preview="/preview_book.pdf" 
+   data-full="/complete_book.pdf">
+</a>
+
+
+	  <br>
+	  <h2> Oppure acquista il libro in PDF. </h2>
+	  
+	  <div class="container my-4">
+  <h2>Recensioni</h2>
+  <p>Leggi cosa dicono i nostri clienti sul libro:</p>
+  
+  <!-- Carousel per le recensioni -->
+  <div id="reviewsCarousel" class="carousel slide review-carousel" data-bs-ride="carousel">
+    <div class="carousel-inner">
+      <!-- Prima recensione: elemento attivo -->
+      <div class="carousel-item active">
+        <blockquote>
+          <p>"Ciao a tutti! Ho appena finito la laurea e, con l'abilitazione all'insegnamento dietro l'angolo, 
+mi sono imbattuta in questo libro, consigliato da un'amica. Il libro mi ha davvero dato una mano. 
+Devo dire che è scritto bene ed alla fine c'è tutto. 
+Dato che sono una delle prime persone ad averlo acquistato, 
+gli autori (Giovanna e Luca) stanno rispondendo direttamente alle domande. Consigliato a tutti."
+</p>
+          <footer>— Sabrina</footer>
+        </blockquote>
+      </div>
+      <!-- Seconda recensione -->
+      <div class="carousel-item">
+        <blockquote>
+          <p>"Il libro spiega tutto in modo semplice e chiaro, senza giri di parole.
+		  Leggermente ripetitivo in alcune pagine ma non è male in fin dei conti. 
+		  Chiaramente dovete studiare anche da altre fonti ma con questo fate un buon ripasso. 
+		 "</p>
+          <footer>— Anna</footer>
+        </blockquote>
+      </div>
+      <!-- Terza recensione -->
+      <div class="carousel-item">
+        <blockquote>
+          <p>"Mi era affidato ai ragazzi per la creazione delle slides
+		  dell'ultimo concorso che ho fatto. Mi sono rivolto nuovamente a loro e mi hanno proposto il libro. Ottimo rapporto qualità/prezzo. "</p>
+          <footer>— Antonio</footer>
+        </blockquote>
+      </div>
+      <!-- Aggiungi altri elementi carousel se necessario -->
+    </div>
+    <!-- Controlli per il carousel -->
+    <button class="carousel-control-prev" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="prev">
+      <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Precedente</span>
+    </button>
+    <button class="carousel-control-next" type="button" data-bs-target="#reviewsCarousel" data-bs-slide="next">
+      <span class="carousel-control-next-icon" aria-hidden="true"></span>
+      <span class="visually-hidden">Successivo</span>
+    </button>
+  </div>
+</div>
+  
+  
+      <div id="paypal-button-container"></div>
+      
+	  
+	  
+	  <script>
+document.addEventListener('DOMContentLoaded', function () {
+  // Seleziona l'elemento carousel; assicurati che l'id corrisponda a quello usato nel tuo HTML
+  const carouselElement = document.getElementById('reviewsCarousel');
+
+  // Variabili per salvare le coordinate iniziali e finali
+  let startX = 0;
+  let endX = 0;
+  let isDragging = false;
+
+  // Funzione per gestire l'inizio del drag (sia touch che mouse)
+  function dragStart(event) {
+    isDragging = true;
+    // Per touch, usa event.touches[0].clientX; per mouse, event.clientX
+    startX = event.touches ? event.touches[0].clientX : event.clientX;
+  }
+
+  // Funzione per gestire il movimento del drag
+  function dragMove(event) {
+    if (!isDragging) return;
+    endX = event.touches ? event.touches[0].clientX : event.clientX;
+  }
+
+  // Funzione per gestire la fine del drag
+  function dragEnd(event) {
+    if (!isDragging) return;
+    isDragging = false;
+    let diffX = startX - endX;
+    // Imposta una soglia minima (es. 50px) per considerare lo swipe valido
+    if (Math.abs(diffX) > 50) {
+      // Usa l'istanza del carousel di Bootstrap
+      const carousel = bootstrap.Carousel.getInstance(carouselElement);
+      if (!carousel) return;
+      if (diffX > 0) {
+        // Swipe verso sinistra: passa al prossimo slide
+        carousel.next();
+      } else {
+        // Swipe verso destra: passa al precedente slide
+        carousel.prev();
+      }
+    }
+  }
+
+  // Aggiungi i listener per touch (per dispositivi mobili)
+  carouselElement.addEventListener('touchstart', dragStart, false);
+  carouselElement.addEventListener('touchmove', dragMove, false);
+  carouselElement.addEventListener('touchend', dragEnd, false);
+
+  // Aggiungi i listener per mouse (per desktop)
+  carouselElement.addEventListener('mousedown', dragStart, false);
+  carouselElement.addEventListener('mousemove', dragMove, false);
+  carouselElement.addEventListener('mouseup', dragEnd, false);
+  // Inoltre, per evitare problemi con il trascinamento di elementi (se necessario)
+  carouselElement.addEventListener('mouseleave', dragEnd, false);
+});
+</script>
+
+	  
+      <script>
+        paypal.Buttons({
+          // 1) Creiamo l’ordine (27 EUR)
+          createOrder: function(data, actions) {
+            return actions.order.create({
+              purchase_units: [{
+                amount: { value: '12.00', currency_code: 'EUR' }
+              }]
+            });
+          },
+          // 2) Quando l’utente approva (onApprove)
+          onApprove: function(data, actions) {
+            return actions.order.capture().then(function(details) {
+              let postData = { orderID: data.orderID };
+              fetch('verifica_ordine.php', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify(postData)
+              })
+              .then(response => response.json())
+              .then(json => {
+                if (json.status === 'ok') {
+                  let token = json.token;
+                  window.location.href = 'download.php?token=' + token;
+                } else {
+                  alert('Qualcosa non va. Stato: ' + json.status);
+                }
+              })
+              .catch(err => {
+                console.error('Errore AJAX:', err);
+                alert('Si è verificato un errore nel verificare l’ordine.');
+              });
+            });
+          },
+          // 3) Se l’utente annulla
+          onCancel: function (data) {
+            window.location.href = "pagamento_annullato.html";
+          },
+          // 4) Se c’è un errore
+          onError: function(err) {
+            console.error('Errore nel pagamento:', err);
+            alert('Si è verificato un errore. Riprova o contatta l’assistenza.');
+          }
+        }).render('#paypal-button-container');
+      </script>
+
+      <!-- Pulsante per tornare indietro -->
+      <a href="/index.html" class="btn-back">Torna alla Home</a>
+    </div>
+  </div>
+
+  <!-- Nuova Sezione: Bottone a forma di copertina per il download del PDF 
+  <div class="container">
+    <h2>Scarica il Manuale in PDF</h2>
+    <p>Clicca sulla copertina per scaricare il file PDF.</p>
+    <a href="/manuale.pdf" download class="book-cover-button"></a>
+  </div> -->
+
+
+<!-- Modal Overlay per la preview del PDF -->
+<!-- Modal Overlay per anteprima e pagamento -->
+<div id="pdfModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <!-- Iframe per visualizzare l'anteprima del PDF -->
+    <iframe src="" id="pdfPreview"></iframe>
+    <!-- Sezione con i due bottoni iniziali -->
+    <div class="modal-buttons" id="modal-buttons">
+      <a id="downloadPreview" class="btn btn-primary" download>Scarica Anteprima</a>
+      <button id="purchaseFull" class="btn btn-secondary">Acquista Lavoro Completo</button>
+    </div>
+    <!-- Container per il bottone PayPal (nascosto di default) -->
+    <div id="paypal-button-modal" style="display: none;"></div>
+  </div>
+</div>
+
+
+
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+  var modal = document.getElementById("pdfModal");
+  var iframe = document.getElementById("pdfPreview");
+  var downloadButton = document.getElementById("downloadPreview");
+  var purchaseButton = document.getElementById("purchaseFull");
+  var paypalContainer = document.getElementById("paypal-button-modal");
+  var modalButtons = document.getElementById("modal-buttons");
+  
+  // Gestione dei link di anteprima (gli elementi con classe .preview-page)
+    var previewLinks = document.querySelectorAll('.preview-page, .book-cover-preview');
+
+  previewLinks.forEach(function(link) {
+    link.addEventListener('click', function(e) {
+      e.preventDefault();
+      // Recupera gli URL per l'anteprima e il file completo
+      var previewSrc = link.getAttribute('data-preview') || link.href;
+      var fullSrc = link.getAttribute('data-full') || link.href;
+      
+      // Imposta l'iframe per mostrare il PDF di anteprima
+      iframe.src = previewSrc;
+      
+      // Configura il bottone per scaricare l'anteprima
+      downloadButton.href = previewSrc;
+      
+      // Memorizza l'URL del file completo nel pulsante d'acquisto (in un data-attribute)
+      purchaseButton.setAttribute('data-full', fullSrc);
+      
+      // Reset: mostra i bottoni iniziali e nascondi il container PayPal
+      modalButtons.style.display = "flex";
+      paypalContainer.style.display = "none";
+      paypalContainer.innerHTML = ""; // Pulizia eventuale
+      
+      // Mostra il modal
+      modal.style.display = "block";
+    });
+  });
+  
+  // Gestione della chiusura del modal
+  var closeBtn = document.querySelector('.modal-content .close');
+  closeBtn.addEventListener('click', function() {
+    modal.style.display = "none";
+    iframe.src = "";
+  });
+  
+  window.addEventListener('click', function(e) {
+    if (e.target == modal) {
+      modal.style.display = "none";
+      iframe.src = "";
+    }
+  });
+  
+  // Gestione del click sul pulsante "Acquista Lavoro Completo"
+  purchaseButton.addEventListener('click', function(e) {
+    e.preventDefault();
+    // Nascondi i bottoni iniziali
+    modalButtons.style.display = "none";
+    // Mostra il container per il bottone PayPal
+    paypalContainer.style.display = "block";
+    
+    // Renderizza il bottone PayPal nel container
+    paypal.Buttons({
+      // Crea l'ordine: modifica l'importo se necessario
+      createOrder: function(data, actions) {
+        return actions.order.create({
+          purchase_units: [{
+            amount: { value: '12.00', currency_code: 'EUR' }
+          }]
+        });
+      },
+      // Gestione approvazione
+      onApprove: function(data, actions) {
+        return actions.order.capture().then(function(details) {
+          var postData = { orderID: data.orderID };
+          // Verifica l'ordine sul server e ottieni un token
+          return fetch('verifica_ordine.php', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(postData)
+          })
+          .then(response => response.json())
+          .then(json => {
+            if (json.status === 'ok') {
+              var token = json.token;
+              // Reindirizza al download del file completo
+              window.location.href = 'download.php?token=' + token;
+            } else {
+              alert('Qualcosa non va. Stato: ' + json.status);
+            }
+          })
+          .catch(err => {
+            console.error('Errore AJAX:', err);
+            alert('Si è verificato un errore nel verificare l’ordine.');
+          });
+        });
+      },
+      // Gestione annullamento del pagamento
+      onCancel: function(data) {
+        // Se annullato, torna alla visualizzazione iniziale del modal
+        paypalContainer.style.display = "none";
+        modalButtons.style.display = "flex";
+      },
+      // Gestione errori
+      onError: function(err) {
+        console.error('Errore nel pagamento:', err);
+        alert('Si è verificato un errore. Riprova o contatta l’assistenza.');
+      }
+    }).render('#paypal-button-modal');
+  });
+});
+</script>
+
+<!-- Sezione Blog -->
+<section class="blog container" style="margin-top: 2rem;">
+  <h2 class="section-title">Il Nostro Blog</h2>
+  <p class="section-subtitle">
+    Approfondimenti, idee didattiche e risorse utili per chi si prepara al ruolo di docente.
+  </p>
+  
+  <!-- Introduzione breve del Blog -->
+  <div class="blog-intro" style="text-align: left; margin-bottom: 1.5rem;">
+    <p>
+      Benvenuti nella nostra sezione <strong>Blog</strong>, uno spazio dove condividiamo
+      esperienze, metodologie didattiche e consigli pratici per docenti o aspiranti tali.
+      Qui troverai <u>approfondimenti</u> e <u>guide</u> su UDA, lezioni simulate, nuovi approcci
+      di insegnamento e molto altro.
+    </p>
+    <p>
+      Siamo convinti che <em>la condivisione di buone pratiche</em> aiuti la crescita
+      professionale di ogni insegnante. Buona lettura!
+    </p>
+  </div>
+  
+ 
+  
+  
+  
+  
+  
+  
+  
+  
+    <!-- Elenco articoli in anteprima -->
+  <div class="blog-list" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+    <!-- Articolo 1 -->
+    <article class="blog-card" style="
+      background-color: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      max-width: 750px;
+      flex: 1 1 calc(33.333% - 1.5rem);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: left;
+      cursor: pointer;
+    ">
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #333;display: block; margin: 0 auto; text-align: center;">
+        Vai alla lista completa del materiale.
+      </h3>
+      <p style="font-size: 1rem; color: #555; margin-bottom: 10rem; display: block; margin: 0 auto; text-align: center;">
+        Preparati al meglio con il nostro materiale gratuito...
+      </p>
+	  <br>
+      <!-- Link alla pagina blog-articolo1.html, per esempio -->
+      <a href="/blog/blog_UDA_lista.php" class="btn-servizio" style="display: block; margin: 0 auto; text-align: center;">
+  Lista Articoli
+</a>
+    </article>
+
+  </div>
+  <br>
+  
+  
+  <h3> Leggi i nostri ultimi 3 articoli</h3>
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+  <!-- Elenco articoli in anteprima -->
+  <div class="blog-list" style="display: flex; flex-wrap: wrap; gap: 1rem; justify-content: center;">
+    <!-- Articolo 1 -->
+    <article class="blog-card" style="
+      background-color: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      max-width: 350px;
+      flex: 1 1 calc(33.333% - 1.5rem);
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: left;
+      cursor: pointer;
+    ">
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #333;">
+        Metodologie didattiche nella scuola
+      </h3>
+      <p style="font-size: 1rem; color: #555; margin-bottom: 1rem;">
+        Scopri come le nuove strategie di insegnamento possono migliorare
+        la partecipazione e l’apprendimento in classe...
+      </p>
+      <!-- Link alla pagina blog-articolo1.html, per esempio -->
+      <a href="/blog/blog_1_metodologie_didattiche.php" class="btn-servizio">
+        Leggi l'articolo
+      </a>
+    </article>
+
+    <!-- Articolo 2 -->
+    <article class="blog-card" style="
+      background-color: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      max-width: 350px;
+      flex: 1 1 calc(33.333% - 1.5rem);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: left;
+      cursor: pointer;
+    ">
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #333;">
+        Come preparare una UDA vincente
+      </h3>
+      <p style="font-size: 1rem; color: #555; margin-bottom: 1rem;">
+        Dalla scelta del tema alla definizione degli obiettivi, ecco le fasi per creare
+        Unità Didattiche efficaci e coerenti...
+      </p>
+      <a href="/blog/blog_2_Come_preparare_UDA_vincente.php" class="btn-servizio">
+        Leggi l'articolo
+      </a>
+    </article>
+
+    <!-- Articolo 3 (facoltativo) -->
+    <article class="blog-card" style="
+      background-color: #f9f9f9;
+      padding: 1.5rem;
+      border-radius: 8px;
+      border: 1px solid #eee;
+      max-width: 350px;
+      flex: 1 1 calc(33.333% - 1.5rem);
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      text-align: left;
+      cursor: pointer;
+    ">
+      <h3 style="font-size: 1.3rem; margin-bottom: 0.5rem; color: #333;">
+        Lezione simulata: suggerimenti pratici
+      </h3>
+      <p style="font-size: 1rem; color: #555; margin-bottom: 1rem;">
+        Tecniche e strumenti per progettare e svolgere una lezione simulata chiara e coinvolgente...
+      </p>
+      <a href="/blog/blog_3_Lezione_Simulata.php" class="btn-servizio">
+        Leggi l'articolo
+      </a>
+    </article>
+  </div>
+
+</section>
+
+
+
+</body>
+</html>

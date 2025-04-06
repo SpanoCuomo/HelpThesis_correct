@@ -1,0 +1,208 @@
+<?php
+// Includi l’elenco dei post e individua il post corrente
+include('posts.php');
+
+// Se non viene passato 'slug', usa il nome del file corrente
+if (!isset($_GET['slug'])) {
+  $currentSlug = basename(__FILE__);
+} else {
+  $currentSlug = $_GET['slug'];
+}
+
+// Trova l'indice del post corrente
+$currentIndex = -1;
+foreach ($posts as $i => $post) {
+  if ($post['slug'] === $currentSlug) {
+    $currentIndex = $i;
+    break;
+  }
+}
+if ($currentIndex === -1) {
+  echo "Post non trovato.";
+  exit;
+}
+
+// Salva il post corrente in una variabile dedicata
+$currentPost = $posts[$currentIndex];
+
+// Calcola l'indice dell'articolo precedente e successivo (navigazione circolare)
+$total = count($posts);
+$prevIndex = ($currentIndex - 1 + $total) % $total;
+$nextIndex = ($currentIndex + 1) % $total;
+
+// Avvia l'output buffering per catturare il contenuto specifico della pagina
+ob_start();
+?>
+
+
+<h1>Interazione scuola-famiglia</h1>
+
+<p>
+  L’<strong>interazione tra scuola e famiglia</strong> rappresenta un elemento cruciale 
+  per promuovere il successo formativo e lo sviluppo globale di ogni studente. Quando 
+  genitori e insegnanti collaborano attivamente, si crea una <em>rete di supporto</em> 
+  che favorisce la motivazione, la responsabilizzazione e il benessere dell’intera 
+  comunità scolastica. In questo modo, si instaurano <strong>relazioni di fiducia</strong> 
+  che aiutano a sostenere i ragazzi anche in momenti di difficoltà o scarsa motivazione.
+</p>
+
+<h2>L’importanza del coinvolgimento dei genitori</h2>
+<ul>
+  <li>
+    <strong>Sostegno motivazionale:</strong> sapere che la famiglia segue il percorso 
+    scolastico e valorizza i risultati, anche piccoli, può stimolare l’interesse 
+    degli studenti e migliorarne l’autostima.
+  </li>
+  <li>
+    <strong>Continuità educativa:</strong> un confronto costante tra genitori e insegnanti 
+    riduce il rischio di incoerenze tra le regole di casa e quelle scolastiche, 
+    promuovendo un clima di maggiore stabilità.
+  </li>
+  <li>
+    <strong>Prevenzione delle difficoltà:</strong> riconoscere precocemente segnali di 
+    disagio o difficoltà d’apprendimento permette un intervento tempestivo ed efficace, 
+    evitando che i problemi si aggravino.
+  </li>
+  <li>
+    <strong>Promozione dell’autonomia:</strong> quando i genitori sono informati e 
+    partecipano alle iniziative scolastiche, possono sostenere i figli nel gestire 
+    lo studio in maniera più consapevole e autonoma.
+  </li>
+</ul>
+
+<h2>Collaborazioni efficaci</h2>
+<p>
+  Per instaurare un rapporto di <strong>collaborazione</strong> e rispetto reciproco, 
+  la scuola dovrebbe offrire occasioni di incontro e di scambio con le famiglie, 
+  evitando di limitarle a mere comunicazioni formali. Alcune proposte:
+</p>
+<ul>
+  <li>
+    <strong>Colloqui individuali e assemblee tematiche:</strong> momenti strutturati 
+    per approfondire aspetti didattici, disciplinari o legati alla crescita emotiva e 
+    relazionale degli studenti.
+  </li>
+  <li>
+    <strong>Laboratori e progetti aperti alle famiglie:</strong> invitare i genitori 
+    a partecipare ad attività creative o laboratoriali, favorendo uno scambio diretto 
+    e l’osservazione delle dinamiche di classe.
+  </li>
+  <li>
+    <strong>Caffè pedagogici o incontri informali:</strong> occasioni meno formali 
+    dove discutere di temi educativi, strategie di studio e benessere relazionale.
+  </li>
+</ul>
+
+<h2>Strumenti digitali di comunicazione</h2>
+<p>
+  L’uso di <strong>piattaforme e applicazioni digitali</strong> ha rivoluzionato il modo 
+  di comunicare tra scuola e famiglia, rendendo il dialogo più immediato e continuo. 
+  È fondamentale, tuttavia, che questi strumenti siano utilizzati in maniera 
+  <em>equilibrata</em>, garantendo la privacy e la chiarezza delle informazioni.
+</p>
+<ul>
+  <li>
+    <strong>Registro elettronico:</strong> permette ai genitori di visionare voti, 
+    compiti assegnati e note disciplinari, facilitando il monitoraggio dell’andamento 
+    scolastico.
+  </li>
+  <li>
+    <strong>Piattaforme didattiche online:</strong> consentono di condividere risorse 
+    (slide, dispense, video) e organizzare forum di discussione o bacheche virtuali 
+    per approfondimenti.
+  </li>
+  <li>
+    <strong>Gruppi classe sui social o app dedicate:</strong> servono a informare 
+    rapidamente sulle comunicazioni urgenti o a favorire il coordinamento per 
+    progetti ed eventi, ma vanno regolamentati per evitare uso inopportuno o eccessivo.
+  </li>
+</ul>
+
+<h2>Conclusioni</h2>
+<p>
+  Una <strong>partecipazione attiva</strong> delle famiglie nel percorso formativo non 
+  è solo auspicabile, ma diventa un <em>fattore decisivo</em> di successo per ogni 
+  studente. Attraverso incontri periodici, la condivisione di obiettivi educativi 
+  e l’impiego di strumenti digitali mirati, è possibile creare un ambiente 
+  <strong>coeso e solidale</strong>, dove la collaborazione scuola-famiglia 
+  si traduce in un costante <em>valore aggiunto</em> per l’apprendimento, la 
+  crescita personale e il benessere complessivo degli alunni.
+</p>
+
+
+
+
+
+<!-- Sezione "Altri articoli del nostro Blog" (dinamica) -->
+<div class="blog-intro">
+  <h2>Altri articoli del nostro Blog</h2>
+  <p>
+    Se ti è piaciuto questo contenuto, potresti trovare interessanti altri articoli dedicati ad argomenti simili.
+  </p>
+</div>
+
+
+
+<div class="blog-list">
+  <!-- Articolo precedente -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$prevIndex]['title']; ?></h3>
+    <p><?php echo $posts[$prevIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$prevIndex]['slug']; ?>?slug=<?php echo $posts[$prevIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+
+  <!-- Articolo successivo -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$nextIndex]['title']; ?></h3>
+    <p><?php echo $posts[$nextIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$nextIndex]['slug']; ?>?slug=<?php echo $posts[$nextIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+</div>
+
+
+
+
+
+
+
+
+<br>
+
+
+<h5>Il nostro team offre consulenza nella redazione di lavori per concorso, corsi 30/60 CFU e TFA.</h5> 
+<p>Puoi contattarci gratuitamente al  <a href="tel:3780608777"><strong>378-060-8777</strong></a>, anche tramite <a href="https://wa.me/3780608777" target="_blank"> <strong>WA</strong></a>.</p>
+<h5>  <a href="https://aiutotesi.altervista.org/uda.html#target_esterno">Oppure puoi acquistare il nostro libro, disponibile nella Home</a>
+
+</h5>
+
+
+
+<!-- Pulsante per tornare alla Home -->
+<div style="text-align:center; margin-top: 2rem;">
+  <a href="/uda.html" class="btn-back">Torna alla Home</a>
+</div>
+
+
+
+
+
+
+
+<?php
+// Cattura il contenuto specifico nel buffer
+$content = ob_get_clean();
+
+// Definisci le variabili per meta tag e titolo relative al post corrente
+$title          = $currentPost['title'];
+$og_title       = $currentPost['title'];
+$og_description = $currentPost['summary'];
+$og_image       = $currentPost['image'];
+
+// Includi il template base e renderizza la pagina
+require 'base_blog.php';
+renderTemplate($title, $og_title, $og_description, $og_image, $content);
+?>

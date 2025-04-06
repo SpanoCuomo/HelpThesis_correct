@@ -1,0 +1,220 @@
+<?php
+// Includi l’elenco dei post e individua il post corrente
+include('posts.php');
+
+// Se non viene passato 'slug', usa il nome del file corrente
+if (!isset($_GET['slug'])) {
+  $currentSlug = basename(__FILE__);
+} else {
+  $currentSlug = $_GET['slug'];
+}
+
+// Trova l'indice del post corrente
+$currentIndex = -1;
+foreach ($posts as $i => $post) {
+  if ($post['slug'] === $currentSlug) {
+    $currentIndex = $i;
+    break;
+  }
+}
+if ($currentIndex === -1) {
+  echo "Post non trovato.";
+  exit;
+}
+
+// Salva il post corrente in una variabile dedicata
+$currentPost = $posts[$currentIndex];
+
+// Calcola l'indice dell'articolo precedente e successivo (navigazione circolare)
+$total = count($posts);
+$prevIndex = ($currentIndex - 1 + $total) % $total;
+$nextIndex = ($currentIndex + 1) % $total;
+
+// Avvia l'output buffering per catturare il contenuto specifico della pagina
+ob_start();
+?>
+<h1>UDL e inclusione</h1>
+
+<p>
+  Il <strong>Universal Design for Learning (UDL)</strong> è un insieme di principi e linee guida 
+  che mirano a rendere la didattica <strong>accessibile a tutti</strong>, fin dalla fase di 
+  progettazione. Piuttosto che adattare successivamente le attività agli studenti con 
+  <em>Bisogni Educativi Speciali (BES)</em> o <em>Disturbi Specifici dell’Apprendimento (DSA)</em>, 
+  l’UDL promuove una <strong>pianificazione inclusiva</strong> in grado di soddisfare le esigenze 
+  di una classe eterogenea. Integrare questi principi nelle <strong>Unità Didattiche di 
+  Apprendimento (UDA)</strong> e nelle <strong>lezioni simulate</strong> permette di creare 
+  percorsi formativi veramente flessibili e inclusivi.
+</p>
+
+<h2>I principi fondamentali dell’UDL</h2>
+<ul>
+  <li>
+    <strong>Molteplici modalità di rappresentazione:</strong> offrire i contenuti in 
+    diversi formati (testi, video, mappe, infografiche) per consentire agli studenti di 
+    scegliere la modalità di fruizione più adatta alle proprie abilità e preferenze 
+    cognitive.
+  </li>
+  <li>
+    <strong>Molteplici modalità di espressione e azione:</strong> prevedere attività che 
+    permettano di <em>esprimere l’apprendimento</em> in modo variegato (presentazioni orali, 
+    produzioni scritte, lavori multimediali, esperimenti pratici), così da valorizzare 
+    punti di forza differenti e sviluppare competenze trasversali.
+  </li>
+  <li>
+    <strong>Coinvolgimento diversificato:</strong> fornire stimoli che tengano conto dei 
+    diversi interessi, stili di apprendimento e livelli di motivazione, promuovendo la 
+    partecipazione attiva di tutti gli studenti.
+  </li>
+</ul>
+
+<h2>UDL e UDA: la progettazione inclusiva</h2>
+<p>
+  Progettare <strong>UDA interdisciplinari</strong> con i principi dell’UDL significa 
+  integrare materiali didattici diversificati e attività flessibili, in grado di rispondere 
+  ai bisogni dell’intera classe. Ad esempio:
+</p>
+<ul>
+  <li>
+    <strong>Attività di ricerca e scoperta:</strong> fornire risorse testuali, video 
+    esplicativi, podcast, mappe concettuali e schemi per guidare gli studenti in un percorso 
+    di analisi approfondita del tema scelto.
+  </li>
+  <li>
+    <strong>Lavori di gruppo eterogenei:</strong> organizzare squadre di lavoro con studenti 
+    dalle competenze diverse, favorendo la <em>peer education</em> e la condivisione di 
+    strategie. In questo modo, si crea un ambiente dove ognuno può dare il proprio contributo 
+    e ricevere supporto dai compagni.
+  </li>
+  <li>
+    <strong>Valutazione autentica e personalizzata:</strong> prevedere prove su più livelli 
+    (test orali, presentazioni creative, elaborati scritti, progetti multimediali), 
+    consentendo a ciascuno studente di dimostrare al meglio le competenze acquisite.
+  </li>
+</ul>
+
+<h2>UDL nella lezione simulata</h2>
+<p>
+  La <strong>lezione simulata</strong> è un’occasione per dimostrare concretamente la 
+  capacità di <strong>adattare</strong> i contenuti e le strategie didattiche alle esigenze 
+  di tutti gli studenti. Ecco alcuni suggerimenti su come inserire i principi UDL in una 
+  simulazione:
+</p>
+<ul>
+  <li>
+    <strong>Varietà di supporti visivi e multimediali:</strong> slide con caratteri 
+    ad alta leggibilità, video, infografiche e brevi schede di sintesi che rendano i 
+    contenuti più accessibili.
+  </li>
+  <li>
+    <strong>Attività laboratoriali e cooperative:</strong> alternare momenti frontali, 
+    brevi, a fasi di <em>lavoro di gruppo</em> o esercitazioni pratiche, in cui gli studenti 
+    possano sperimentare differenti modalità di apprendimento.
+  </li>
+  <li>
+    <strong>Interazione e feedback continuo:</strong> incoraggiare la partecipazione 
+    attiva della classe con domande aperte, discussioni guidate e feedback tempestivo. 
+    In questo modo, si favorisce un clima in cui tutti possano intervenire senza timori.
+  </li>
+</ul>
+
+<h2>Strumenti e strategie per l’accessibilità</h2>
+<p>
+  Oltre ai principi di base, l’UDL incoraggia l’impiego di <strong>strumenti compensativi</strong> 
+  (come mappe concettuali, software di sintesi vocale, dizionari digitali) e <strong>strategie 
+  dispensative</strong> (ad esempio, tempi aggiuntivi o valutazioni differenziate) per sostenere 
+  gli studenti con <em>DSA</em> o <em>BES</em>. Tali strumenti, se resi disponibili a tutti, 
+  arricchiscono l’esperienza di apprendimento dell’intero gruppo classe, favorendo 
+  collaborazione e spirito critico.
+</p>
+
+<h2>Conclusioni</h2>
+<p>
+  Integrare l’<strong>Universal Design for Learning</strong> nella progettazione di UDA 
+  e nelle lezioni simulate significa partire da una <em>visione inclusiva</em> della scuola, 
+  dove ogni alunno possa trovare la strada più adatta per apprendere e raggiungere i propri 
+  obiettivi. Dagli strumenti compensativi alle strategie cooperative, passando per la 
+  varietà di materiali e modalità di valutazione, l’UDL offre un <strong>quadro strutturato</strong> 
+  per garantire <strong>equità</strong> e <strong>accessibilità</strong> nel percorso formativo. 
+  In questo modo, si creano ambienti di apprendimento dove ciascun studente, con le proprie 
+  peculiarità, è realmente messo nelle condizioni di <em>esprimere al meglio il proprio potenziale</em>.
+</p>
+
+
+
+
+
+<!-- Sezione "Altri articoli del nostro Blog" (dinamica) -->
+<div class="blog-intro">
+  <h2>Altri articoli del nostro Blog</h2>
+  <p>
+    Se ti è piaciuto questo contenuto, potresti trovare interessanti altri articoli dedicati ad argomenti simili.
+  </p>
+</div>
+
+
+
+<div class="blog-list">
+  <!-- Articolo precedente -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$prevIndex]['title']; ?></h3>
+    <p><?php echo $posts[$prevIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$prevIndex]['slug']; ?>?slug=<?php echo $posts[$prevIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+
+  <!-- Articolo successivo -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$nextIndex]['title']; ?></h3>
+    <p><?php echo $posts[$nextIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$nextIndex]['slug']; ?>?slug=<?php echo $posts[$nextIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+</div>
+
+<!-- Pulsante per tornare alla Home -->
+<div style="text-align:center; margin-top: 2rem;">
+  <a href="/uda.html" class="btn-back">Torna alla Home</a>
+</div>
+
+
+
+
+
+<br>
+
+
+<h5>Il nostro team offre consulenza nella redazione di lavori per concorso, corsi 30/60 CFU e TFA.</h5> 
+<p>Puoi contattarci gratuitamente al  <a href="tel:3780608777"><strong>378-060-8777</strong></a>, anche tramite <a href="https://wa.me/3780608777" target="_blank"> <strong>WA</strong></a>.</p>
+<h5>  <a href="https://aiutotesi.altervista.org/uda.html#target_esterno">Oppure puoi acquistare il nostro libro, disponibile nella Home</a>
+
+</h5>
+
+
+
+<!-- Pulsante per tornare alla Home -->
+<div style="text-align:center; margin-top: 2rem;">
+  <a href="/uda.html" class="btn-back">Torna alla Home</a>
+</div>
+
+
+
+
+
+
+
+<?php
+// Cattura il contenuto specifico nel buffer
+$content = ob_get_clean();
+
+// Definisci le variabili per meta tag e titolo relative al post corrente
+$title          = $currentPost['title'];
+$og_title       = $currentPost['title'];
+$og_description = $currentPost['summary'];
+$og_image       = $currentPost['image'];
+
+// Includi il template base e renderizza la pagina
+require 'base_blog.php';
+renderTemplate($title, $og_title, $og_description, $og_image, $content);
+?>

@@ -1,0 +1,209 @@
+<?php
+// Includi l’elenco dei post e individua il post corrente
+include('posts.php');
+
+// Se non viene passato 'slug', usa il nome del file corrente
+if (!isset($_GET['slug'])) {
+  $currentSlug = basename(__FILE__);
+} else {
+  $currentSlug = $_GET['slug'];
+}
+
+// Trova l'indice del post corrente
+$currentIndex = -1;
+foreach ($posts as $i => $post) {
+  if ($post['slug'] === $currentSlug) {
+    $currentIndex = $i;
+    break;
+  }
+}
+if ($currentIndex === -1) {
+  echo "Post non trovato.";
+  exit;
+}
+
+// Salva il post corrente in una variabile dedicata
+$currentPost = $posts[$currentIndex];
+
+// Calcola l'indice dell'articolo precedente e successivo (navigazione circolare)
+$total = count($posts);
+$prevIndex = ($currentIndex - 1 + $total) % $total;
+$nextIndex = ($currentIndex + 1) % $total;
+
+// Avvia l'output buffering per catturare il contenuto specifico della pagina
+ob_start();
+?>
+
+<h1>Compiti autentici e valutazione reale</h1>
+
+<p>
+  I <strong>compiti autentici</strong> sono attività che riproducono o simulano scenari
+  della vita reale, permettendo agli studenti di <em>applicare ciò che imparano</em> in modo
+  concreto e significativo. Per esempio, realizzare un telegiornale in lingua straniera,
+  progettare un evento solidale, creare una campagna di sensibilizzazione su temi ambientali
+  oppure risolvere un problema scientifico come farebbe un ricercatore nel suo laboratorio.
+</p>
+
+<h2>Perché puntare sui compiti autentici</h2>
+<ul>
+  <li>
+    <strong>Coinvolgimento attivo:</strong> gli studenti si sentono più motivati poiché vedono
+    uno scopo tangibile nell’attività. Partecipando a progetti con un risvolto concreto,
+    aumentano sia l’attenzione sia la soddisfazione personale.
+  </li>
+  <li>
+    <strong>Trasversalità disciplinare:</strong> spesso è necessario integrare diverse discipline,
+    competenze digitali e soft skill (come problem solving, comunicazione, teamwork e pensiero
+    critico). Questo aiuta gli allievi a collegare le conoscenze acquisite in modo olistico.
+  </li>
+  <li>
+    <strong>Valutazione significativa:</strong> la prova non si limita a misurare
+    conoscenze mnemoniche, ma verifica la capacità di <em>risolvere problemi</em>, di
+    esprimersi creativamente e di lavorare in maniera collaborativa. Di conseguenza, i voti
+    e i giudizi si basano su processi e prodotti reali.
+  </li>
+</ul>
+
+<h2>Come progettarli</h2>
+<ol>
+  <li>
+    <strong>Collegamento al programma:</strong> individua gli obiettivi disciplinari e
+    trasversali che gli studenti dovranno dimostrare. Chiediti: “Quali conoscenze e abilità
+    voglio che i miei alunni consolidino attraverso questo compito?”
+  </li>
+  <li>
+    <strong>Scenario realistico:</strong> scegli o inventa una situazione verosimile (oppure
+    sfrutta un caso di cronaca, un problema di quartiere o una situazione aziendale). L’idea è
+    che gli studenti <em>si immergano</em> in un contesto concreto, che renda urgente e
+    significativo l’uso delle competenze studiate in classe.
+  </li>
+  <li>
+    <strong>Risultato tangibile:</strong> il compito dovrebbe produrre un “output” (video,
+    presentazione, manufatto, relazione, blog, app) che possa essere valutato in modo chiaro.
+    È importante definire i <em>criteri di valutazione</em> fin dall’inizio e condividerli con
+    gli studenti, magari attraverso una <a href="/valutazione_competenze.html">rubrica di valutazione</a>.
+  </li>
+</ol>
+
+<h2>Consigli operativi</h2>
+<ul>
+  <li>
+    <strong>Dividere in fasi:</strong> suddividi il compito autentico in tappe (ricerca,
+    progettazione, realizzazione, verifica finale). Ogni fase può essere monitorata
+    separatamente per tenere traccia dei progressi e intervenire in caso di difficoltà.
+  </li>
+  <li>
+    <strong>Lavoro di gruppo e ruoli:</strong> se il compito è svolto in team, assegna
+    responsabilità precise (coordinatore, designer, ricercatore, addetto alla comunicazione).
+    Questo favorisce <a href="/apprendimento_cooperativo.html">l’apprendimento cooperativo</a> 
+    e l’acquisizione di soft skill specifiche.
+  </li>
+  <li>
+    <strong>Strumenti digitali:</strong> sfrutta piattaforme online (Drive, Classroom, Trello)
+    per coordinare i lavori, condividere documenti, tenere traccia delle scadenze e raccogliere
+    i materiali prodotti. Se pertinente, inserisci <a href="/didattica_digitale.html">elementi
+    di didattica digitale</a> per rendere il tutto più interattivo.
+  </li>
+  <li>
+    <strong>Feedback continuo:</strong> fornisci indicazioni e osservazioni <em>mentre</em>
+    gli studenti lavorano. Puoi programmare brevi momenti di confronto “one-to-one” o in piccoli
+    gruppi per valutare a che punto sono arrivati e se hanno bisogno di aiuto.
+  </li>
+  <li>
+    <strong>Autovalutazione e riflessione finale:</strong> chiedi agli studenti di
+    riflettere su ciò che hanno imparato e su come hanno gestito il lavoro (cosa ha funzionato,
+    cosa avrebbero potuto migliorare). Questo momento di meta-riflessione arricchisce
+    l’esperienza formativa.
+  </li>
+</ul>
+
+<h2>Valutazione autentica</h2>
+<p>
+  Oltre al prodotto finale, valuta anche il <strong>processo</strong> con cui gli studenti
+  sono arrivati al risultato: la qualità delle scelte fatte, la suddivisione dei compiti,
+  la coerenza del progetto. Per una maggiore trasparenza, puoi utilizzare rubriche che
+  descrivano i livelli di prestazione (ad esempio: insufficiente, base, intermedio, avanzato)
+  per ogni criterio (contenuto, forma, originalità, collaborazione, ecc.).
+</p>
+
+<p>
+  Integrare i compiti autentici nel percorso didattico favorisce <strong>un apprendimento
+  attivo e duraturo</strong>, perché mette lo studente al centro del processo e lo spinge a
+  utilizzare le proprie conoscenze in situazioni concrete. Gli studenti, inoltre,
+  <em>acquisiscono sicurezza</em> e vedono un senso pratico in ciò che apprendono.
+</p>
+
+
+
+
+
+
+
+<!-- Sezione "Altri articoli del nostro Blog" (dinamica) -->
+<div class="blog-intro">
+  <h2>Altri articoli del nostro Blog</h2>
+  <p>
+    Se ti è piaciuto questo contenuto, potresti trovare interessanti altri articoli dedicati ad argomenti simili.
+  </p>
+</div>
+
+
+
+<div class="blog-list">
+  <!-- Articolo precedente -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$prevIndex]['title']; ?></h3>
+    <p><?php echo $posts[$prevIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$prevIndex]['slug']; ?>?slug=<?php echo $posts[$prevIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+
+  <!-- Articolo successivo -->
+  <article class="blog-card">
+    <h3><?php echo $posts[$nextIndex]['title']; ?></h3>
+    <p><?php echo $posts[$nextIndex]['summary']; ?></p>
+    <a href="/blog/<?php echo $posts[$nextIndex]['slug']; ?>?slug=<?php echo $posts[$nextIndex]['slug']; ?>" class="btn-servizio">
+      Leggi l'articolo
+    </a>
+  </article>
+</div>
+
+
+
+
+<br>
+
+
+<h5>Il nostro team offre consulenza nella redazione di lavori per concorso, corsi 30/60 CFU e TFA.</h5> 
+<p>Puoi contattarci gratuitamente al  <a href="tel:3780608777"><strong>378-060-8777</strong></a>, anche tramite <a href="https://wa.me/3780608777" target="_blank"> <strong>WA</strong></a>.</p>
+<h5>  <a href="https://aiutotesi.altervista.org/uda.html#target_esterno">Oppure puoi acquistare il nostro libro, disponibile nella Home</a>
+
+</h5>
+
+
+
+<!-- Pulsante per tornare alla Home -->
+<div style="text-align:center; margin-top: 2rem;">
+  <a href="/uda.html" class="btn-back">Torna alla Home</a>
+</div>
+
+
+
+
+
+
+<?php
+// Cattura il contenuto specifico nel buffer
+$content = ob_get_clean();
+
+// Definisci le variabili per meta tag e titolo relative al post corrente
+$title          = $currentPost['title'];
+$og_title       = $currentPost['title'];
+$og_description = $currentPost['summary'];
+$og_image       = $currentPost['image'];
+
+// Includi il template base e renderizza la pagina
+require 'base_blog.php';
+renderTemplate($title, $og_title, $og_description, $og_image, $content);
+?>
