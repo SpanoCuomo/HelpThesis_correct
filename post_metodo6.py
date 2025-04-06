@@ -9,6 +9,7 @@ from selenium.common.exceptions import (
     NoSuchElementException
 )
 from selenium.webdriver.chrome.options import Options
+import json
 
 
 def post_from_page_to_another_page(
@@ -240,23 +241,58 @@ def save_screenshot(driver, filename_prefix):
     """ Salva screenshot con timestamp, per debug. """
     pass
 
+def TXT_2_list(nomefile):
+    with open(nomefile, "r", encoding="utf-8") as file:
+        urls = json.load(file)
+    seen = set()
+    unique_urls = []
+    for url in urls:
+        # Rimuovo spazi vuoti superflui se necessario
+        url = url.strip()
+        if url not in seen:
+            unique_urls.append(url)
+            seen.add(url)
+    return unique_urls
+
+    
+    
+    
+   
+    
+
+    
+
+    
+Mex_Giovanna = "Preparati al meglio per il tuo esame orale del concorso docente con Help Thesis! \n\n     Offriamo supporto personalizzato per UDA e lezioni simulate per tutte le classi di concorso. \n\nPrenota subito il tuo posto: contattaci al 378 06 08 777 o scrivi a aiuto.tesi.official@gmail.com. Non perdere l’occasione di arrivare pronto e sicuro!"
+Mex_Luca_WA_UDA = "Attenzione: Chi non è interessato, può semplicemente proseguire oltre, come se nulla fosse.\n\n Piacere, sono Luca. Io ed il mio team offriamo servizio per la preparazione della lezione simulata e per l'UDA in tutte le parti e per tutte le classi di concorso, dalla consenga della traccia alla preparazione delle slides.\n Chi fosse interessato può contattarci al 378 060 8777 oppure al 3349855526.\n\n Grazie e buon lavoro a tutti.\n Team Help Tesi."
+Mex_Luca_FB_UDA = "Piacere, sono Luca. Io ed il mio team offriamo servizio per la preparazione della lezione simulata e per l'UDA in tutte le parti e per tutte le classi di concorso, dalla consenga della traccia alla preparazione delle slides. \nChi fosse interessato può contattarci al 378 060 8777 oppure al 3349855526.\n\n Grazie e buon lavoro a tutti.\n Team Help Tesi."
+Mex_Luca_pacato = "Per chi fosse interessato, qui ci sono articoli che possono essere utili per la preparazione al concorso. https://aiutotesi.altervista.org/blog/blog_UDA_lista.php. Inoltre io ed il mio team diamo una mano nella preparazione. Chi fosse interessato può contattarci al 378 060 8777. Grazie e buon lavoro a tutti."
+mex_pagine_FB_Tesi_da_profilo = "Ciao sono Luca, dottorato in ingegneria aerospaziale. \n\n Offro diversi servizi, tra cui aiuto nella stesura di tesi di laurea, project work ed altro ancora. \n Mi occupo di tutti gli aspetti, dalla creazione dell'indice alla ricerca bibliografica. Non mi offro a prezzi bassi e non capisco il voler risparmiare sulla tesi dato che è il passo più importante del percorso, quello da cui dipende la data di laurea e buona parte del voto.\n Garantisco però la qualità dell'elaborato: molti miei lavori sono stati pubblicati su riviste universitarie.\n Ho un piccolo team a cui mi appoggio per ampliare la mia offerta ma sono onesto: se so di non poterti dare una mano, lo dico subito, senza farti perdere tempo o soldi.\n\n Contattami senza impegno al 378 060 8777."
+mex_pagine_FB_Tesi_da_pagina = "Ciao sono Luca. \n\n Io ed il mio team ti aiutiamo nella redazione di tesi universitarie, project work e molto altro. \n Ci occupiamo di ogni songolo aspetto per procurarti un lavoro di qualità in tempi brevi. \n\n Contattaci senza impegno al 378 060 8777."
+mex_pagine_FB_Project_da_profilo = "Ciao sono Luca, dottorato in ingegneria aerospaziale. \n\n Offro diversi servizi, tra cui aiuto nella stesura di tesi di laurea, project work ed altro ancora. \n Mi occupo di tutti gli aspetti, dalla creazione dell'indice alla ricerca bibliografica. Non mi offro a prezzi bassi e non capisco il voler risparmiare sulla tesi dato che è il passo più importante del percorso, quello da cui dipende la data di laurea e buona parte del voto.\n Garantisco però la qualità dell'elaborato: molti miei lavori sono stati pubblicati su riviste universitarie.\n Ho un piccolo team a cui mi appoggio per ampliare la mia offerta ma sono onesto: se so di non poterti dare una mano, lo dico subito, senza farti perdere tempo o soldi.\n\n Contattami senza impegno al 378 060 8777."
+Mex_UDA_Pubbli_Giovanna = "Buongiorno a tutti!! \n Di seguito alcuni link e numeri utili  \n\nPer qualsiasi informazione scrivetemi pure☺️ \nSito lezioni simulate e manuali di preparazione\n https://aiutotesi.altervista.org/uda.html \n Numero team docenti supporto prova orale (per lezione simulata e/o uda) https://wa.me/3780608777 \n Gruppo whatsapp \n https://chat.whatsapp.com/KL0jAgGqz3vIUbcKLdWxtE \n Gruppo telegram\n https://t.me/+mL7jvfPS6EA1MDNk"
+mex_libro_pubblicit = "Ti stai preparando per il concorso PNRR2? Abbiamo scritto un libro che può esserti utile. Un'anteprima gratuita è disponibile in messaggio o sul sito https://aiutotesi.altervista.org/uda.html. Inoltre possiamo aiutarti per la prova orale. Contattaci al 378 060 8777."
+
+
+    
+    
+
+
+
 
 # ESEMPIO DI ESECUZIONE
 if __name__ == "__main__":
     
     start_time = time.time()  # Avvio cronometro (tic)
-    user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data"
-    profile_directory="Profile 5"
+    user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data"
+    profile_directory="Profile 2"
     chrome_options = Options()
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument(f"--profile-directory={profile_directory}")
-    
     driver = webdriver.Chrome(options=chrome_options)
     driver.maximize_window()
     driver.get("https://www.facebook.com/")
     time.sleep(5)
-    
-    
     print("[DEBUG] Avvio browser con user_data_dir:", user_data_dir)
     print("[DEBUG] Avvio browser con profile_directory:", profile_directory)
     
@@ -268,89 +304,22 @@ if __name__ == "__main__":
     
     #di seguito, inserisco le pagine FB da cui posso postare da pagina (HelpThesis)
     # Chiaramente, sono quelle per UDA 
-    target_page_url_list_FB_UDA_da_pagina = [
-    #"https://www.facebook.com/groups/137462603725184/",     
-    "https://www.facebook.com/groups/810412816110104",    "https://www.facebook.com/groups/1391094278281229/",       "https://www.facebook.com/groups/632814196817302/",    "https://www.facebook.com/groups/1906895769522241/",    "https://www.facebook.com/groups/456030584956479/",   "https://www.facebook.com/groups/1108239415925826/",    "https://www.facebook.com/groups/669371907218733/",    "https://www.facebook.com/groups/313799159030926/",   "https://www.facebook.com/groups/273817799946010/",    "https://www.facebook.com/groups/997326198008158/",    "https://www.facebook.com/groups/499202680090113/",   "https://www.facebook.com/groups/810412816110104/",    "https://www.facebook.com/groups/concorsimiur/",    "https://www.facebook.com/groups/concorsiacattedra/",   "https://www.facebook.com/groups/587804574892487/",    "https://www.facebook.com/groups/228939985060066/",    "https://www.facebook.com/groups/228708040944623/",   "https://www.facebook.com/groups/1054698134552352/",    "https://www.facebook.com/groups/317959814985111/",    "https://www.facebook.com/groups/2864592923858977/",   "https://www.facebook.com/groups/929283011464844/",    "https://www.facebook.com/groups/843336906109167/",    "https://www.facebook.com/groups/precari.scuola.docenti.ata",   "https://www.facebook.com/groups/3868133203413913",    "https://www.facebook.com/groups/917093268639754",    "https://www.facebook.com/groups/1273736532680877",   "https://www.facebook.com/groups/399194970829052",    ]     
-    
-    
-    
-    
-    tesi_da_pagina = [
-    "https://www.facebook.com/groups/1707578962691377",    "https://www.facebook.com/groups/1585925211899522",    "https://www.facebook.com/groups/1941536666039810",   "https://www.facebook.com/groups/499411173404344",    "https://www.facebook.com/groups/712643683692259",   "https://www.facebook.com/groups/UniversitaMilanoBicocca/?locale=it_IT",    "https://www.facebook.com/groups/453192751428510",   "https://www.facebook.com/groups/359831087482124",    ]        
-    
-    
-    
-    
-    
-    
-    
-    
-    pagine_FB_Tesi_da_profilo = [
-    "https://www.facebook.com/groups/429097701963375/",    "https://www.facebook.com/groups/908270576036040/",    "https://www.facebook.com/groups/110542255705652/",   "https://www.facebook.com/groups/10658296178/",    "https://www.facebook.com/groups/1561801267407264/",    "https://www.facebook.com/groups/987254675834137/",   "https://www.facebook.com/groups/247587496098645/",    "https://www.facebook.com/groups/219676868195190/",    "https://www.facebook.com/groups/1406824622964025/",   "https://www.facebook.com/groups/2228340492/",    "https://www.facebook.com/groups/1159825607467280/",    "https://www.facebook.com/groups/823182862030829/",   "https://www.facebook.com/groups/278699974441929/",    "https://www.facebook.com/groups/542133157216367/",    "https://www.facebook.com/groups/2207767823/",   "https://www.facebook.com/groups/2213780535/",    "https://www.facebook.com/groups/1941536666039810/",    "https://www.facebook.com/groups/luisscommunity/",   "https://www.facebook.com/groups/283665805577008/",    "https://www.facebook.com/groups/20563912201/",    "https://www.facebook.com/groups/3405207606416092/",   "https://www.facebook.com/groups/712643683692259/",    "https://www.facebook.com/groups/1620107648207790/",    "https://www.facebook.com/groups/499411173404344/",   "https://www.facebook.com/groups/1700555059983526/",    "https://www.facebook.com/groups/aiutotesi/",    "https://www.facebook.com/groups/687430589913069/",   "https://www.facebook.com/groups/35569958143/",    "https://www.facebook.com/groups/897226311307799/",    "https://www.facebook.com/groups/2024805981022984/",   "https://www.facebook.com/groups/285417932067286/",    "https://www.facebook.com/groups/100945319983591/",    "https://www.facebook.com/groups/703496549822529/",   "https://www.facebook.com/groups/1516070948631361/",    "https://www.facebook.com/groups/441872244890879/",    "https://www.facebook.com/groups/2275505859339274/",   "https://www.facebook.com/groups/28956585846/",    "https://www.facebook.com/groups/30393639960/",    "https://www.facebook.com/groups/196408308125184/",   "https://www.facebook.com/groups/279383633981324/",    "https://www.facebook.com/groups/152358618169380/",    "https://www.facebook.com/groups/45051708568/",   "https://www.facebook.com/groups/447128768661519/",    "https://www.facebook.com/groups/12070402766/",    "https://www.facebook.com/groups/2744982559131286/",    "https://www.facebook.com/groups/520443616782429/",    "https://www.facebook.com/groups/642039175896119/",    "https://www.facebook.com/groups/333644306940/",   "https://www.facebook.com/groups/1693562790987375/",    "https://www.facebook.com/groups/499411173404344",          ]
-    
-    
-    
-    
-    
-    
-    
-    
-    pagina_FB_UDA_da_profilo = [
-    "https://www.facebook.com/groups/1137198763762499/",    "https://www.facebook.com/groups/651328332776379/",    "https://www.facebook.com/groups/799888718129162/",    "https://www.facebook.com/groups/948586745268308/",   "https://www.facebook.com/groups/25159011507078212/",    "https://www.facebook.com/groups/ilmondoscuola/",    "https://www.facebook.com/groups/972764969738087/",    "https://www.facebook.com/groups/scuolainforma/",   "https://www.facebook.com/groups/grupposcuola/",    "https://www.facebook.com/groups/1650862481834970/",    "https://www.facebook.com/groups/277884802397218/",    "https://www.facebook.com/groups/945255773369024/",   "https://www.facebook.com/groups/719439560368463/",    "https://www.facebook.com/groups/442616192572458/",    "https://www.facebook.com/groups/2941802416087165/",    "https://www.facebook.com/groups/890469759547900/",   "https://www.facebook.com/groups/472473792808435/",    "https://www.facebook.com/groups/947669399443666/",    "https://www.facebook.com/groups/2024805981022984/",    "https://www.facebook.com/groups/173850744410409/",   "https://www.facebook.com/groups/197097505352300/",    "https://www.facebook.com/groups/673009937319034/",    "https://www.facebook.com/groups/531999858522473/",    "https://www.facebook.com/groups/563940565915336/",   "https://www.facebook.com/groups/772776827909353/",        ]
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    
-    Mex_Giovanna = "Preparati al meglio per il tuo esame orale del concorso docente con Help Thesis! \n\n     Offriamo supporto personalizzato per UDA e lezioni simulate per tutte le classi di concorso. \n\nPrenota subito il tuo posto: contattaci al 378 06 08 777 o scrivi a aiuto.tesi.official@gmail.com. Non perdere l’occasione di arrivare pronto e sicuro!"
-    
-    
-    Mex_Luca_WA_UDA = "Attenzione: Chi non è interessato, può semplicemente proseguire oltre, come se nulla fosse.\n\n Piacere, sono Luca. Io ed il mio team offriamo servizio per la preparazione della lezione simulata e per l'UDA in tutte le parti e per tutte le classi di concorso, dalla consenga della traccia alla preparazione delle slides.\n Chi fosse interessato può contattarci al 378 060 8777 oppure al 3349855526.\n\n Grazie e buon lavoro a tutti.\n Team Help Tesi."
-    
-    Mex_Luca_FB_UDA = "Piacere, sono Luca. Io ed il mio team offriamo servizio per la preparazione della lezione simulata e per l'UDA in tutte le parti e per tutte le classi di concorso, dalla consenga della traccia alla preparazione delle slides. \nChi fosse interessato può contattarci al 378 060 8777 oppure al 3349855526.\n\n Grazie e buon lavoro a tutti.\n Team Help Tesi."
-    
-    Mex_Luca_pacato = "Per chi fosse interessato, qui ci sono articoli che possono essere utili per la preparazione al concorso. https://aiutotesi.altervista.org/blog/blog_UDA_lista.php. Inoltre io ed il mio team diamo una mano nella preparazione. Chi fosse interessato può contattarci al 378 060 8777. Grazie e buon lavoro a tutti."
-    
-    
-    mex_pagine_FB_Tesi_da_profilo = "Ciao sono Luca, dottorato in ingegneria aerospaziale. \n\n Offro diversi servizi, tra cui aiuto nella stesura di tesi di laurea, project work ed altro ancora. \n Mi occupo di tutti gli aspetti, dalla creazione dell'indice alla ricerca bibliografica. Non mi offro a prezzi bassi e non capisco il voler risparmiare sulla tesi dato che è il passo più importante del percorso, quello da cui dipende la data di laurea e buona parte del voto.\n Garantisco però la qualità dell'elaborato: molti miei lavori sono stati pubblicati su riviste universitarie.\n Ho un piccolo team a cui mi appoggio per ampliare la mia offerta ma sono onesto: se so di non poterti dare una mano, lo dico subito, senza farti perdere tempo o soldi.\n\n Contattami senza impegno al 378 060 8777."
-    
-    mex_pagine_FB_Tesi_da_pagina = "Ciao sono Luca. \n\n Io ed il mio team ti aiutiamo nella redazione di tesi universitarie, project work e molto altro. \n Ci occupiamo di ogni songolo aspetto per procurarti un lavoro di qualità in tempi brevi. \n\n Contattaci senza impegno al 378 060 8777."
-    
-    
-    
-    mex_pagine_FB_Project_da_profilo = "Ciao sono Luca, dottorato in ingegneria aerospaziale. \n\n Offro diversi servizi, tra cui aiuto nella stesura di tesi di laurea, project work ed altro ancora. \n Mi occupo di tutti gli aspetti, dalla creazione dell'indice alla ricerca bibliografica. Non mi offro a prezzi bassi e non capisco il voler risparmiare sulla tesi dato che è il passo più importante del percorso, quello da cui dipende la data di laurea e buona parte del voto.\n Garantisco però la qualità dell'elaborato: molti miei lavori sono stati pubblicati su riviste universitarie.\n Ho un piccolo team a cui mi appoggio per ampliare la mia offerta ma sono onesto: se so di non poterti dare una mano, lo dico subito, senza farti perdere tempo o soldi.\n\n Contattami senza impegno al 378 060 8777."
-    
-    
-    Mex_UDA_Pubbli_Giovanna = "Buongiorno a tutti!! \n Di seguito alcuni link e numeri utili  \n\nPer qualsiasi informazione scrivetemi pure☺️ \nSito lezioni simulate e manuali di preparazione\n https://aiutotesi.altervista.org/uda.html \n Numero team docenti supporto prova orale (per lezione simulata e/o uda) 378 060 8777 \n Gruppo whatsapp \n https://chat.whatsapp.com/KL0jAgGqz3vIUbcKLdWxtE \n Gruppo telegram\n https://t.me/+mL7jvfPS6EA1MDNk"
-    
-    
-    mex_libro_pubblicit = "Ti stai preparando per il concorso PNRR2? Abbiamo scritto un libro che può esserti utile. Un'anteprima gratuita è disponibile in messaggio o sul sito https://aiutotesi.altervista.org/uda.html. Inoltre possiamo aiutarti per la prova orale. Contattaci al 378 060 8777."
-    
-    
-    
     
     
     i = 0
     
     
-    lista_utilizzata =  target_page_url_list_FB_UDA_da_pagina
+    lista_utilizzata =  "UDA_da_pagina.txt"
     #messaggio_pubblicato =  mex_pagine_FB_Tesi_da_pagina
     messaggio_pubblicato = Mex_UDA_Pubbli_Giovanna
     #immagine = r"C:\Users\UTENTE\Downloads\Copertina_libro.PNG"
-    immagine = r"C:\Users\UTENTE\Downloads\WhatsApp Image 2025-03-22 at 13.52.42.jpeg"
+    immagine = r"C:\Users\lspan\Desktop\Uda_Sfondo_celeste.jpg"
+    #immagine = r"https://aiutotesi.altervista.org/Uda_Sfondo_celeste.jpg"
     #immagine = r"C:\Users\UTENTE\Desktop\tesi_profilo.jpg"
     #immagine = r"C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\Help_.PNG"
     
-    for el in lista_utilizzata:
+    
+    for el in TXT_2_list(lista_utilizzata):
         i = i + 1
         print("\n\nStampo sulla pagina" + str(el))
         print("elemento "+ str(i) + "/" +str(len(lista_utilizzata)))
