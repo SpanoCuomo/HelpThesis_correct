@@ -19,11 +19,7 @@ def invia_immagine_come_foto(driver, file_path):
     3) Trova l'input file con accept='image/*,video/*' e fa send_keys(file_path).
     4) Clicca il bottone 'Invia' se appare la preview.
     """
-    import time
-    from selenium.webdriver.common.by import By
-    from selenium.webdriver.support.ui import WebDriverWait
-    from selenium.webdriver.support import expected_conditions as EC
-
+   
     # 1) Clic pulsante Allega
     xp_allega_btn = "//button[@aria-label='Allega' or @title='Allega']"
     try:
@@ -124,7 +120,7 @@ def apri_whatsapp():
 
 
 
-def open_whatsapp_and_click_chat(chat_title, messaggio):
+def open_whatsapp_and_click_chat_old(chat_title, messaggio):
     global driver
 
     # 1) Clic sul pulsante "Cerca o avvia nuova chat"
@@ -210,6 +206,83 @@ def open_whatsapp_and_click_chat(chat_title, messaggio):
 
 
 
+def open_whatsapp_and_click_chat(chat_title, messaggio, immagine_path):
+    global driver
+
+    # 1) Clic sul pulsante "Cerca o avvia nuova chat"
+    xp_search_button = "//button[@aria-label='Cerca o avvia una nuova chat']"
+    try:
+        search_btn = WebDriverWait(driver, 30).until(
+            EC.element_to_be_clickable((By.XPATH, xp_search_button))
+        )
+        search_btn.click()
+        if debug_mode:
+            print("[DEBUG] Cliccato il bottone di ricerca.")
+        time.sleep(1)
+    except:
+        print("[WARN] Non trovo/Non clicco il pulsante di ricerca. Forse è già aperta la barra.")
+
+    # 2) Trova il vero campo (div contenteditable) per digitare
+    xp_real_input = "//div[@role='textbox' and @contenteditable='true' and @data-lexical-editor='true']"
+    real_input = WebDriverWait(driver, 10).until(
+        EC.element_to_be_clickable((By.XPATH, xp_real_input))
+    )
+    real_input.click()
+    real_input.send_keys(Keys.CONTROL, "a")
+    real_input.send_keys(Keys.DELETE)
+    real_input.send_keys(chat_title)
+    time.sleep(2)
+
+    # 3) Clicca sulla chat
+    xp_chat = f"//span[contains(@title, '{chat_title}')]"
+    try:
+        chat_element = WebDriverWait(driver, 20).until(
+            EC.element_to_be_clickable((By.XPATH, xp_chat))
+        )
+        chat_element.click()
+        if debug_mode:
+            print(f"[OK] Cliccato sulla chat: {chat_title}")
+    except:
+        print(f"[ERRORE] Non trovo la chat '{chat_title}'.")
+        return
+
+    time.sleep(2)
+
+    # 4) Casella messaggio
+    xp_input_msg = ("//div[@contenteditable='true' and @role='textbox' "
+                    "and contains(@aria-placeholder,'Scrivi un messaggio')]")
+
+    try:
+        msg_box = WebDriverWait(driver, 15).until(
+            EC.element_to_be_clickable((By.XPATH, xp_input_msg))
+        )
+        if debug_mode:
+            print("[DEBUG] Trovata casella messaggio, invio testo.")
+    except TimeoutException:
+        print("[WARN] Non posso scrivere in questa chat (solo admin). Skippo la chat.")
+        return
+
+    if debug_mode:
+        print("[DEBUG] Trovata casella messaggio, invio testo.")
+
+    # 5) Scrivi il messaggio
+    msg_box.send_keys(messaggio)
+    time.sleep(1)
+
+    # 6) Invia immagine passata come parametro
+    invia_immagine_come_foto(driver, immagine_path)
+
+    # 7) Invio definitivo del messaggio
+    xp_send_button = "//button[@aria-label='Invia']"
+    try:
+        send_button = WebDriverWait(driver, 10).until(
+            EC.element_to_be_clickable((By.XPATH, xp_send_button))
+        )
+        send_button.click()
+    except:
+        msg_box.send_keys(Keys.ENTER)
+
+    print("[OK] Messaggio inviato.")
 
 
 
@@ -221,9 +294,10 @@ if __name__ == "__main__":
     start_time = time.time()  # Avvio cronometro (tic)
     # 1) Setup driver una sola volta
     setup_driver(
-        user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
-        profile_directory="Profile 5"
+        user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data",
+        profile_directory="Profile 2"
     )
+    
     
     # 2) Apri WhatsApp
     apri_whatsapp()
@@ -297,17 +371,22 @@ if __name__ == "__main__":
     Mex_Luca_pacato = "Per chi fosse interessato, qui ci sono articoli che possono essere utili per la preparazione al concorso. https://aiutotesi.altervista.org/blog/blog_UDA_lista.php. Inoltre io ed il mio team diamo una mano nella preparazione. Chi fosse interessato può contattarci al 378 060 8777. Grazie e buon lavoro a tutti."
     
     Mex_per_entrata_gruppo = "Questo è un altro gruppo dove si parla del concorso <br> https://chat.whatsapp.com/KL0jAgGqz3vIUbcKLdWxtE"
-    
+    Mex_Giovanna = "Preparati al meglio per il tuo esame orale del concorso docente con Help Thesis! \n\n     Offriamo supporto personalizzato per UDA e lezioni simulate per tutte le classi di concorso. \n\nPrenota subito il tuo posto: contattaci al 378 06 08 777 o scrivi a aiuto.tesi.official@gmail.com. Non perdere l’occasione di arrivare pronto e sicuro!"
     
     mex_libro_pubblicit = "Ti stai preparando per il concorso? Abbiamo scritto un libro che può esserti utile. Un'anteprima gratuita è disponibile in messaggio o sul sito https://aiutotesi.altervista.org/uda.html. Inoltre possiamo aiutarti per la prova orale. Contattaci al 378 060 8777."
     
     
     i = 0
+    #immagine_indirizzo = r"C:\Users\UTENTE\Downloads\Copertina_libro.PNG"
+    immagine_indirizzo = r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\cliccabile.pdf"
     for el in listaUDA:
         i = i + 1
         print("\n\nStampo sulla pagina" + str(el))
         print("elemento "+ str(i) + "/" +str(len(listaUDA)))
-        open_whatsapp_and_click_chat(el, Mex_Luca_pacato)
+        
+        open_whatsapp_and_click_chat(el, Mex_Giovanna, immagine_indirizzo)
+        
+        
         time.sleep(3)  # Attendi qualche secondo tra un invio e l'altro
 
     # Se vuoi, alla fine, NON chiudi il browser

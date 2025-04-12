@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 import time
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -243,7 +235,23 @@ def TXT_2_list(nomefile):
     ListaDaUsare = list(dict.fromkeys(urls))
     return ListaDaUsare
 
-
+def FunzioneGlobale(lista_utilizzata, messaggio_pubblicato, immagine):
+    i = 0
+    for el in TXT_2_list(lista_utilizzata):
+        i = i + 1
+        print("\n\nStampo sulla pagina" + str(el))
+        print("elemento "+ str(i) + "/" +str(len(TXT_2_list(lista_utilizzata))))
+        post_from_page_to_another_page(
+            page_name="La Mia Pagina Ufficiale",
+            target_page_url=str(el),
+            message=(messaggio_pubblicato           
+            ),
+            post_as_page=False,  # se vuoi testare come pagina, metti True
+            #image_path=r"C:\Users\UTENTE\Desktop\TFA_inserire_12_Novembre2024.mp4"  # .mp4 funziona uguale
+            #image_path=r"C:\Users\UTENTE\Desktop\tesi_profilo.jpg"  # .mp4 funziona uguale
+            image_path = immagine
+        )
+    
     
     
     
@@ -272,10 +280,20 @@ mex_libro_pubblicit = "Ti stai preparando per il concorso PNRR2? Abbiamo scritto
 
 # ESEMPIO DI ESECUZIONE
 if __name__ == "__main__":
-    
+    PC_Grande = 0;
     start_time = time.time()  # Avvio cronometro (tic)
-    user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data"
-    profile_directory="Profile 2"
+    lista_utilizzata =  "UDA_da_pagina.txt"
+    #lista_utilizzata = "FB_Tesi_Da_Pagina.txt"
+    if PC_Grande == 0:
+        user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data"
+        profile_directory="Profile 2"
+    else:
+        user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data"
+        profile_directory="Profile 5"
+    
+    
+    
+    
     chrome_options = Options()
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument(f"--profile-directory={profile_directory}")
@@ -296,35 +314,22 @@ if __name__ == "__main__":
     # Chiaramente, sono quelle per UDA 
     
     
-    i = 0
     
     
-    lista_utilizzata =  "UDA_da_pagina.txt"
+    
+    lista_utilizzata =  ["FB_UDA_da_pagina.txt", "FB_UDA_da_profilo.txt"]
+    #lista_utilizzata =  ["FB_UDA_da_profilo.txt"]
     #lista_utilizzata = "FB_Tesi_Da_Pagina.txt"
     #messaggio_pubblicato =  mex_pagine_FB_Tesi_da_pagina
     messaggio_pubblicato = Mex_UDA_Pubbli_Giovanna
     #immagine = r"C:\Users\UTENTE\Downloads\Copertina_libro.PNG"
     #immagine = r"C:\Users\lspan\Desktop\Uda_Sfondo_celeste.jpg"
-    #immagine = r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\cliccabile.pdf"
+    immagine = r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\cliccabile.pdf"
     #immagine = r"https://aiutotesi.altervista.org/Uda_Sfondo_celeste.jpg"
-    immagine = r"C:\Users\UTENTE\Desktop\tesi_profilo.jpg"
+    #immagine = r"C:\Users\UTENTE\Desktop\tesi_profilo.jpg"
     #immagine = r"C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\Help_.PNG"
-    
-    
-    for el in TXT_2_list(lista_utilizzata):
-        i = i + 1
-        print("\n\nStampo sulla pagina" + str(el))
-        print("elemento "+ str(i) + "/" +str(len(lista_utilizzata)))
-        post_from_page_to_another_page(
-            page_name="La Mia Pagina Ufficiale",
-            target_page_url=str(el),
-            message=(messaggio_pubblicato           
-            ),
-            post_as_page=False,  # se vuoi testare come pagina, metti True
-            #image_path=r"C:\Users\UTENTE\Desktop\TFA_inserire_12_Novembre2024.mp4"  # .mp4 funziona uguale
-            #image_path=r"C:\Users\UTENTE\Desktop\tesi_profilo.jpg"  # .mp4 funziona uguale
-            image_path = immagine
-        )
+    for l in lista_utilizzata:
+        FunzioneGlobale(l, messaggio_pubblicato, immagine)
     
     print("[DEBUG] Chiudo il browser.")
     driver.quit()

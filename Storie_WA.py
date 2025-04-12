@@ -295,20 +295,26 @@ if __name__ == "__main__":
     for post in random_posts:
   
     
+            
         print("sto stampando " + post["slug"])
-        # Recupera il percorso dell'immagine e il testo (description) dal post
-        image_path = post["video"]
-        #image_path = post["image"]  # se vuoi immagine 
-        # Aggiungiamo lo slug al testo in modo che l'URL sia visibile nello status
-        
-        #text = post["summary"]  
+        # Recupera il percorso del video (o immagine)
+        image_path = post.get("video")  # oppure post["image"] se preferisci usare l'immagine
+
+        # Se image_path è vuoto o non esiste, passa al prossimo post
+        if not image_path:
+            print(f"Il post {post['slug']} non ha l'URL del file, salto al prossimo.")
+            continue
+
+        # Aggiungiamo lo slug al testo, concatenando anche il base_url in modo che l'URL sia cliccabile
         text = f"{post['summary']} {base_url}{post['slug']}"
         full_image_path = os.path.join(base_dir, image_path)
-        # Invia lo status con l'immagine e il testo
+        print("full_image_path:", full_image_path)
+        
         invia_storia(driver, full_image_path, text)
         
-        # Aspetta qualche secondo fra uno status e l'altro (modifica in base alle tue necessità)
+        # Aspetta qualche secondo fra uno status e l'altro
         time.sleep(10)
+
     
     # Dopo aver completato tutte le operazioni:
     driver.quit()
