@@ -86,7 +86,14 @@ function clearObstacles() {
 function addObstacles() {
     clearObstacles();
     const material = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
-    for (let i = 0; i < laneCount; i++) {
+
+    // Compute z positions where no cars pass (between lanes)
+    const walkwayPositions = [];
+    for (let i = 1; i < laneCount; i++) { // skip start and goal rows
+        walkwayPositions.push(laneWidth * (laneCount / 2) - i * laneWidth);
+    }
+
+    walkwayPositions.forEach(zPos => {
         for (let g = 0; g < obstacleGroups; g++) {
             const group = new THREE.Group();
             const groupSize = Math.floor(Math.random() * 3) + 1; // 1-3 poles
@@ -96,11 +103,12 @@ function addObstacles() {
                 pole.position.set(p * 0.6, 0.5, 0);
                 group.add(pole);
             }
-            group.position.set((Math.random() - 0.5) * laneWidth * 3, 0, lanes[i].z);
+            group.position.set((Math.random() - 0.5) * laneWidth * 3, 0, zPos);
             scene.add(group);
             obstacles.push(group);
         }
-    }
+    });
+
     obstacleGroups++; // increase difficulty for next map change
 }
 
@@ -178,7 +186,7 @@ function createCar(direction) {
     const bodyMaterial = new THREE.MeshPhongMaterial({ color: randomColor });
     const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
 
-    const baseGeom = new THREE.BoxGeometry(3, 0.7, laneWidth - 1);
+    const baseGeom = new THREE.BoxGeometry(3.4, 0.7, laneWidth - 1);
     const base = new THREE.Mesh(baseGeom, bodyMaterial);
     base.position.y = 0.6;
     carGroup.add(base);
@@ -193,12 +201,12 @@ function createCar(direction) {
     hood.position.set(1, 1, 0);
     carGroup.add(hood);
 
-    const wheelGeom = new THREE.CylinderGeometry(0.4, 0.4, 0.8, 16);
+    const wheelGeom = new THREE.CylinderGeometry(0.45, 0.45, 0.9, 32);
     const positions = [
-        [-1.1, 0.4, 0.7],
-        [1.1, 0.4, 0.7],
-        [-1.1, 0.4, -0.7],
-        [1.1, 0.4, -0.7]
+        [-1.3, 0.4, 1.0],
+        [1.3, 0.4, 1.0],
+        [-1.3, 0.4, -1.0],
+        [1.3, 0.4, -1.0]
     ];
     positions.forEach(([x, y, z]) => {
         const wheel = new THREE.Mesh(wheelGeom, wheelMaterial);
@@ -267,7 +275,7 @@ function onWindowResize() {
 function onKeyDown(event) {
     const key = event.code;
     let moved = false;
-    const step = laneWidth / 2;
+    const step = laneWidth / 4; // jump distance reduced
     const prev = frog.position.clone();
     if (key === 'ArrowUp') { frog.position.z -= step; moved = true; frog.rotation.y = Math.PI; }
     if (key === 'ArrowDown') { frog.position.z += step; moved = true; frog.rotation.y = 0; }
