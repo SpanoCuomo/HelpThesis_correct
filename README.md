@@ -10,4 +10,8 @@ Il codice si trova nella cartella `frogger3d` ed è composto dai seguenti file:
 - `styles.css`: semplici stili per la pagina.
 - `main.js`: logica del gioco.
 
+Nella versione attuale la rana e le auto non sono più semplici geometrie
+cubiche: sono composte da piccoli modelli 3D realizzati con le primitive di
+Three.js per rendere il gioco più realistico.
+
 Per provare il gioco è sufficiente aprire `frogger3d/index.html` con un browser moderno e utilizzare le frecce della tastiera per muovere la rana.
