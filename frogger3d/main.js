@@ -3,9 +3,39 @@ let frog, lanes = [];
 let cars = [];
 const laneCount = 3;
 const laneWidth = 5;
-const carSpeed = 0.1;
+let carSpeed = 0.1;
 const carFrequency = 100; // frames between new car spawn
 let frame = 0;
+
+let score = 0;
+let lives = 3;
+let level = 1;
+let lastLane = laneCount; // used to detect crossings
+let colorStage = 0;
+let gameOver = false;
+
+function updateHUD() {
+    document.getElementById('score').textContent = `Punteggio: ${score}`;
+    document.getElementById('lives').textContent = `Vite: ${lives}`;
+    document.getElementById('level').textContent = `Livello: ${level}`;
+}
+
+function getLaneIndex(z) {
+    return Math.round((laneWidth * (laneCount / 2) - z) / laneWidth);
+}
+
+function updateFrogColor() {
+    const stage = Math.floor(score / 1000);
+    if (stage > colorStage) {
+        colorStage = stage;
+        const color = new THREE.Color(Math.random(), Math.random(), Math.random());
+        frog.traverse(obj => {
+            if (obj.isMesh && obj.material && obj.material.color) {
+                obj.material.color.set(color);
+            }
+        });
+    }
+}
 
 function createFrog() {
     const frogGroup = new THREE.Group();
@@ -111,6 +141,8 @@ function init() {
     frog = createFrog();
     frog.position.set(0, 0, laneWidth * (laneCount / 2));
     scene.add(frog);
+    lastLane = getLaneIndex(frog.position.z);
+    updateHUD();
 
     camera.position.set(0, 10, 10);
     camera.lookAt(0, 0, 0);
@@ -134,10 +166,21 @@ function onWindowResize() {
 
 function onKeyDown(event) {
     const key = event.code;
-    if (key === 'ArrowUp') frog.position.z -= laneWidth;
-    if (key === 'ArrowDown') frog.position.z += laneWidth;
+    let moved = false;
+    if (key === 'ArrowUp') { frog.position.z -= laneWidth; moved = true; }
+    if (key === 'ArrowDown') { frog.position.z += laneWidth; moved = true; }
     if (key === 'ArrowLeft') frog.position.x -= laneWidth;
     if (key === 'ArrowRight') frog.position.x += laneWidth;
+
+    if (moved) {
+        const laneIndex = getLaneIndex(frog.position.z);
+        if (laneIndex > lastLane && laneIndex <= laneCount) {
+            score += 10 * level;
+            updateFrogColor();
+        }
+        lastLane = laneIndex;
+        updateHUD();
+    }
 }
 
 function spawnCar(lane) {
@@ -150,6 +193,8 @@ function spawnCar(lane) {
 
 function animate() {
     requestAnimationFrame(animate);
+
+    if (gameOver) return;
 
     frame++;
     if (frame % carFrequency === 0) {
@@ -175,18 +220,32 @@ function checkCollisions() {
     cars.forEach(car => {
         const carBox = new THREE.Box3().setFromObject(car);
         if (frogBox.intersectsBox(carBox)) {
+            lives--;
+            updateHUD();
+            if (lives <= 0) {
+                alert('Game Over');
+                gameOver = true;
+            }
             resetFrog();
         }
     });
 
     if (frog.position.z < -laneWidth * (laneCount / 2)) {
-        alert('Hai vinto!');
+        score += 20 * level;
+        level++;
+        if (level % 10 === 0) {
+            lives++;
+        }
+        carSpeed += 0.02;
+        updateFrogColor();
+        updateHUD();
         resetFrog();
     }
 }
 
 function resetFrog() {
     frog.position.set(0, 0, laneWidth * (laneCount / 2));
+    lastLane = getLaneIndex(frog.position.z);
 }
 
 init();
