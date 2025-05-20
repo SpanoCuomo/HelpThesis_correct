@@ -16,7 +16,7 @@ let gameOver = false;
 
 function updateHUD() {
     document.getElementById('score').textContent = `Punteggio: ${score}`;
-    document.getElementById('lives').textContent = `Vite: ${lives}`;
+    document.getElementById('lives').innerHTML = `Vite: ${'❤'.repeat(lives)}`;
     document.getElementById('level').textContent = `Livello: ${level}`;
 }
 
@@ -34,6 +34,7 @@ function updateFrogColor() {
                 obj.material.color.set(color);
             }
         });
+        carSpeed *= 1.005;
     }
 }
 
@@ -96,10 +97,15 @@ function createCar(direction) {
     base.position.y = 0.5;
     carGroup.add(base);
 
-    const topGeom = new THREE.BoxGeometry(1, 0.5, laneWidth - 2);
-    const top = new THREE.Mesh(topGeom, bodyMaterial);
-    top.position.set(0, 0.75, 0);
-    carGroup.add(top);
+    const cabinGeom = new THREE.BoxGeometry(1, 0.6, laneWidth - 2);
+    const cabin = new THREE.Mesh(cabinGeom, bodyMaterial);
+    cabin.position.set(-0.2, 0.9, 0);
+    carGroup.add(cabin);
+
+    const hoodGeom = new THREE.BoxGeometry(0.8, 0.3, laneWidth - 2);
+    const hood = new THREE.Mesh(hoodGeom, bodyMaterial);
+    hood.position.set(0.8, 0.75, 0);
+    carGroup.add(hood);
 
     const wheelGeom = new THREE.CylinderGeometry(0.25, 0.25, 0.5, 16);
     const positions = [
@@ -132,7 +138,10 @@ function init() {
 
     // Ground
     const groundGeometry = new THREE.PlaneGeometry(laneWidth * 5, laneWidth * laneCount);
-    const groundMaterial = new THREE.MeshPhongMaterial({color: 0x222222});
+    const grassTex = new THREE.TextureLoader().load('https://threejs.org/examples/textures/terrain/grasslight-big.jpg');
+    grassTex.wrapS = grassTex.wrapT = THREE.RepeatWrapping;
+    grassTex.repeat.set(10, laneCount);
+    const groundMaterial = new THREE.MeshPhongMaterial({ map: grassTex });
     const ground = new THREE.Mesh(groundGeometry, groundMaterial);
     ground.rotation.x = -Math.PI / 2;
     scene.add(ground);
@@ -140,9 +149,11 @@ function init() {
     // Frog
     frog = createFrog();
     frog.position.set(0, 0, laneWidth * (laneCount / 2));
+    frog.rotation.y = 0;
     scene.add(frog);
     lastLane = getLaneIndex(frog.position.z);
     updateHUD();
+    document.getElementById('game-over').classList.add('hidden');
 
     camera.position.set(0, 10, 10);
     camera.lookAt(0, 0, 0);
@@ -167,10 +178,10 @@ function onWindowResize() {
 function onKeyDown(event) {
     const key = event.code;
     let moved = false;
-    if (key === 'ArrowUp') { frog.position.z -= laneWidth; moved = true; }
-    if (key === 'ArrowDown') { frog.position.z += laneWidth; moved = true; }
-    if (key === 'ArrowLeft') frog.position.x -= laneWidth;
-    if (key === 'ArrowRight') frog.position.x += laneWidth;
+    if (key === 'ArrowUp') { frog.position.z -= laneWidth; moved = true; frog.rotation.y = Math.PI; }
+    if (key === 'ArrowDown') { frog.position.z += laneWidth; moved = true; frog.rotation.y = 0; }
+    if (key === 'ArrowLeft') { frog.position.x -= laneWidth; frog.rotation.y = Math.PI / 2; }
+    if (key === 'ArrowRight') { frog.position.x += laneWidth; frog.rotation.y = -Math.PI / 2; }
 
     if (moved) {
         const laneIndex = getLaneIndex(frog.position.z);
@@ -217,16 +228,19 @@ function animate() {
 
 function checkCollisions() {
     const frogBox = new THREE.Box3().setFromObject(frog);
+    let collided = false;
     cars.forEach(car => {
+        if (collided) return;
         const carBox = new THREE.Box3().setFromObject(car);
         if (frogBox.intersectsBox(carBox)) {
             lives--;
             updateHUD();
             if (lives <= 0) {
-                alert('Game Over');
+                document.getElementById('game-over').classList.remove('hidden');
                 gameOver = true;
             }
             resetFrog();
+            collided = true;
         }
     });
 
@@ -245,6 +259,7 @@ function checkCollisions() {
 
 function resetFrog() {
     frog.position.set(0, 0, laneWidth * (laneCount / 2));
+    frog.rotation.y = 0;
     lastLane = getLaneIndex(frog.position.z);
 }
 
