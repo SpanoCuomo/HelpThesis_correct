@@ -14,6 +14,25 @@ let lastLane = laneCount; // used to detect crossings
 let colorStage = 0;
 let gameOver = false;
 
+function showMessage(text) {
+    const el = document.getElementById('message');
+    if (!el) return;
+    el.textContent = text;
+    el.classList.remove('hidden');
+    el.classList.add('show');
+    setTimeout(() => {
+        el.classList.add('hidden');
+        el.classList.remove('show');
+    }, 2000);
+}
+
+function jump() {
+    frog.position.y = 0.5;
+    setTimeout(() => {
+        frog.position.y = 0;
+    }, 150);
+}
+
 function updateHUD() {
     document.getElementById('score').textContent = `Punteggio: ${score}`;
     document.getElementById('lives').innerHTML = `Vite: ${'❤'.repeat(lives)}`;
@@ -35,6 +54,7 @@ function updateFrogColor() {
             }
         });
         carSpeed *= 1.005;
+        showMessage('Colore rana cambiato');
     }
 }
 
@@ -92,27 +112,27 @@ function createCar(direction) {
     const bodyMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
     const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
 
-    const baseGeom = new THREE.BoxGeometry(2, 0.5, laneWidth - 1);
+    const baseGeom = new THREE.BoxGeometry(3, 0.7, laneWidth - 1);
     const base = new THREE.Mesh(baseGeom, bodyMaterial);
-    base.position.y = 0.5;
+    base.position.y = 0.6;
     carGroup.add(base);
 
-    const cabinGeom = new THREE.BoxGeometry(1, 0.6, laneWidth - 2);
+    const cabinGeom = new THREE.BoxGeometry(1.5, 0.8, laneWidth - 2);
     const cabin = new THREE.Mesh(cabinGeom, bodyMaterial);
-    cabin.position.set(-0.2, 0.9, 0);
+    cabin.position.set(-0.2, 1.1, 0);
     carGroup.add(cabin);
 
-    const hoodGeom = new THREE.BoxGeometry(0.8, 0.3, laneWidth - 2);
+    const hoodGeom = new THREE.BoxGeometry(1.2, 0.4, laneWidth - 2);
     const hood = new THREE.Mesh(hoodGeom, bodyMaterial);
-    hood.position.set(0.8, 0.75, 0);
+    hood.position.set(1, 1, 0);
     carGroup.add(hood);
 
-    const wheelGeom = new THREE.CylinderGeometry(0.25, 0.25, 0.5, 16);
+    const wheelGeom = new THREE.CylinderGeometry(0.4, 0.4, 0.8, 16);
     const positions = [
-        [-0.7, 0.25, 0.4],
-        [0.7, 0.25, 0.4],
-        [-0.7, 0.25, -0.4],
-        [0.7, 0.25, -0.4]
+        [-1.1, 0.4, 0.45],
+        [1.1, 0.4, 0.45],
+        [-1.1, 0.4, -0.45],
+        [1.1, 0.4, -0.45]
     ];
     positions.forEach(([x, y, z]) => {
         const wheel = new THREE.Mesh(wheelGeom, wheelMaterial);
@@ -183,10 +203,18 @@ function onKeyDown(event) {
     if (key === 'ArrowLeft') { frog.position.x -= laneWidth; frog.rotation.y = Math.PI / 2; }
     if (key === 'ArrowRight') { frog.position.x += laneWidth; frog.rotation.y = -Math.PI / 2; }
 
+    const maxX = laneWidth * 2;
+    const maxZ = laneWidth * (laneCount / 2);
+    frog.position.x = Math.max(-maxX, Math.min(maxX, frog.position.x));
+    frog.position.z = Math.max(-maxZ, Math.min(maxZ, frog.position.z));
+
     if (moved) {
+        jump();
         const laneIndex = getLaneIndex(frog.position.z);
         if (laneIndex > lastLane && laneIndex <= laneCount) {
-            score += 10 * level;
+            const pts = 10 * level;
+            score += pts;
+            showMessage(`+${pts} punti`);
             updateFrogColor();
         }
         lastLane = laneIndex;
@@ -227,6 +255,7 @@ function animate() {
 }
 
 function checkCollisions() {
+    if (frog.position.z >= laneWidth * (laneCount / 2)) return;
     const frogBox = new THREE.Box3().setFromObject(frog);
     let collided = false;
     cars.forEach(car => {
@@ -234,6 +263,7 @@ function checkCollisions() {
         const carBox = new THREE.Box3().setFromObject(car);
         if (frogBox.intersectsBox(carBox)) {
             lives--;
+            showMessage('Vita persa');
             updateHUD();
             if (lives <= 0) {
                 document.getElementById('game-over').classList.remove('hidden');
@@ -245,10 +275,13 @@ function checkCollisions() {
     });
 
     if (frog.position.z < -laneWidth * (laneCount / 2)) {
-        score += 20 * level;
+        const pts = 20 * level;
+        score += pts;
         level++;
+        showMessage(`+${pts} punti`);
         if (level % 10 === 0) {
             lives++;
+            showMessage('Vita guadagnata');
         }
         carSpeed += 0.02;
         updateFrogColor();

@@ -21,14 +21,35 @@ body {
     color: #fff;
     z-index: 1;
     text-align: right;
-    border: 2px solid #fff;
-    padding: 10px;
+    padding: 10px 15px;
     font-size: 1.2em;
-    background: rgba(0,0,0,0.4);
+    background: rgba(0,0,0,0.6);
+    border-radius: 8px;
+    box-shadow: 0 0 10px rgba(0,0,0,0.5);
 }
 
 #hud span {
     display: block;
+}
+
+#message {
+    position: absolute;
+    top: 50px;
+    width: 100%;
+    text-align: center;
+    color: #ff0;
+    z-index: 2;
+    font-size: 1.5em;
+    pointer-events: none;
+}
+
+#message.show {
+    animation: fadeOut 2s forwards;
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
 }
 
 #game-over {
