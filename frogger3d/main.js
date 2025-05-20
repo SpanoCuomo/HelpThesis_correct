@@ -13,6 +13,9 @@ let level = 1;
 let lastLane = laneCount; // used to detect crossings
 let colorStage = 0;
 let gameOver = false;
+let victories = 0;
+let obstacles = [];
+let highScores = [];
 
 function showMessage(text) {
     const el = document.getElementById('message');
@@ -37,6 +40,58 @@ function updateHUD() {
     document.getElementById('score').textContent = `Punteggio: ${score}`;
     document.getElementById('lives').innerHTML = `Vite: ${'❤'.repeat(lives)}`;
     document.getElementById('level').textContent = `Livello: ${level}`;
+}
+
+function renderHighScores() {
+    const container = document.getElementById('high-scores');
+    if (!container) return;
+    container.classList.remove('hidden');
+    container.innerHTML = '<h3>High Scores</h3>';
+    const list = document.createElement('ol');
+    highScores.forEach(s => {
+        const li = document.createElement('li');
+        li.textContent = `${s.name}: ${s.score}`;
+        list.appendChild(li);
+    });
+    container.appendChild(list);
+}
+
+function loadHighScores() {
+    try {
+        highScores = JSON.parse(localStorage.getItem('froggerHighScores')) || [];
+    } catch (e) {
+        highScores = [];
+    }
+    renderHighScores();
+}
+
+function saveHighScores() {
+    localStorage.setItem('froggerHighScores', JSON.stringify(highScores));
+}
+
+function addHighScore(name, value) {
+    highScores.push({ name, score: value });
+    highScores.sort((a, b) => b.score - a.score);
+    if (highScores.length > 5) highScores.length = 5;
+    saveHighScores();
+    renderHighScores();
+}
+
+function clearObstacles() {
+    obstacles.forEach(o => scene.remove(o));
+    obstacles = [];
+}
+
+function addObstacles() {
+    clearObstacles();
+    const material = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
+    for (let i = 0; i < laneCount; i++) {
+        const geom = new THREE.BoxGeometry(0.5, 1, 0.5);
+        const obst = new THREE.Mesh(geom, material);
+        obst.position.set((Math.random() - 0.5) * laneWidth * 3, 0.5, lanes[i].z);
+        scene.add(obst);
+        obstacles.push(obst);
+    }
 }
 
 function getLaneIndex(z) {
@@ -130,10 +185,10 @@ function createCar(direction) {
 
     const wheelGeom = new THREE.CylinderGeometry(0.4, 0.4, 0.8, 16);
     const positions = [
-        [-1.1, 0.4, 0.45],
-        [1.1, 0.4, 0.45],
-        [-1.1, 0.4, -0.45],
-        [1.1, 0.4, -0.45]
+        [-1.1, 0.4, 0.7],
+        [1.1, 0.4, 0.7],
+        [-1.1, 0.4, -0.7],
+        [1.1, 0.4, -0.7]
     ];
     positions.forEach(([x, y, z]) => {
         const wheel = new THREE.Mesh(wheelGeom, wheelMaterial);
@@ -188,6 +243,8 @@ function init() {
     window.addEventListener('resize', onWindowResize, false);
     document.addEventListener('keydown', onKeyDown);
 
+    loadHighScores();
+
     animate();
 }
 
@@ -201,15 +258,24 @@ function onKeyDown(event) {
     const key = event.code;
     let moved = false;
     const step = laneWidth / 2;
+    const prev = frog.position.clone();
     if (key === 'ArrowUp') { frog.position.z -= step; moved = true; frog.rotation.y = Math.PI; }
     if (key === 'ArrowDown') { frog.position.z += step; moved = true; frog.rotation.y = 0; }
-    if (key === 'ArrowLeft') { frog.position.x -= step; frog.rotation.y = Math.PI / 2; }
-    if (key === 'ArrowRight') { frog.position.x += step; frog.rotation.y = -Math.PI / 2; }
+    if (key === 'ArrowLeft') { frog.position.x -= step; moved = true; frog.rotation.y = Math.PI / 2; }
+    if (key === 'ArrowRight') { frog.position.x += step; moved = true; frog.rotation.y = -Math.PI / 2; }
 
     const maxX = laneWidth * 2;
     frog.position.x = Math.max(-maxX, Math.min(maxX, frog.position.x));
 
     if (moved) {
+        const frogBox = new THREE.Box3().setFromObject(frog);
+        for (const o of obstacles) {
+            const box = new THREE.Box3().setFromObject(o);
+            if (frogBox.intersectsBox(box)) {
+                frog.position.copy(prev);
+                return;
+            }
+        }
         jump();
         const laneIndex = getLaneIndex(frog.position.z);
         if (laneIndex > lastLane && laneIndex <= laneCount) {
@@ -269,9 +335,21 @@ function checkCollisions() {
             if (lives <= 0) {
                 document.getElementById('game-over').classList.remove('hidden');
                 gameOver = true;
+                const name = prompt('Inserisci il tuo nome');
+                if (name) addHighScore(name, score);
             }
             resetFrog();
             collided = true;
+        }
+    });
+
+    obstacles.forEach(o => {
+        if (collided) return;
+        const box = new THREE.Box3().setFromObject(o);
+        if (frogBox.intersectsBox(box)) {
+            collided = true;
+            frog.position.set(0, 0, laneWidth * (laneCount / 2));
+            lastLane = getLaneIndex(frog.position.z);
         }
     });
 
@@ -285,6 +363,10 @@ function checkCollisions() {
             showMessage('Vita guadagnata');
         }
         carSpeed += 0.02;
+        victories++;
+        if (victories % 3 === 0) {
+            addObstacles();
+        }
         updateFrogColor();
         updateHUD();
         resetFrog();
