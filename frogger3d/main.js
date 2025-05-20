@@ -15,6 +15,7 @@ let colorStage = 0;
 let gameOver = false;
 let victories = 0;
 let obstacles = [];
+let obstacleGroups = 1; // number of obstacle groups per lane
 let highScores = [];
 
 function showMessage(text) {
@@ -86,12 +87,21 @@ function addObstacles() {
     clearObstacles();
     const material = new THREE.MeshPhongMaterial({ color: 0x8B4513 });
     for (let i = 0; i < laneCount; i++) {
-        const geom = new THREE.BoxGeometry(0.5, 1, 0.5);
-        const obst = new THREE.Mesh(geom, material);
-        obst.position.set((Math.random() - 0.5) * laneWidth * 3, 0.5, lanes[i].z);
-        scene.add(obst);
-        obstacles.push(obst);
+        for (let g = 0; g < obstacleGroups; g++) {
+            const group = new THREE.Group();
+            const groupSize = Math.floor(Math.random() * 3) + 1; // 1-3 poles
+            for (let p = 0; p < groupSize; p++) {
+                const geom = new THREE.BoxGeometry(0.5, 1, 0.5);
+                const pole = new THREE.Mesh(geom, material);
+                pole.position.set(p * 0.6, 0.5, 0);
+                group.add(pole);
+            }
+            group.position.set((Math.random() - 0.5) * laneWidth * 3, 0, lanes[i].z);
+            scene.add(group);
+            obstacles.push(group);
+        }
     }
+    obstacleGroups++; // increase difficulty for next map change
 }
 
 function getLaneIndex(z) {
