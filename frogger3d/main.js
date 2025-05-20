@@ -109,7 +109,8 @@ function createFrog() {
 
 function createCar(direction) {
     const carGroup = new THREE.Group();
-    const bodyMaterial = new THREE.MeshPhongMaterial({ color: 0xff0000 });
+    const randomColor = new THREE.Color(Math.random(), Math.random(), Math.random());
+    const bodyMaterial = new THREE.MeshPhongMaterial({ color: randomColor });
     const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
 
     const baseGeom = new THREE.BoxGeometry(3, 0.7, laneWidth - 1);
@@ -141,6 +142,7 @@ function createCar(direction) {
         carGroup.add(wheel);
     });
 
+    carGroup.rotation.y = Math.PI / 2; // rotate the car by 90°
     carGroup.userData = { direction };
     return carGroup;
 }
@@ -198,15 +200,14 @@ function onWindowResize() {
 function onKeyDown(event) {
     const key = event.code;
     let moved = false;
-    if (key === 'ArrowUp') { frog.position.z -= laneWidth; moved = true; frog.rotation.y = Math.PI; }
-    if (key === 'ArrowDown') { frog.position.z += laneWidth; moved = true; frog.rotation.y = 0; }
-    if (key === 'ArrowLeft') { frog.position.x -= laneWidth; frog.rotation.y = Math.PI / 2; }
-    if (key === 'ArrowRight') { frog.position.x += laneWidth; frog.rotation.y = -Math.PI / 2; }
+    const step = laneWidth / 2;
+    if (key === 'ArrowUp') { frog.position.z -= step; moved = true; frog.rotation.y = Math.PI; }
+    if (key === 'ArrowDown') { frog.position.z += step; moved = true; frog.rotation.y = 0; }
+    if (key === 'ArrowLeft') { frog.position.x -= step; frog.rotation.y = Math.PI / 2; }
+    if (key === 'ArrowRight') { frog.position.x += step; frog.rotation.y = -Math.PI / 2; }
 
     const maxX = laneWidth * 2;
-    const maxZ = laneWidth * (laneCount / 2);
     frog.position.x = Math.max(-maxX, Math.min(maxX, frog.position.x));
-    frog.position.z = Math.max(-maxZ, Math.min(maxZ, frog.position.z));
 
     if (moved) {
         jump();
