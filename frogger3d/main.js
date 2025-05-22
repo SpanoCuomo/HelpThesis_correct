@@ -215,7 +215,8 @@ function createCar(direction) {
         carGroup.add(wheel);
     });
 
-    carGroup.rotation.y = Math.PI / 2; // rotate the car by 90°
+    // Orient the car in the driving direction
+    carGroup.rotation.y = direction === 1 ? 0 : Math.PI;
     carGroup.userData = { direction };
     return carGroup;
 }
@@ -244,7 +245,7 @@ function init() {
     // Frog
     frog = createFrog();
     frog.position.set(0, 0, laneWidth * (laneCount / 2));
-    frog.rotation.y = 0;
+    frog.rotation.y = Math.PI; // face toward the goal initially
     scene.add(frog);
     lastLane = getLaneIndex(frog.position.z);
     updateHUD();
@@ -277,6 +278,7 @@ function onKeyDown(event) {
     let moved = false;
     const step = laneWidth / 4; // jump distance reduced
     const prev = frog.position.clone();
+    const prevRot = frog.rotation.y;
     if (key === 'ArrowUp') { frog.position.z -= step; moved = true; frog.rotation.y = Math.PI; }
     if (key === 'ArrowDown') { frog.position.z += step; moved = true; frog.rotation.y = 0; }
     if (key === 'ArrowLeft') { frog.position.x -= step; moved = true; frog.rotation.y = Math.PI / 2; }
@@ -291,6 +293,7 @@ function onKeyDown(event) {
             const box = new THREE.Box3().setFromObject(o);
             if (frogBox.intersectsBox(box)) {
                 frog.position.copy(prev);
+                frog.rotation.y = prevRot;
                 return;
             }
         }
@@ -366,8 +369,7 @@ function checkCollisions() {
         const box = new THREE.Box3().setFromObject(o);
         if (frogBox.intersectsBox(box)) {
             collided = true;
-            frog.position.set(0, 0, laneWidth * (laneCount / 2));
-            lastLane = getLaneIndex(frog.position.z);
+            resetFrog();
         }
     });
 
@@ -393,7 +395,7 @@ function checkCollisions() {
 
 function resetFrog() {
     frog.position.set(0, 0, laneWidth * (laneCount / 2));
-    frog.rotation.y = 0;
+    frog.rotation.y = Math.PI; // face upward at start
     lastLane = getLaneIndex(frog.position.z);
 }
 
