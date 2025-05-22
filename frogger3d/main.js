@@ -186,31 +186,31 @@ function createCar(direction) {
     const bodyMaterial = new THREE.MeshPhongMaterial({ color: randomColor });
     const wheelMaterial = new THREE.MeshPhongMaterial({ color: 0x333333 });
 
-    const baseGeom = new THREE.BoxGeometry(3.4, 0.7, laneWidth - 1);
+    const baseGeom = new THREE.BoxGeometry(4.5, 0.7, laneWidth - 1);
     const base = new THREE.Mesh(baseGeom, bodyMaterial);
     base.position.y = 0.6;
     carGroup.add(base);
 
-    const cabinGeom = new THREE.BoxGeometry(1.5, 0.8, laneWidth - 2);
+    const cabinGeom = new THREE.BoxGeometry(1.8, 0.8, laneWidth - 2);
     const cabin = new THREE.Mesh(cabinGeom, bodyMaterial);
-    cabin.position.set(-0.2, 1.1, 0);
+    cabin.position.set(-0.4, 1.1, 0);
     carGroup.add(cabin);
 
-    const hoodGeom = new THREE.BoxGeometry(1.2, 0.4, laneWidth - 2);
+    const hoodGeom = new THREE.BoxGeometry(1.6, 0.4, laneWidth - 2);
     const hood = new THREE.Mesh(hoodGeom, bodyMaterial);
-    hood.position.set(1, 1, 0);
+    hood.position.set(1.4, 1, 0);
     carGroup.add(hood);
 
     const wheelGeom = new THREE.CylinderGeometry(0.45, 0.45, 0.9, 32);
     const positions = [
-        [-1.3, 0.4, 1.0],
-        [1.3, 0.4, 1.0],
-        [-1.3, 0.4, -1.0],
-        [1.3, 0.4, -1.0]
+        [-1.6, 0.4, 1.0],
+        [1.6, 0.4, 1.0],
+        [-1.6, 0.4, -1.0],
+        [1.6, 0.4, -1.0]
     ];
     positions.forEach(([x, y, z]) => {
         const wheel = new THREE.Mesh(wheelGeom, wheelMaterial);
-        wheel.rotation.z = Math.PI / 2;
+        wheel.rotation.x = Math.PI / 2;
         wheel.position.set(x, y, z);
         carGroup.add(wheel);
     });
@@ -281,8 +281,8 @@ function onKeyDown(event) {
     const prevRot = frog.rotation.y;
     if (key === 'ArrowUp') { frog.position.z -= step; moved = true; frog.rotation.y = Math.PI; }
     if (key === 'ArrowDown') { frog.position.z += step; moved = true; frog.rotation.y = 0; }
-    if (key === 'ArrowLeft') { frog.position.x -= step; moved = true; frog.rotation.y = Math.PI / 2; }
-    if (key === 'ArrowRight') { frog.position.x += step; moved = true; frog.rotation.y = -Math.PI / 2; }
+    if (key === 'ArrowLeft') { frog.position.x -= step; moved = true; frog.rotation.y += Math.PI; }
+    if (key === 'ArrowRight') { frog.position.x += step; moved = true; frog.rotation.y += Math.PI; }
 
     const maxX = laneWidth * 2;
     frog.position.x = Math.max(-maxX, Math.min(maxX, frog.position.x));
@@ -344,11 +344,11 @@ function animate() {
 
 function checkCollisions() {
     if (frog.position.z >= laneWidth * (laneCount / 2)) return;
-    const frogBox = new THREE.Box3().setFromObject(frog);
+    const frogBox = new THREE.Box3().setFromObject(frog).expandByScalar(-0.1);
     let collided = false;
     cars.forEach(car => {
         if (collided) return;
-        const carBox = new THREE.Box3().setFromObject(car);
+        const carBox = new THREE.Box3().setFromObject(car).expandByScalar(-0.1);
         if (frogBox.intersectsBox(carBox)) {
             lives--;
             showMessage('Vita persa');
@@ -366,7 +366,7 @@ function checkCollisions() {
 
     obstacles.forEach(o => {
         if (collided) return;
-        const box = new THREE.Box3().setFromObject(o);
+        const box = new THREE.Box3().setFromObject(o).expandByScalar(-0.1);
         if (frogBox.intersectsBox(box)) {
             collided = true;
             resetFrog();
