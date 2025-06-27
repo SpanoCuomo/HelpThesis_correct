@@ -2,7 +2,11 @@
 # Vedi se puoiparalizzarlo ma non so se ne valga la pena
 # inserisci tutte le storie e screen da posts.php
 # Magari vedere anche le risposte dei clienti e parti di esercizi già svolti
+<<<<<<< HEAD
 
+=======
+# Manca  PC_Grande utilizzo- è tutto fisso
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
@@ -18,19 +22,31 @@ import os
 import random
 import subprocess
 import sys
+<<<<<<< HEAD
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import tempfile
 from urllib.parse import urlparse
 
 Numero_post_Inserire = 10
+=======
+from concurrent.futures import ThreadPoolExecutor, as_completed
+import tempfile
+from urllib.parse import urlparse
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
+Numero_post_Inserire = 10
 # Variabile globale per riutilizzare lo stesso driver
 driver = None
 debug_mode = False
+<<<<<<< HEAD
 
 PC_Grande = False
 
+=======
+PC_Grande = False
+########################
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
 
 
@@ -92,6 +108,11 @@ def kill_all_chrome():
         
         
         
+<<<<<<< HEAD
+=======
+
+
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 def setup_driver(user_data_dir, profile_directory):
     kill_all_chrome()
     time.sleep(2)
@@ -100,12 +121,25 @@ def setup_driver(user_data_dir, profile_directory):
     chrome_options.add_argument("--user-data-dir=D:\\ChromeProfili\\ProfiloDidattica")
     chrome_options.add_argument("--profile-directory=Profile 2")
     chrome_options.add_argument("--remote-debugging-port=9222")
+<<<<<<< HEAD
 
     driver = webdriver.Chrome(options=chrome_options)
     return driver
 
 
 
+=======
+    
+    # Aggiungi queste due righe:
+    chrome_options.add_argument("--start-minimized")
+    
+    driver = webdriver.Chrome(options=chrome_options)
+    
+    # E questa:
+    driver.minimize_window()
+
+    return driver
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
 
 
@@ -236,7 +270,12 @@ if __name__ == "__main__":
     kill_all_chrome()
     # 2) Lascia un paio di secondi di “respiro” per essere sicuro
     time.sleep(2)
+<<<<<<< HEAD
     if PC_Grande == True:   
+=======
+    if PC_
+    +ande == True:   
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
    # Se PC grande
        setup_driver(
             user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",

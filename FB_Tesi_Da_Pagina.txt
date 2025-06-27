@@ -1,4 +1,10 @@
+<<<<<<< HEAD
 [
     "https://www.facebook.com/groups/1707578962691377",    "https://www.facebook.com/groups/1585925211899522",    "https://www.facebook.com/groups/1941536666039810",   "https://www.facebook.com/groups/499411173404344",    "https://www.facebook.com/groups/712643683692259",   "https://www.facebook.com/groups/UniversitaMilanoBicocca/?locale=it_IT",    "https://www.facebook.com/groups/453192751428510",   "https://www.facebook.com/groups/359831087482124",    ]        
     
+=======
+[
+    "https://www.facebook.com/groups/1707578962691377",    "https://www.facebook.com/groups/1585925211899522",    "https://www.facebook.com/groups/1941536666039810",   "https://www.facebook.com/groups/499411173404344",    "https://www.facebook.com/groups/712643683692259",   "https://www.facebook.com/groups/UniversitaMilanoBicocca/?locale=it_IT",    "https://www.facebook.com/groups/453192751428510",   "https://www.facebook.com/groups/359831087482124",    ]        
+    
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
     

@@ -364,3 +364,4 @@ if __name__ == "__main__":
 
 
 
+>>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
