@@ -1,0 +1,103 @@
+diff --git a/Storie_WA.py b/Storie_WA.py
+index 0000000..1111111 100644
+--- a/Storie_WA.py
++++ b/Storie_WA.py
+@@ -1,8 +1,8 @@
+ # Inserire una volta immagine, una volta video, altrimenti che ho a fare le immagini?
+ # Vedi se puoiparalizzarlo ma non so se ne valga la pena
+ # inserisci tutte le storie e screen da posts.php
+ # Magari vedere anche le risposte dei clienti e parti di esercizi già svolti
+-<<<<<<< HEAD
+-
+-=======
+-# Manca  PC_Grande utilizzo- è tutto fisso
+->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
++# Manca  PC_Grande utilizzo- è tutto fisso
+
+ from selenium import webdriver
+ from selenium.webdriver.common.by import By
+@@ -25,11 +25,10 @@ import sys
+ import requests
+ import re
+ import os
+-from concurrent.futures import ThreadPoolExecutor, as_completed
+-import tempfile
+-from urllib.parse import urlparse
+-
+-Numero_post_Inserire = 10
++# Import consolidati
++from concurrent.futures import ThreadPoolExecutor, as_completed
++import tempfile
++from urllib.parse import urlparse
++Numero_post_Inserire = 10
+
+ # Variabile globale per riutilizzare lo stesso driver
+ driver = None
+@@ -40,11 +39,12 @@ debug_mode = False
+-<<<<<<< HEAD
+-
+-PC_Grande = False
+-
+-=======
+-# PC_Grande sezione
+-PC_Grande = False
+-########################
+->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
++# Mantieni variabile PC_Grande
++PC_Grande = False
++########################
+
+ DOWNLOAD_DIR = os.path.join(tempfile.gettempdir(), "whatsapp_status_imgs")
+ os.makedirs(DOWNLOAD_DIR, exist_ok=True)
+@@ -105,14 +105,12 @@ def setup_driver(user_data_dir, profile_directory):
+     chrome_options.add_argument("--remote-debugging-port=9222")
+-<<<<<<< HEAD
+-    driver = webdriver.Chrome(options=chrome_options)
+-    return driver
+-
+-=======
+-    # Aggiungi queste due righe:
+-    chrome_options.add_argument("--start-minimized")
+-    
+-    driver = webdriver.Chrome(options=chrome_options)
+-    
+-    # E questa:
+-    driver.minimize_window()
+-
+-    return driver
+->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
++# Aggiunta opzione di avvio minimizzato e minimizzazione finestra
++    chrome_options.add_argument("--start-minimized")
++    driver = webdriver.Chrome(options=chrome_options)
++    driver.minimize_window()
++    return driver
+
+ def invia_storia(driver, file_path, testo=""):
+@@ -250,14 +248,20 @@ if __name__ == "__main__":
+     kill_all_chrome()
+     time.sleep(2)
+-<<<<<<< HEAD
+-<<<<<<< HEAD
+-    if PC_Grande == True:   
+-=======     
+-    if PC_
+-    +ande == True:   
+->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
+-=======     
+-    if PC_Grande == True:
+->>>>>>> e81717d (Versione nuova, devo farla vedere sul pc grande)
++    # Usa driver appropriato a seconda della dimensione del PC
++    if PC_Grande:
++        driver = setup_driver(
++            user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
++            profile_directory="Profile 5"
++        )
++    else:
++        driver = setup_driver(
++            user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data",
++            profile_directory="Profile 2"
++        )
++    print("Setup_driver:", setup_driver)
+
+     # Assicurati di avere definito la funzione setup_driver() altrove
+     base_url = "https://aiutotesi.altervista.org/blog/"
