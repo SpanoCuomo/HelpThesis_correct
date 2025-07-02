@@ -250,7 +250,7 @@ RESET  = "\033[0m"
 driver = None
 debug_mode = False
 PC_Grande = False
-Arancione = False
+Arancione = True
 ########################
 
 
@@ -739,7 +739,7 @@ if __name__ == "__main__":
         urls_da_scaricare.append(orig_url)
         # se siamo nella cartella Video_Blu e si tratta di un video,
         # aggiungiamo anche la versione "_blu"
-        if not Arancione and media_rel_path.lower().endswith((".mp4", ".mov", ".avi")):
+        if Arancione== False and media_rel_path.lower().endswith((".mp4", ".mov", ".avi")):
             name, ext = os.path.splitext(media_rel_path)
             blu_rel = f"{name}_blu{ext}"
             blu_url = base_url + blu_rel

@@ -1,4 +1,5 @@
 import time
+import subprocess
 from selenium import webdriver
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support.ui import WebDriverWait
@@ -12,6 +13,16 @@ from selenium.webdriver.chrome.options import Options
 import json
 import logging
 
+
+
+RED    = "\033[31m"
+GREEN  = "\033[32m"
+YELLOW = "\033[33m"
+RESET  = "\033[0m"
+
+
+
+
 logging.basicConfig(
     level=logging.DEBUG,  # Imposta il livello desiderato (DEBUG, INFO, WARNING, ERROR)
     format="%(asctime)s - %(levelname)s - %(message)s",
@@ -22,6 +33,18 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+def kill_all_chrome():
+    """
+    Termina forzatamente tutti i processi chrome.exe e chromedriver.exe su Windows.
+    """
+    for proc in ("chrome.exe", "chromedriver.exe"):
+        subprocess.call(
+            ["taskkill", "/F", "/IM", proc, "/T"],
+            stdout=subprocess.DEVNULL,
+            stderr=subprocess.DEVNULL
+        )
+    pass
 
 def post_from_page_to_another_page(
     page_name,
@@ -281,15 +304,28 @@ mex_libro_pubblicit = "Ti stai preparando per il concorso PNRR2? Abbiamo scritto
 # ESEMPIO DI ESECUZIONE
 if __name__ == "__main__":
     PC_Grande = 0;
+        # Pulisce eventuali istanze residue di Chrome/ChromeDriver
+    kill_all_chrome()
+    print(GREEN + "Ucciso tutti Chrome" + RESET)
+    
+    
     start_time = time.time()  # Avvio cronometro (tic)
     lista_utilizzata =  "UDA_da_pagina.txt"
+    print(GREEN + "Lista utilizzata: " + lista_utilizzata + RESET)
+    
+    
     #lista_utilizzata = "FB_Tesi_Da_Pagina.txt"
-    if PC_Grande == 0:
-        user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data"
-        profile_directory="Profile 2"
-    else:
-        user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data"
+    
+    
+    if PC_Grande == 1:
+        user_data_dir=r""
         profile_directory="Profile 5"
+    else:
+        user_data_dir=r"C:\ChromeProfili"
+        profile_directory="Profile 2"
+        print(GREEN + "Computer piccino" + RESET)
+    
+    
     
     
     
@@ -297,6 +333,12 @@ if __name__ == "__main__":
     chrome_options = Options()
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument(f"--profile-directory={profile_directory}")
+    # Abilita porta DevTools per evitare DevToolsActivePort file doesn’t exist
+    chrome_options.add_argument("--remote-debugging-port=9222")
+    # Riduci possibili interferenze da estensioni o sandboxing
+    chrome_options.add_argument("--disable-extensions")
+    chrome_options.add_argument("--disable-popup-blocking")
+    chrome_options.add_argument("--no-sandbox")
     driver = webdriver.Chrome(options=chrome_options)
     driver.maximize_window()
     driver.get("https://www.facebook.com/")

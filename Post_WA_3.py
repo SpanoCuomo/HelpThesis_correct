@@ -8,7 +8,10 @@ from selenium.webdriver.common.keys import Keys
 from selenium.common.exceptions import TimeoutException 
 import subprocess
 
-
+RED    = "\033[31m"
+GREEN  = "\033[32m"
+YELLOW = "\033[33m"
+RESET  = "\033[0m"
 
 # Per scaricare immagine da server e poi inserirla
 import os
@@ -197,10 +200,9 @@ def setup_driver(user_data_dir, profile_directory):
 
     chrome_options = Options()
     # Metti la TUA cartella personalizzata
-    chrome_options.add_argument(r"--user-data-dir=D:\ChromeProfili\WhatsAppProfile")
-    chrome_options.add_argument("--profile-directory=Profile2")
-    # Se non ti serve debug remoto, non metterlo
-    # chrome_options.add_argument("--remote-debugging-port=9222")
+    chrome_options.add_argument("--user-data-dir=D:\\ChromeProfili\\ProfiloDidattica")
+    chrome_options.add_argument("--profile-directory=Profile 2")
+    chrome_options.add_argument("--remote-debugging-port=9222")
 
     chrome_options.add_argument("--start-minimized")
     
@@ -660,6 +662,41 @@ if __name__ == "__main__":
     "Supporto TFA/30 CFU/60 CFU",
     "E campus 30 cfu All 2 e 3",
     "Ecampus 30 CFU - Weekend - LETTERE",
+    "A050 pnrr2 puglia",
+    "A009 puglia",
+    "Classe di concorso A013",
+    "A021 Puglia",
+    "A060 Puglia Pnrr 2",
+    "A026-Puglia",
+    "A018 puglia",
+    "B017 puglia",
+    "A051 (Campania/Puglia)",
+    "Cdc B023 PUGLIA ",
+    "AB25 pnnr2 puglia",
+    "A001 puglia",
+    "AB24",
+    "A028 puglia",
+    "Scienze motorie Puglia AM48-AS48",
+    "A027 Puglia",
+    "PNRR2 Lombardia (AM2A- AS2A)",
+    "GPS FRANCESE MILANO"
+    "A028 puglia",
+    "AB25 pnnr2 puglia",
+    "A060 Puglia Pnrr 2",
+    "PNRR2 Lombardia (AM2A- AS2A)",
+    "AA24 AA25 CALABRIA - 2024r fb",
+    "GPS FRANCESE MILANO",
+    "A050 pnrr2 puglia",
+    "A009 puglia",
+    "Classe di concorso A013",
+    "A021 Puglia",
+    "A026-Puglia",
+    "A018 puglia",
+    "B017 puglia",
+    "A051 (Campania/Puglia)",
+    "Cdc B023 PUGLIA",
+    "A001 puglia",
+    "AB24",    
     ]
     
     
@@ -678,14 +715,25 @@ if __name__ == "__main__":
     
     mex_Gio_Maggio_2025 ="TFA, Concorso Scuola, Relazioni, Lezioni Simulate, Tesi? FACCIAMO TUTTO: e puoi visionarlo sul nostro sito" "https://aiutotesi.altervista.org/uda.html""Se ti senti travoltə da scadenze, formati ministeriali e PowerPoint infiniti… Respira. Ci siamo noi:"                            "https://wa.me/3780608777"                           "HELPTHESIS è il tuo team di docenti esperti:"                           "Relazioni finali e TIC per TFA Sostegno e Ordinario\n* ⁠Lezioni simulate per tutte le classi di concorso\n* ⁠Tesi di laurea, TFA, master e specializzazioni"                           "Chiamaci subito o mandaci un messaggio per informazioni e preventivi:"                           "https://wa.me/3780608777"                            "Grazie!"
     
+    mex_Gio_Maggio_2025 = """TFA, Concorso Scuola, Relazioni, Lezioni Simulate, Tesi? FACCIAMO TUTTO e puoi visionarlo sul nostro sito: <https://aiutotesi.altervista.org/uda.html>
+
+    Se ti senti travoltə da scadenze, formati ministeriali e PowerPoint infiniti… Respira. Ci siamo noi: <https://wa.me/3780608777>
+
+    HELPTHESIS è il tuo team di docenti esperti:
+    • Relazioni finali e TIC per TFA Sostegno e Ordinario
+    • Lezioni simulate per tutte le classi di concorso
+    • Tesi di laurea, TFA, master e specializzazioni
+
+    Chiamaci subito o mandaci un messaggio per informazioni e preventivi: <https://wa.me/3780608777>
     
+    Grazie!"""
     
     
     
     
 
         
-    
+
     
     
     
@@ -714,6 +762,7 @@ if __name__ == "__main__":
     failed = []
     succeeded = []
     for el in listaUDA:
+        print(GREEN + "Sto stampando nel gruppo " + el + RESET)
         success = open_whatsapp_and_click_chat_Super_New(el, mex_Gio_Maggio_2025, immagine_indirizzo)
         if success:
             succeeded.append(el)
