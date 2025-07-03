@@ -256,55 +256,125 @@ def extract_posts_from_php(source, base_url):
         })
     return posts_data
   
-if __name__ == "__main__":
 
+# if __name__ == "__main__":
+#     kill_all_chrome()
+#     time.sleep(2)
+#     if PC_Grande:   
+#         stampa_colore(f"✅ Sono nel PC grande", "verde")
+
+#         driver = setup_driver(
+#             user_data_dir=r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile",
+#             profile_directory="Profile 5"
+#         )
+#         stampa_colore(f"✅ Setup_driver: {driver}", "verde")
+#     else:     
+#         driver = setup_driver(
+#             user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data",
+#             profile_directory="Profile 2"
+#         )
+  
+  
+#     # Assicurati di avere definito la funzione setup_driver() altrove
+#     base_url = "https://aiutotesi.altervista.org/blog/"
+
+#     #php_file = r"https://aiutotesi.altervista.org/blog/posts.php"  # File PHP esterno che contiene l'array dei post
+#     #php_file = r"C:\Users\lspan\Desktop\HelpThesis\HelpThesis_correct/posts.php"
+#     # scarico il sorgente PHP in locale
+#     php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
+#     local_php = fetch_to_local(php_url_raw)
+#     posts = extract_posts_from_php(local_php, base_url)
+
+#     # print("posts", posts)
+    
+
+#     urls = []
+#     for idx, p in enumerate(posts[:Numero_post_Inserire]):
+#         rel = p["video"] if idx % 2==0 and p["video"] else p["image"]
+#         if rel: urls.append(base_url + rel)
+
+#     # 1) lancio i download
+#     # 1) lancio i download
+#     stampa_colore("📌 Inizio download dei file multimediali...", "giallo")
+#     with ThreadPoolExecutor(max_workers=5) as exe:
+#         future_to_url = {exe.submit(fetch_to_local, u): u for u in urls}
+#         local_paths = {}
+#         for fut in as_completed(future_to_url):
+#             url = future_to_url[fut]
+#             local = fut.result()
+#             if local:
+#                 stampa_colore(f"✅ Scaricato correttamente: {url}", "verde")
+#                 local_paths[url] = local
+#             else:
+#                 stampa_colore(f"❌ Errore nel download: {url}", "rosso")
+
+#     if missing_media:
+#         stampa_colore("\n⚠️ I seguenti media non sono stati trovati o scaricati:", "rosso")
+#         for url in missing_media:
+#             stampa_colore(f" - {url}", "rosso")
+#     else:
+#         stampa_colore("\n✅ Tutti i media scaricati correttamente!", "verde")
+
+
+#     # 2) apri WhatsApp
+    
+#     driver.get("https://web.whatsapp.com/")
+#     time.sleep(45)
+
+#     # 3) invia
+#     for idx, p in enumerate(posts[:Numero_post_Inserire]):
+#         rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
+#         if not rel:
+#             stampa_colore(f"[⚠️] Nessun media disponibile per il post {idx}", "giallo")
+#             continue
+
+#         url_completo = base_url + rel
+#         local_path = fetch_to_local(url_completo)
+
+#         if local_path and os.path.exists(local_path):
+#             stampa_colore(f"✅ Invio il file locale: {local_path}", "verde")
+#             testo = f"{p['summary']} {base_url}{p['slug']}"
+#             invia_storia(driver, local_path, testo)
+#         else:
+#             stampa_colore(f"[❌ ERRORE] File locale non trovato o non scaricato: {url_completo}", "rosso")
+        
+#         time.sleep(8)
+#     driver.quit()
+        
+#     if missing_media:
+#         print("\nI seguenti media non sono stati trovati o scaricati:")
+#         for url in missing_media:
+#             print(" -", url)
+
+
+def invia_storie_whatsapp(pc_grande=True, numero_post=10):
     kill_all_chrome()
     time.sleep(2)
 
-
-    
-
-
-    if PC_Grande:   
+    # Configura driver in base al PC
+    if pc_grande:
+        user_data_dir = r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile"
+        profile_directory = "Default"
         stampa_colore(f"✅ Sono nel PC grande", "verde")
+    else:
+        user_data_dir = r"C:\Users\lspan\Desktop\Chrome_Selenium_Profile"
+        profile_directory = "Default"
+        stampa_colore(f"✅ Sono nel PC piccolo", "verde")
 
-        driver = setup_driver(
-            user_data_dir=r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile",
-            profile_directory="Profile 5"
-        )
-        stampa_colore(f"✅ Setup_driver: {driver}", "verde")
-    else:     
-        driver = setup_driver(
-            user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data",
-            profile_directory="Profile 2"
-        )
+    driver = setup_driver(user_data_dir, profile_directory)
+    stampa_colore(f"✅ Setup_driver: {driver}", "verde")
 
-    
-
-    
-
-    
-
-    # Assicurati di avere definito la funzione setup_driver() altrove
     base_url = "https://aiutotesi.altervista.org/blog/"
-
-    #php_file = r"https://aiutotesi.altervista.org/blog/posts.php"  # File PHP esterno che contiene l'array dei post
-    #php_file = r"C:\Users\lspan\Desktop\HelpThesis\HelpThesis_correct/posts.php"
-    # scarico il sorgente PHP in locale
     php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
     local_php = fetch_to_local(php_url_raw)
     posts = extract_posts_from_php(local_php, base_url)
 
-    # print("posts", posts)
-    
-
     urls = []
-    for idx, p in enumerate(posts[:Numero_post_Inserire]):
-        rel = p["video"] if idx % 2==0 and p["video"] else p["image"]
-        if rel: urls.append(base_url + rel)
+    for idx, p in enumerate(posts[:numero_post]):
+        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
+        if rel:
+            urls.append(base_url + rel)
 
-    # 1) lancio i download
-    # 1) lancio i download
     stampa_colore("📌 Inizio download dei file multimediali...", "giallo")
     with ThreadPoolExecutor(max_workers=5) as exe:
         future_to_url = {exe.submit(fetch_to_local, u): u for u in urls}
@@ -325,33 +395,19 @@ if __name__ == "__main__":
     else:
         stampa_colore("\n✅ Tutti i media scaricati correttamente!", "verde")
 
-
-    # 2) apri WhatsApp
-    
     driver.get("https://web.whatsapp.com/")
+    stampa_colore("📌 Attesa iniziale (WhatsApp Web)...", "giallo")
     time.sleep(45)
 
-    # 3) invia
-    for idx, p in enumerate(posts[:Numero_post_Inserire]):
+    for idx, p in enumerate(posts[:numero_post]):
         rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
-        if not rel:
-            stampa_colore(f"[⚠️] Nessun media disponibile per il post {idx}", "giallo")
+        url = base_url + rel
+        local = local_paths.get(url)
+        if not local:
+            stampa_colore(f"[⚠️ WARN] salto {url}", "giallo")
             continue
-
-        url_completo = base_url + rel
-        local_path = fetch_to_local(url_completo)
-
-        if local_path and os.path.exists(local_path):
-            stampa_colore(f"✅ Invio il file locale: {local_path}", "verde")
-            testo = f"{p['summary']} {base_url}{p['slug']}"
-            invia_storia(driver, local_path, testo)
-        else:
-            stampa_colore(f"[❌ ERRORE] File locale non trovato o non scaricato: {url_completo}", "rosso")
-        
+        testo = f"{p['summary']} {base_url}{p['slug']}"
+        invia_storia(driver, local, testo)
         time.sleep(8)
+
     driver.quit()
-        
-    if missing_media:
-        print("\nI seguenti media non sono stati trovati o scaricati:")
-        for url in missing_media:
-            print(" -", url)
