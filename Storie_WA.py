@@ -17,31 +17,20 @@ import os
 import random
 import subprocess
 import sys
-<<<<<<< HEAD
 
 from concurrent.futures import ThreadPoolExecutor, as_completed
 import tempfile
 from urllib.parse import urlparse
 
 Numero_post_Inserire = 10
-=======
-from concurrent.futures import ThreadPoolExecutor, as_completed
-import tempfile
-from urllib.parse import urlparse
->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
 Numero_post_Inserire = 10
 # Variabile globale per riutilizzare lo stesso driver
 driver = None
 debug_mode = False
-<<<<<<< HEAD
 
-PC_Grande = False
+PC_Grande = True
 
-=======
-PC_Grande = False
-########################
->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
 
 
@@ -89,52 +78,59 @@ def fetch_to_local(path_or_url):
 
 
 
+import subprocess
+
+# Funzione per stampare messaggi colorati
+def stampa_colore(testo, colore="default"):
+    colori = {
+        "verde": "\033[92m",
+        "rosso": "\033[91m",
+        "giallo": "\033[93m",
+        "default": "\033[0m"
+    }
+    print(colori.get(colore, colori["default"]) + testo + colori["default"])
+
 def kill_all_chrome():
-    """
-    Termina forzatamente tutti i processi chrome.exe e chromedriver.exe
-    su Windows, così liberi il profilo prima di aprire una nuova sessione.
-    """
+    stampa_colore("📌 Sto provando a chiudere Chrome e ChromeDriver...", "giallo")
+    chiuso = True
     for proc in ("chrome.exe", "chromedriver.exe"):
-        subprocess.call(
+        risultato = subprocess.call(
             ["taskkill", "/F", "/IM", proc, "/T"],
             stdout=subprocess.DEVNULL,
             stderr=subprocess.DEVNULL
         )
-        
-        
-        
-<<<<<<< HEAD
-=======
+        if risultato == 0:
+            stampa_colore(f"✅ {proc} terminato correttamente.", "verde")
+        else:
+            stampa_colore(f"⚠️ {proc} non trovato o non terminato.", "rosso")
+            chiuso = False
 
-
->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
+    if chiuso:
+        stampa_colore("Tutti i processi Chrome sono stati terminati correttamente.", "verde")
+    else:
+        stampa_colore("Alcuni processi non erano in esecuzione o non sono stati chiusi.", "giallo")
+   
+        
 def setup_driver(user_data_dir, profile_directory):
-    kill_all_chrome()
-    time.sleep(2)
-
+   
     chrome_options = Options()
-    chrome_options.add_argument("--user-data-dir=D:\\ChromeProfili\\ProfiloDidattica")
-    chrome_options.add_argument("--profile-directory=Profile 2")
+
+    # Adesso usiamo correttamente gli argomenti passati
+    chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
+    chrome_options.add_argument(f"--profile-directory={profile_directory}")
     chrome_options.add_argument("--remote-debugging-port=9222")
-<<<<<<< HEAD
-
-    driver = webdriver.Chrome(options=chrome_options)
-    return driver
-
-
-
-=======
-    
-    # Aggiungi queste due righe:
     chrome_options.add_argument("--start-minimized")
-    
+
     driver = webdriver.Chrome(options=chrome_options)
-    
-    # E questa:
     driver.minimize_window()
 
     return driver
->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
+
+
+
+
+
+
 
 
 
@@ -263,28 +259,29 @@ def extract_posts_from_php(source, base_url):
 if __name__ == "__main__":
 
     kill_all_chrome()
-    # 2) Lascia un paio di secondi di “respiro” per essere sicuro
     time.sleep(2)
-<<<<<<< HEAD
-    if PC_Grande == True:   
-=======
-    if PC_
-    +ande == True:   
->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
-   # Se PC grande
-       setup_driver(
-            user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
+
+
+    
+
+
+    if PC_Grande:   
+        stampa_colore(f"✅ Sono nel PC grande", "verde")
+
+        driver = setup_driver(
+            user_data_dir=r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile",
             profile_directory="Profile 5"
         )
+        stampa_colore(f"✅ Setup_driver: {driver}", "verde")
     else:     
-        #Se pc Piccolo
         driver = setup_driver(
             user_data_dir=r"C:\Users\lspan\AppData\Local\Google\Chrome\User Data",
             profile_directory="Profile 2"
         )
-    print("Setup_driver:", setup_driver)
 
+    
 
+    
 
     
 
@@ -307,13 +304,27 @@ if __name__ == "__main__":
         if rel: urls.append(base_url + rel)
 
     # 1) lancio i download
+    # 1) lancio i download
+    stampa_colore("📌 Inizio download dei file multimediali...", "giallo")
     with ThreadPoolExecutor(max_workers=5) as exe:
         future_to_url = {exe.submit(fetch_to_local, u): u for u in urls}
         local_paths = {}
         for fut in as_completed(future_to_url):
             url = future_to_url[fut]
-            local = fut.result()  # None se fallito
-            if local: local_paths[url] = local
+            local = fut.result()
+            if local:
+                stampa_colore(f"✅ Scaricato correttamente: {url}", "verde")
+                local_paths[url] = local
+            else:
+                stampa_colore(f"❌ Errore nel download: {url}", "rosso")
+
+    if missing_media:
+        stampa_colore("\n⚠️ I seguenti media non sono stati trovati o scaricati:", "rosso")
+        for url in missing_media:
+            stampa_colore(f" - {url}", "rosso")
+    else:
+        stampa_colore("\n✅ Tutti i media scaricati correttamente!", "verde")
+
 
     # 2) apri WhatsApp
     
@@ -322,14 +333,21 @@ if __name__ == "__main__":
 
     # 3) invia
     for idx, p in enumerate(posts[:Numero_post_Inserire]):
-        rel = p["video"] if idx%2==0 and p["video"] else p["image"]
-        url = base_url + rel
-        local = local_paths.get(url)
-        if not local:
-            print(f"[WARN] salto {url}")
+        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
+        if not rel:
+            stampa_colore(f"[⚠️] Nessun media disponibile per il post {idx}", "giallo")
             continue
-        testo = f"{p['summary']} {base_url}{p['slug']}"
-        invia_storia(driver, local, testo)
+
+        url_completo = base_url + rel
+        local_path = fetch_to_local(url_completo)
+
+        if local_path and os.path.exists(local_path):
+            stampa_colore(f"✅ Invio il file locale: {local_path}", "verde")
+            testo = f"{p['summary']} {base_url}{p['slug']}"
+            invia_storia(driver, local_path, testo)
+        else:
+            stampa_colore(f"[❌ ERRORE] File locale non trovato o non scaricato: {url_completo}", "rosso")
+        
         time.sleep(8)
     driver.quit()
         
