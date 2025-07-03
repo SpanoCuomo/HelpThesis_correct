@@ -2,11 +2,6 @@
 # Vedi se puoiparalizzarlo ma non so se ne valga la pena
 # inserisci tutte le storie e screen da posts.php
 # Magari vedere anche le risposte dei clienti e parti di esercizi già svolti
-<<<<<<< HEAD
-
-=======
-# Manca  PC_Grande utilizzo- è tutto fisso
->>>>>>> 18bd82e (adesso codice più robusto. Devo ancora fare storie e reels dalla nuova pagina fcebook)
 
 from selenium import webdriver
 from selenium.webdriver.common.by import By
