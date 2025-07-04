@@ -119,10 +119,11 @@ def setup_driver(user_data_dir, profile_directory):
     chrome_options.add_argument(f"--user-data-dir={user_data_dir}")
     chrome_options.add_argument(f"--profile-directory={profile_directory}")
     chrome_options.add_argument("--remote-debugging-port=9222")
-    chrome_options.add_argument("--start-minimized")
+    #chrome_options.add_argument("--start-minimized")
 
     driver = webdriver.Chrome(options=chrome_options)
-    driver.minimize_window()
+    driver.maximize_window()
+#driver.minimize_window()
 
     return driver
 

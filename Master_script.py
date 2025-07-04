@@ -2,6 +2,16 @@
 import subprocess
 import sys
 from Storie_WA import invia_storie_whatsapp
+import time
+import datetime
+
+# master.py
+from Storie_Facebook import invia_storie_facebook
+
+# Ad esempio PC grande, arancione, 10 post, modalità auto (reel e storie alternate)
+invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto")
+invia_storie_facebook(pc_grande=True, arancione=False, numero_post=1, publish_mode="auto")
+
 # Lista degli script da eseguire, con percorso relativo o assoluto
 scripts = [
     "Facebook_posts.py",
@@ -10,9 +20,6 @@ scripts = [
 ]
 
 
-from Storie_WA import invia_storie_whatsapp
-import time
-import datetime
 
 # Configurazione intervallo (2 ore in secondi)
 intervallo_ore = 2

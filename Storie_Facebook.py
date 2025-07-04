@@ -23,6 +23,14 @@ Numero_post_Inserire = 10
 
 
 
+def stampa_colore(testo, colore="default"):
+    colori = {
+        "verde": "\033[92m",
+        "rosso": "\033[91m",
+        "giallo": "\033[93m",
+        "default": "\033[0m"
+    }
+    print(colori.get(colore, colori["default"]) + testo + colori["default"])
 
 
 
@@ -93,9 +101,11 @@ def setup_driver(user_data_dir, profile_directory):
     chrome_options.add_argument(f"--profile-directory={profile_directory}")
 
     #chrome_options.add_argument("--remote-debugging-port=9222")
-    chrome_options.add_argument("--start-minimized")
+    #chrome_options.add_argument("--start-minimized")
     driver = webdriver.Chrome(options=chrome_options)
-    driver.minimize_window()
+    #driver.minimize_window()
+    driver.maximize_window()
+
     return driver
 
         
@@ -447,165 +457,272 @@ def crea_reel_facebook(driver, video_path, didascalia=""):
 # ESEMPIO DI CODICE CHE CHIAMA LE FUNZIONI
 # ----------------------------------------------------------------
 
-if __name__ == "__main__":
-    # Esempio di quanti post caricare
-    NUMERO_POST_INSERIRE = 10
+# if __name__ == "__main__":
+#     # Esempio di quanti post caricare
+#     NUMERO_POST_INSERIRE = 10
+
+#     kill_all_chrome()
+#     # 2) Lascia un paio di secondi di “respiro” per essere sicuro
+#     time.sleep(5)
+    
+#     print(GREEN + "[OK] Dopo il kill" + RESET)
+    
+    
+    
+    
+    
+    
+#     if PC_Grande == True and Arancione == True:   
+#    # Se PC grande
+#        driver =setup_driver(
+#             user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
+#             profile_directory="Profile 5"
+#         )
+#     elif PC_Grande == False and Arancione == True:     
+#         #Se pc Piccolo
+#         driver = setup_driver(
+#             user_data_dir=r"C:\ChromeProfili",
+#             profile_directory="Profile 2"
+#         )
+#     if PC_Grande == True and Arancione == False:   
+#    # Se PC grande
+#        driver =setup_driver(
+#             user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
+#             profile_directory="Devi crearlo"
+#         )
+#     elif PC_Grande == False and Arancione == False:     
+#         #Se pc Piccolo
+#         driver = setup_driver(
+#             user_data_dir=r"C:\ChromeProfili",
+#             profile_directory="Profile 4"
+#         )
+    
+    
+
+    
+#     print(GREEN + "[OK] Setup Finito" + RESET)
+    
+#     # Modalità di pubblicazione: "storia", "reel" o "auto" (default alterna)
+#     publish_mode = "reel"  # cambia in "storia" o "reel" se vuoi forzare
+
+
+
+
+#     # 2) Legge i post dal tuo file PHP (remoto o locale)
+#     if Arancione == True:
+#         base_url = "https://aiutotesi.altervista.org/blog/"
+#         php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
+#     else: 
+#         base_url = "https://aiutotesi.altervista.org/ImmaginiSitoTesi/Video_Blu/"
+#         php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
+    
+#     local_php = fetch_to_local(php_url_raw)  # Scarica in locale il contenuto "raw" di posts.php
+#     #print(local_php)
+#     posts = extract_posts_from_php(local_php, base_url)
+#     #print(posts)
+#     # 3) Scarica in locale i file immagine/video (con thread pool, per velocizzare)
+#     #    Prima raccogliamo le URL in una lista
+#     urls_da_scaricare = []
+#     for idx, p in enumerate(posts[:NUMERO_POST_INSERIRE]):
+#         if idx % 2 == 0 and p["video"]:
+#             media_rel_path = p["video"]
+#         else:
+#             media_rel_path = p["image"]
+#         if not media_rel_path:
+#             continue
+#         # URL originale
+#         orig_url = base_url + media_rel_path
+#         urls_da_scaricare.append(orig_url)
+#         # se siamo nella cartella Video_Blu e si tratta di un video,
+#         # aggiungiamo anche la versione "_blu"
+#         if Arancione== False and media_rel_path.lower().endswith((".mp4", ".mov", ".avi")):
+#             name, ext = os.path.splitext(media_rel_path)
+#             blu_rel = f"{name}_blu{ext}"
+#             blu_url = base_url + blu_rel
+#             urls_da_scaricare.append(blu_url)
+#     print(GREEN + "[OK] Materiale Scaricato" + RESET)
+#     with ThreadPoolExecutor(max_workers=5) as executor:
+#         future_to_url = {executor.submit(fetch_to_local, u): u for u in urls_da_scaricare}
+#         local_paths = {}
+#         for fut in as_completed(future_to_url):
+#             url = future_to_url[fut]
+#             local_file = fut.result()  # None se fallito
+#             if local_file:
+#                 local_paths[url] = local_file
+    
+#     # 4) Vai su Facebook home, per sicurezza
+#     driver.get("https://www.facebook.com/")
+#     time.sleep(10)  # tempo di caricamento pagina
+    
+#     print(GREEN + "[OK] Aperto Facebook" + RESET)
+#     # 5) Pubblica ciclicamente su Facebook (storia o reel) in base alla logica
+
+#     for idx, p in enumerate(posts[:NUMERO_POST_INSERIRE]):
+#         print(f"\n\n step {idx+1}")
+#         # determina modalità attuale
+#         if publish_mode == "reel":
+#             mode = "reel"
+#         elif publish_mode == "storia":
+#             mode = "storia"
+#         else:  # auto
+#             mode = "reel" if (idx % 2 == 0 and p["video"]) else "storia"
+
+#         # forziamo cambio se non disponibile
+#         if mode == "reel" and not p["video"]:
+#             print("[WARN] nessun video, passo a storia")
+#             mode = "storia"
+#         if mode == "storia" and not p["image"]:
+#             print("[WARN] nessuna immagine, passo a reel")
+#             mode = "reel"
+        
+#         print(GREEN + '[mode]: '+  mode + RESET)
+#         # se siamo nel folder Video_Blu e Arancione=False, i file video finiscono in "_blu.ext"
+#  # costruiamo l’URL del media: col suffisso _blu per i reel in Video_Blu, con fallback all’originale
+#         # Se è un reel e siamo in Video_Blu, tenta prima il suffisso "_blu"
+#         if mode == "reel" and not Arancione:
+#             orig_rel = p["video"]
+#             name, ext = os.path.splitext(orig_rel)
+#             blu_rel = f"{name}_blu{ext}"
+#             blu_url = base_url + blu_rel
+#             if blu_url in local_paths:
+#                 full_url_media = blu_url
+#                 local_media = local_paths[blu_url]
+#             else:
+#                 orig_url = base_url + orig_rel
+#                 full_url_media = orig_url
+#                 local_media = local_paths.get(orig_url)
+#         else:
+#             # Storia o reel “normale”
+#             full_url_media = base_url + (p["video"] if mode == "reel" else p["image"])
+#             local_media = local_paths.get(full_url_media)
+
+#         # lookup case-insensitive finale, se ancora non trovato
+#         # lookup case‐insensitive finale, se ancora non trovato
+#         if not local_media:
+#             for url, path in local_paths.items():
+#                 if url.lower() == full_url_media.lower():
+#                     local_media = path
+#                     break
+#         if not local_media:
+#             print(f"[WARN] non posso scaricare il file: {full_url_media} (lookup case-insensitive fallito)")
+#             continue
+#         if not local_media:
+
+#             print(f"[WARN] non posso scaricare il file: {full_url_media} (case-insensitive lookup fallito)")
+#             continue
+
+#         if mode == "reel":
+#             didascalia = f"{p['summary']} {full_url_media}"
+#             crea_reel_facebook(driver, local_media, didascalia=didascalia)
+#         else:
+#             testo_storia = f"{p['summary']} {full_url_media}"
+#             invia_storia_facebook(driver, local_media, testo_storia)
+
+#         time.sleep(10)
+
+
+
+def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=10, publish_mode="auto"):
+    global missing_media
 
     kill_all_chrome()
-    # 2) Lascia un paio di secondi di “respiro” per essere sicuro
-    time.sleep(5)
-    
-    print(GREEN + "[OK] Dopo il kill" + RESET)
-    
-    
-    
-    
-    
-    
-    if PC_Grande == True and Arancione == True:   
-   # Se PC grande
-       driver =setup_driver(
-            user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
-            profile_directory="Profile 5"
-        )
-    elif PC_Grande == False and Arancione == True:     
-        #Se pc Piccolo
-        driver = setup_driver(
-            user_data_dir=r"C:\ChromeProfili",
-            profile_directory="Profile 2"
-        )
-    if PC_Grande == True and Arancione == False:   
-   # Se PC grande
-       driver =setup_driver(
-            user_data_dir=r"C:\Users\UTENTE\AppData\Local\Google\Chrome\User Data",
-            profile_directory="Devi crearlo"
-        )
-    elif PC_Grande == False and Arancione == False:     
-        #Se pc Piccolo
-        driver = setup_driver(
-            user_data_dir=r"C:\ChromeProfili",
-            profile_directory="Profile 4"
-        )
-    
-    
+    time.sleep(2)
 
-    
-    print(GREEN + "[OK] Setup Finito" + RESET)
-    
-    # Modalità di pubblicazione: "storia", "reel" o "auto" (default alterna)
-    publish_mode = "reel"  # cambia in "storia" o "reel" se vuoi forzare
+    # Configura profilo Chrome in base ai parametri
+    if pc_grande and arancione:
+        user_data_dir = r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile"
+        profile_directory = "Default"
+        stampa_colore("✅ Sono nel PC grande Arancione", "verde")
 
+    elif not pc_grande and arancione:
+        user_data_dir = r"C:\ChromeProfili"
+        profile_directory = "Profile 2"
+        stampa_colore("✅ Sono nel PC piccolo Arancione", "verde")
 
+    elif pc_grande and not arancione:
+        user_data_dir = r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile_Blu"
+        profile_directory = "Default"
+        stampa_colore("✅ Sono nel PC grande Blu", "verde")
 
+    elif not pc_grande and not arancione:
+        user_data_dir = r"C:\ChromeProfili"
+        profile_directory = "Profile 4"
+        stampa_colore("✅ Sono nel PC piccolo Blu", "verde")
 
-    # 2) Legge i post dal tuo file PHP (remoto o locale)
-    if Arancione == True:
+    driver = setup_driver(user_data_dir, profile_directory)
+    stampa_colore(f"✅ Setup_driver: {driver}", "verde")
+
+    # Scegli URL in base ad "arancione"
+    if arancione:
         base_url = "https://aiutotesi.altervista.org/blog/"
-        php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
-    else: 
+    else:
         base_url = "https://aiutotesi.altervista.org/ImmaginiSitoTesi/Video_Blu/"
-        php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
-    
-    local_php = fetch_to_local(php_url_raw)  # Scarica in locale il contenuto "raw" di posts.php
-    #print(local_php)
+
+    php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
+    local_php = fetch_to_local(php_url_raw)
     posts = extract_posts_from_php(local_php, base_url)
-    #print(posts)
-    # 3) Scarica in locale i file immagine/video (con thread pool, per velocizzare)
-    #    Prima raccogliamo le URL in una lista
+
     urls_da_scaricare = []
-    for idx, p in enumerate(posts[:NUMERO_POST_INSERIRE]):
-        if idx % 2 == 0 and p["video"]:
-            media_rel_path = p["video"]
-        else:
-            media_rel_path = p["image"]
-        if not media_rel_path:
-            continue
-        # URL originale
-        orig_url = base_url + media_rel_path
-        urls_da_scaricare.append(orig_url)
-        # se siamo nella cartella Video_Blu e si tratta di un video,
-        # aggiungiamo anche la versione "_blu"
-        if Arancione== False and media_rel_path.lower().endswith((".mp4", ".mov", ".avi")):
-            name, ext = os.path.splitext(media_rel_path)
-            blu_rel = f"{name}_blu{ext}"
-            blu_url = base_url + blu_rel
-            urls_da_scaricare.append(blu_url)
-    print(GREEN + "[OK] Materiale Scaricato" + RESET)
+    for idx, p in enumerate(posts[:numero_post]):
+        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
+        if rel:
+            orig_url = base_url + rel
+            urls_da_scaricare.append(orig_url)
+            if not arancione and rel.lower().endswith((".mp4", ".mov", ".avi")):
+                name, ext = os.path.splitext(rel)
+                blu_rel = f"{name}_blu{ext}"
+                urls_da_scaricare.append(base_url + blu_rel)
+
+    stampa_colore("📌 Inizio download dei file multimediali...", "giallo")
     with ThreadPoolExecutor(max_workers=5) as executor:
         future_to_url = {executor.submit(fetch_to_local, u): u for u in urls_da_scaricare}
         local_paths = {}
         for fut in as_completed(future_to_url):
             url = future_to_url[fut]
-            local_file = fut.result()  # None se fallito
-            if local_file:
-                local_paths[url] = local_file
-    
-    # 4) Vai su Facebook home, per sicurezza
-    driver.get("https://www.facebook.com/")
-    time.sleep(10)  # tempo di caricamento pagina
-    
-    print(GREEN + "[OK] Aperto Facebook" + RESET)
-    # 5) Pubblica ciclicamente su Facebook (storia o reel) in base alla logica
+            local = fut.result()
+            if local:
+                stampa_colore(f"✅ Scaricato correttamente: {url}", "verde")
+                local_paths[url] = local
+            else:
+                stampa_colore(f"❌ Errore nel download: {url}", "rosso")
 
-    for idx, p in enumerate(posts[:NUMERO_POST_INSERIRE]):
-        print(f"\n\n step {idx+1}")
-        # determina modalità attuale
+    driver.get("https://www.facebook.com/")
+    stampa_colore("📌 Attesa iniziale (Facebook)...", "giallo")
+    time.sleep(20)
+
+    for idx, p in enumerate(posts[:numero_post]):
         if publish_mode == "reel":
             mode = "reel"
         elif publish_mode == "storia":
             mode = "storia"
-        else:  # auto
+        else:
             mode = "reel" if (idx % 2 == 0 and p["video"]) else "storia"
 
-        # forziamo cambio se non disponibile
-        if mode == "reel" and not p["video"]:
-            print("[WARN] nessun video, passo a storia")
-            mode = "storia"
-        if mode == "storia" and not p["image"]:
-            print("[WARN] nessuna immagine, passo a reel")
-            mode = "reel"
-        
-        print(GREEN + '[mode]: '+  mode + RESET)
-        # se siamo nel folder Video_Blu e Arancione=False, i file video finiscono in "_blu.ext"
- # costruiamo l’URL del media: col suffisso _blu per i reel in Video_Blu, con fallback all’originale
-        # Se è un reel e siamo in Video_Blu, tenta prima il suffisso "_blu"
-        if mode == "reel" and not Arancione:
-            orig_rel = p["video"]
-            name, ext = os.path.splitext(orig_rel)
-            blu_rel = f"{name}_blu{ext}"
-            blu_url = base_url + blu_rel
-            if blu_url in local_paths:
-                full_url_media = blu_url
-                local_media = local_paths[blu_url]
-            else:
-                orig_url = base_url + orig_rel
-                full_url_media = orig_url
-                local_media = local_paths.get(orig_url)
-        else:
-            # Storia o reel “normale”
-            full_url_media = base_url + (p["video"] if mode == "reel" else p["image"])
-            local_media = local_paths.get(full_url_media)
-
-        # lookup case-insensitive finale, se ancora non trovato
-        # lookup case‐insensitive finale, se ancora non trovato
-        if not local_media:
-            for url, path in local_paths.items():
-                if url.lower() == full_url_media.lower():
-                    local_media = path
-                    break
-        if not local_media:
-            print(f"[WARN] non posso scaricare il file: {full_url_media} (lookup case-insensitive fallito)")
+        rel = p["video"] if mode == "reel" else p["image"]
+        if not rel:
+            stampa_colore(f"[⚠️ WARN] Nessun media disponibile per il post {idx+1}", "giallo")
             continue
-        if not local_media:
 
-            print(f"[WARN] non posso scaricare il file: {full_url_media} (case-insensitive lookup fallito)")
+        full_url_media = base_url + rel
+        local_media = local_paths.get(full_url_media)
+
+        if mode == "reel" and not arancione:
+            name, ext = os.path.splitext(rel)
+            blu_url = f"{base_url}{name}_blu{ext}"
+            local_media = local_paths.get(blu_url, local_media)
+
+        if not local_media:
+            stampa_colore(f"[⚠️ WARN] File locale non trovato: {full_url_media}", "giallo")
             continue
+
+        testo = f"{p['summary']} {base_url}{p['slug']}"
 
         if mode == "reel":
-            didascalia = f"{p['summary']} {full_url_media}"
-            crea_reel_facebook(driver, local_media, didascalia=didascalia)
+            crea_reel_facebook(driver, local_media, didascalia=testo)
         else:
-            testo_storia = f"{p['summary']} {full_url_media}"
-            invia_storia_facebook(driver, local_media, testo_storia)
+            invia_storia_facebook(driver, local_media, testo)
 
-        time.sleep(10)
+        time.sleep(8)
+
+    driver.quit()
+    stampa_colore("✅ Tutti i contenuti pubblicati correttamente!", "verde")
