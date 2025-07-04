@@ -722,7 +722,7 @@ def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=10, publis
         else:
             invia_storia_facebook(driver, local_media, testo)
 
-        time.sleep(8)
+        time.sleep(18)
 
     driver.quit()
     stampa_colore("✅ Tutti i contenuti pubblicati correttamente!", "verde")

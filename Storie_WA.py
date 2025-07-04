@@ -409,6 +409,6 @@ def invia_storie_whatsapp(pc_grande=True, numero_post=10):
             continue
         testo = f"{p['summary']} {base_url}{p['slug']}"
         invia_storia(driver, local, testo)
-        time.sleep(8)
+        time.sleep(18)
 
     driver.quit()
