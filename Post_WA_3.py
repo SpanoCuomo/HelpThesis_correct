@@ -279,7 +279,12 @@ def open_whatsapp_and_click_chat(chat_title, messaggio, immagine_path):
     real_input.click()
     real_input.send_keys(Keys.CONTROL, "a")
     real_input.send_keys(Keys.DELETE)
-    real_input.send_keys(chat_title)
+    print(f"{YELLOW}[→] Provo a selezionare la chat: '{chat_title}'{RESET}")
+
+    pyperclip.copy(chat_title)
+    real_input.click()
+    time.sleep(0.2)
+    real_input.send_keys(Keys.CONTROL, 'v')
     time.sleep(2)
 
     # 3) Clicca sulla chat
@@ -406,11 +411,131 @@ def post_a_whatsapp(pc_grande: bool = True, debug: bool = False):
     Lista chat, messaggio e percorso immagine sono definite internamente.
     """
     # 1) Lista delle chat
+    
+    lista = ["Spusu Me Stesso"]
     chats = [
-        "Giovanna Di somma Vicina Casa Anna",
-        "Famiglia bella",
-        # aggiungi qui le altre chat…
+    # "CONCORSO DOCENTI PNRR 2 - Scambio di informazioni",
+    # "Grande Gruppo Iscritti 30 E 60 Cfu",
+    # "A09 30cfu e-campus",
+    # "A13 Ecampus art. 13",
+    # "30cfu Pegaso - A018",
+    # "Ecampus art. 13 IV ciclo",
+    # "Conc. A012/A022Lombardia",
+    # "A19 art13 ECampus III ciclo",
+    # "IV SOTTOCOMMISSIONE IC MARELLI",
+    # "FABRIANO 3 Commissione ADSS",
+    # "CONCORSO ADSS MARCHE - ABRUZZO - UMBRIA",
+    # "PNRR2-EEE/AAA- Reg. Lazio",
+    # "Orale A046 Basilicata ⚖️",
+    # "Adss Sec di sec Grado conc ter Lazio",
+    # "Concorso EEEE Talamona",
+    # "III SOTTOCOMMISSIONE EEEE",
+    # "Primaria Castellammare di Stabia 3° Circolo San Marco Evangelista",
+    # "EEEE VI SOTTOCOMMISSIONE",
+    # "Concorso primaria Lombardia",
+    # "ORALE EEEE CHIAVENNA-LOMBARDIA",
+    # "PRIMARIA V SOTTOCOMMISSIONE IC MORRICONE",
+    # "VIII SOTTOCOMMISSIONE - PRIMARIA COMUNE",
+    # "PRIMARIA ORALE II Comm. IC Valente LAZIO",
+    # "CONCORSO PNRR2 SARDEGNA • PROVA SCRITTA",
+    # "ORALE EEEE ICS MOLTENO LECCO",
+    # "ANCONA 2 commissione ADSS",
+    # "Reg LOMBARDIA Spunti/ aiuti per le tracce EEEE",
+    # "CIVITANOVA prima sottocommissione",
+    # "AAAA isiss Majorana S. Maria a Vico (ce)‼️",
+    # "PRIMARIA- Commissione VII I.C. Impastato -PRIMARIA",
+    # "Infanzia, via panisperna II Sottocommissione",
+    # "I sottocommissione infanzia orale (cristoforo colombo)",
+    # "Orale primaria IC 2 DAMIANI- MORBEGNO",
+    # "INFANZIA PALIANO",
+    # "Concorso 2024 primaria Lombardia",
+    # "Orale Primaria SPINI MORBEGNO",
+    # "ORALE CONCORSO EEEE ICS COMO LAGO",
+    # "Orale Grosotto - Primaria Lombardia",
+    # "Orale EEEE - Cadorna (Milano)",
+    # "PNRR2 A022 Concorso Sardegna",
+    # "PNRR2 Lombardia Secondaria primo e secondo grado",
+    # "Concorso PNRR2 Piemonte",
+    # "A017-A01 e-campus IV edizione",
+    # "⚖️Didattica del Diritto⚖️ - Ecampus 30cfu",
+    # "30-60 iscritti a eCampus percorsi abilitanti GRUPPO PRINCIPALE",
+    # "Concorso docenti PNRR 2 2025 Info/confronto/supporto",
+    # "Sottocommissione 1 - I.C. de filippo PRIMARIA EEEE",
+    # "II Sottocommissione KING EEEE",
+    # "IC ORZINUOVI CONCORSO PRIMARIA",
+    # "G.Romanino Brescia",
+    # "IC Castelcovati",
+    # "CALCINATO BS Primaria",
+    # "PNRR2 Lombardia Secondaria primo e secondo grado",
+    # "Mini Call Sicilia Lombardia ADMM",
+    # "Mini Call veloce ADMM Emilia Romagna",
+    # "PNNR2 CAMPANIA A012/A022",
+    # "AAAA De Amicis",
+    # "IC A. TIRABOSCHI, PALADINA (BG)",
+    "PRIMARIA Bovezzo🍀",
+    "AAAA LOMBARDIA",
+    "Concorso Lombardia PNRR2",
+    "Orale Infanzia Porto San Giorgio",
+    "30 CFU EX. ART.13 V ED INFO GENERALI",
+    "A27 MILANO_30 CFU ECAMPUS 4o ciclo",
+    "GPS 2024-2026",
+    "30 CFU EX ART.13 V ED INFO GENERALI",
+    "Supporto TFA/30 CFU/60 CFU",
+    "E campus 30 cfu All 2 e 3",
+    "Ecampus 30 CFU - Weekend - LETTERE",
+    "A050 pnrr2 puglia",
+    "A009 puglia",
+    "Classe di concorso A013",
+    "A021 Puglia",
+    "A060 Puglia Pnrr 2",
+    "A026-Puglia",
+    "A018 puglia",
+    "B017 puglia",
+    "A051 (Campania/Puglia)",
+    "Cdc B023 PUGLIA ",
+    "AB25 pnnr2 puglia",
+    "A001 puglia",
+    "AB24",
+    "A028 puglia",
+    "Scienze motorie Puglia AM48-AS48",
+    "A027 Puglia",
+    "PNRR2 Lombardia (AM2A- AS2A)",
+    "GPS FRANCESE MILANO"
+    "A028 puglia",
+    "AB25 pnnr2 puglia",
+    "A060 Puglia Pnrr 2",
+    "PNRR2 Lombardia (AM2A- AS2A)",
+    "AA24 AA25 CALABRIA - 2024r fb",
+    "GPS FRANCESE MILANO",
+    "A050 pnrr2 puglia",
+    "A009 puglia",
+    "Classe di concorso A013",
+    "A021 Puglia",
+    "A026-Puglia",
+    "A018 puglia",
+    "B017 puglia",
+    "A051 (Campania/Puglia)",
+    "Cdc B023 PUGLIA",
+    "A001 puglia",
+    "AB24",    
     ]
+    
+    
+    ListaTesiTirocinio = ["Laureande Maggio 🍀"]
+    
+    
+    
+    Mex_Luca = "Piacere, sono Luca. Io ed il mio team offriamo servizio per la preparazione della lezione simulata e per l'UDA in tutte le parti e per tutte le classi di concorso, dalla consenga della traccia alla preparazione delle slides, ogni aspetto viene trattato, per dare la possibilità di prepararvi al meglio. Chi fosse interessato può contattarci al 378 060 8777. Grazie e buon lavoro a tutti. Team Help Tesi."
+    
+    Mex_Luca_pacato = "Per chi fosse interessato, qui ci sono articoli che possono essere utili per la preparazione al concorso. https://aiutotesi.altervista.org/blog/blog_UDA_lista.php. Inoltre io ed il mio team diamo una mano nella preparazione. Chi fosse interessato può contattarci al 378 060 8777. Grazie e buon lavoro a tutti."
+    
+    Mex_per_entrata_gruppo = "Questo è un altro gruppo dove si parla del concorso <br> https://chat.whatsapp.com/KL0jAgGqz3vIUbcKLdWxtE"
+    Mex_Giovanna = "Preparati al meglio per il tuo esame orale del concorso docente con Help Thesis! \n\n     Offriamo supporto personalizzato per UDA e lezioni simulate per tutte le classi di concorso. \n\nPrenota subito il tuo posto: contattaci al 378 06 08 777 o scrivi a aiuto.tesi.official@gmail.com. Non perdere l’occasione di arrivare pronto e sicuro!"
+    
+    mex_libro_pubblicit = "Ti stai preparando per il concorso? Abbiamo scritto un libro che può esserti utile. Un'anteprima gratuita è disponibile in messaggio o sul sito https://aiutotesi.altervista.org/uda.html. Inoltre possiamo aiutarti per la prova orale. Contattaci al 378 060 8777."
+    
+    mex_Gio_Maggio_2025 ="TFA, Concorso Scuola, Relazioni, Lezioni Simulate, Tesi? FACCIAMO TUTTO: e puoi visionarlo sul nostro sito" "https://aiutotesi.altervista.org/uda.html""Se ti senti travoltə da scadenze, formati ministeriali e PowerPoint infiniti… Respira. Ci siamo noi:"                            "https://wa.me/3780608777"                           "HELPTHESIS è il tuo team di docenti esperti:"                           "Relazioni finali e TIC per TFA Sostegno e Ordinario\n* ⁠Lezioni simulate per tutte le classi di concorso\n* ⁠Tesi di laurea, TFA, master e specializzazioni"                           "Chiamaci subito o mandaci un messaggio per informazioni e preventivi:"                           "https://wa.me/3780608777"                            "Grazie!"
+    
 
     # 2) Messaggio da inviare
     message = (
@@ -437,3 +562,4 @@ def post_a_whatsapp(pc_grande: bool = True, debug: bool = False):
     for chat in chats:
         open_whatsapp_and_click_chat(chat, message, image_path)
         time.sleep(3)
+        

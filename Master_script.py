@@ -36,6 +36,8 @@ def invio_periodico():
     while True:
         ora_corrente = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"\n🔔 [{ora_corrente}] Eseguo invio storie WhatsApp...")
+        invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto")
+        invia_storie_facebook(pc_grande=True, arancione=False, numero_post=1, publish_mode="auto")
         
         try:
             invia_storie_whatsapp(pc_grande=pc_grande, numero_post=numero_post_per_esecuzione)
@@ -48,8 +50,8 @@ def invio_periodico():
         time.sleep(intervallo_secondi)
 
 if __name__ == "__main__":
-    post_a_whatsapp(pc_grande=True)
-    #invio_periodico()
+    
+    invio_periodico()
 
 # def run_scripts(scripts_list):
 #     for script in scripts_list:
