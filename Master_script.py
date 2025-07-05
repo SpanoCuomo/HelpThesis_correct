@@ -9,8 +9,9 @@ import datetime
 from Storie_Facebook import invia_storie_facebook
 from Post_WA_3 import post_a_whatsapp
 # Ad esempio PC grande, arancione, 10 post, modalità auto (reel e storie alternate)
-invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto")
-invia_storie_facebook(pc_grande=True, arancione=False, numero_post=1, publish_mode="auto")
+post_a_whatsapp(pc_grande=True)
+#invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto")
+#invia_storie_facebook(pc_grande=True, arancione=False, numero_post=1, publish_mode="auto")
 
 # Lista degli script da eseguire, con percorso relativo o assoluto
 scripts = [

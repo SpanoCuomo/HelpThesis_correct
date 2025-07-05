@@ -401,8 +401,8 @@ def open_whatsapp_and_click_chat(chat_title, messaggio, immagine_path):
 
 
 def post_a_whatsapp(pc_grande: bool = True, debug: bool = False):
-+    """
-+    Esegue un broadcast su WhatsApp Web usando il profilo 'PC grande' o 'PC piccolo'.
+    """
+    Esegue un broadcast su WhatsApp Web usando il profilo 'PC grande' o 'PC piccolo'.
     Lista chat, messaggio e percorso immagine sono definite internamente.
     """
     # 1) Lista delle chat
@@ -420,7 +420,7 @@ def post_a_whatsapp(pc_grande: bool = True, debug: bool = False):
     )
 
     # 3) Percorso del file da allegare
-    image_path = r"C:\Users\lspan\Desktop\ImmaginiSitoTesi\cliccabile.pdf"
+    image_path = r"C:\Users\UTENTE\Desktop\ImmaginiSitoTesi\cliccabile.pdf"
 
     # 4) Avvia Chrome con il profilo giusto
     kill_all_chrome()
