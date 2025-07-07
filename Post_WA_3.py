@@ -517,8 +517,12 @@ def post_a_whatsapp(pc_grande: bool = True, debug: bool = False):
     "A051 (Campania/Puglia)",
     "Cdc B023 PUGLIA",
     "A001 puglia",
-    "AB24",    
-    ]
+    "AB24"]
+    #"Docenti Giustino Fortunato (gruppo generico)",
+    #"30 CFU Ed 3 Promo MT30TFA25 O MT30",
+    #"Corso sostegno Asuniver",
+    #"30 CFU ED. 3 Mnemosine Codice Riservato MT30",
+    #"CORSO INDIRE MNEMOSINE""Quesiti e domande"    ]
     
     
     ListaTesiTirocinio = ["Laureande Maggio 🍀"]
