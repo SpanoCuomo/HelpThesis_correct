@@ -348,9 +348,9 @@ def extract_posts_from_php(source, base_url):
 #             print(" -", url)
 
 
-def invia_storie_whatsapp(pc_grande=True, numero_post=1):
+def invia_storie_whatsapp(pc_grande=True, numero_post=10):
     kill_all_chrome()
-    time.sleep(2)
+    time.sleep(10)
 
     # Configura driver in base al PC
     if pc_grande:
@@ -364,52 +364,7 @@ def invia_storie_whatsapp(pc_grande=True, numero_post=1):
 
     driver = setup_driver(user_data_dir, profile_directory)
     stampa_colore(f"✅ Setup_driver: {driver}", "verde")
-
-    base_url = "https://aiutotesi.altervista.org/blog/"
-    php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
-    local_php = fetch_to_local(php_url_raw)
-    posts = extract_posts_from_php(local_php, base_url)
-
-    urls = []
-    for idx, p in enumerate(posts[:numero_post]):
-        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
-        if rel:
-            urls.append(base_url + rel)
-
-    stampa_colore("📌 Inizio download dei file multimediali...", "giallo")
-    with ThreadPoolExecutor(max_workers=5) as exe:
-        future_to_url = {exe.submit(fetch_to_local, u): u for u in urls}
-        local_paths = {}
-        for fut in as_completed(future_to_url):
-            url = future_to_url[fut]
-            local = fut.result()
-            if local:
-                stampa_colore(f"✅ Scaricato correttamente: {url}", "verde")
-                local_paths[url] = local
-            else:
-                stampa_colore(f"❌ Errore nel download: {url}", "rosso")
-
-    if missing_media:
-        stampa_colore("\n⚠️ I seguenti media non sono stati trovati o scaricati:", "rosso")
-        for url in missing_media:
-            stampa_colore(f" - {url}", "rosso")
-    else:
-        stampa_colore("\n✅ Tutti i media scaricati correttamente!", "verde")
-
     driver.get("https://web.whatsapp.com/")
     stampa_colore("📌 Attesa iniziale (WhatsApp Web)...", "giallo")
-    time.sleep(45)
-
-    for idx, p in enumerate(posts[:numero_post]):
-        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
-        url = base_url + rel
-        local = local_paths.get(url)
-        if not local:
-            stampa_colore(f"[⚠️ WARN] salto {url}", "giallo")
-            continue
-        testo = f"{p['summary']} {base_url}{p['slug']}"
-        invia_storia(driver, local, testo)
-        time.sleep(18)
-    time.sleep(180)
-    driver.quit()
-#invia_storie_whatsapp()
+    time.sleep(1000)
+invia_storie_whatsapp()    

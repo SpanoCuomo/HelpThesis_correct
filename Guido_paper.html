@@ -1,0 +1,367 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Castelnuovo Vista Premium – Operazione Immobiliare</title>
+
+  <!-- Google Fonts -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Merriweather&display=swap" rel="stylesheet">
+  <!-- Font Awesome -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <!-- AOS (Animate On Scroll) -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+  <style>
+    /* ---------- ROOT & RESET ---------- */
+    :root{
+      --accent:#CDA95C;            /* oro */
+      --accent-dark:#8F6B30;
+      --bg-light:#F5F0EA;
+      --bg-dark:#222;              /* navbar scrolled */
+      --text:#333;
+      --radius:10px;
+      --transition:.35s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{
+      font-family:'Merriweather',serif;
+      color:var(--text);
+      background:var(--bg-light);
+      line-height:1.6;
+      scroll-behavior:smooth;
+    }
+    h1,h2,h3,h4{
+      font-family:'Poppins',sans-serif;
+      line-height:1.2;
+      font-weight:700;
+      letter-spacing:-.5px;
+    }
+    section{padding:5rem 1.2rem}
+    img{max-width:100%;display:block}
+    .container{max-width:1200px;margin:auto}
+
+    /* ---------- NAVBAR ---------- */
+    .navbar{
+      position:fixed;top:0;left:0;width:100%;z-index:999;
+      display:flex;align-items:center;justify-content:space-between;
+      padding:1rem 2rem;
+      backdrop-filter:blur(12px) saturate(120%);
+      background:rgba(255,255,255,.35);
+      transition:var(--transition);
+    }
+    .navbar.scrolled{background:rgba(34,34,34,.9)}
+    .navbar .logo{font-family:'Poppins',sans-serif;font-weight:700;font-size:1.25rem;color:#fff;mix-blend-mode:difference}
+    .nav-links{list-style:none;display:flex;gap:1.6rem}
+    .nav-links a{
+      font-family:'Poppins',sans-serif;font-weight:500;font-size:.95rem;
+      color:#fff;text-decoration:none;position:relative;padding-bottom:.15rem;
+    }
+    .nav-links a::after{
+      content:'';position:absolute;left:0;bottom:0;width:0;height:2px;background:var(--accent);transition:width .3s;
+    }
+    .nav-links a:hover::after{width:100%}
+
+    /* ---------- HERO ---------- */
+    .hero{
+      height:100vh;
+      background:url('hero.jpg') center/cover no-repeat fixed; /* parallax */
+      position:relative;display:flex;align-items:center;justify-content:center;
+      text-align:center;color:#fff;
+    }
+    .hero::before{
+      content:'';position:absolute;inset:0;
+      background:linear-gradient(180deg,rgba(0,0,0,.6) 0%,rgba(0,0,0,.3) 40%,rgba(0,0,0,.7) 100%);
+    }
+    .hero-content{position:relative;max-width:900px;padding:0 1rem}
+    .hero h1{font-size:3.5rem;margin-bottom:.7rem}
+    .hero .tagline{
+      font-family:'Poppins',sans-serif;font-weight:500;font-size:1.15rem;margin-bottom:1.4rem;
+    }
+    .dates{
+      display:inline-block;background:var(--accent);padding:.55rem 1.2rem;border-radius:var(--radius);
+      font-family:'Poppins',sans-serif;font-weight:600;font-size:.9rem;letter-spacing:.5px;
+      color:#fff;
+    }
+
+    /* ---------- GRID & CARDS ---------- */
+    .grid{display:grid;gap:2.2rem}
+    @media(min-width:800px){.grid-2{grid-template-columns:repeat(2,1fr)}}
+    @media(min-width:900px){.grid-3{grid-template-columns:repeat(3,1fr)}}
+    .card{
+      background:#fff;border-radius:var(--radius);padding:2.2rem;box-shadow:0 6px 18px -6px rgba(0,0,0,.15);
+      transition:transform .4s cubic-bezier(.25,.46,.45,.94),box-shadow .4s;
+    }
+    .card:hover{
+      transform:translateY(-8px) scale(1.02);
+      box-shadow:0 14px 30px -10px rgba(0,0,0,.28);
+    }
+    .card i{font-size:2rem;color:var(--accent);margin-bottom:1rem}
+
+    /* ---------- SECTION TITLES ---------- */
+    .section-title{
+      text-align:center;margin-bottom:3.5rem;position:relative;display:inline-block;
+    }
+    .section-title::after{
+      content:'';position:absolute;left:50%;transform:translateX(-50%);
+      bottom:-12px;height:4px;width:60px;background:var(--accent);border-radius:2px;
+    }
+
+    /* ---------- TABLES ---------- */
+    table{width:100%;border-collapse:collapse;margin-top:1rem;font-size:.95rem}
+    th,td{padding:.85rem;border-bottom:1px solid #ddd;text-align:left}
+    th{background:var(--accent-dark);color:#fff;font-family:'Poppins',sans-serif;font-weight:600}
+
+    /* ---------- TIMELINE ---------- */
+    .timeline{list-style:none;border-left:3px solid var(--accent);margin-left:1rem;padding-left:1rem}
+    .timeline li{position:relative;margin-bottom:2.5rem;padding-left:.8rem}
+    .timeline li::before{
+      content:'';position:absolute;left:-10px;top:4px;width:14px;height:14px;background:var(--accent);
+      border-radius:50%;
+    }
+
+    /* ---------- CTA ---------- */
+    .cta{
+      background:linear-gradient(135deg,var(--accent-dark),var(--accent));
+      color:#fff;text-align:center;padding:4rem 1.2rem;position:relative;overflow:hidden;
+    }
+    .cta h2{font-size:2.2rem;margin-bottom:1rem}
+    .cta button{
+      background:#fff;border:none;color:var(--accent-dark);font-family:'Poppins',sans-serif;font-weight:700;
+      padding:1rem 2.4rem;font-size:1rem;border-radius:var(--radius);
+      cursor:pointer;transition:var(--transition)
+    }
+    .cta button:hover{background:var(--bg-dark);color:#fff}
+
+    /* ---------- SCROLL‑TOP ---------- */
+    #scrollTop{
+      position:fixed;bottom:28px;right:28px;width:44px;height:44px;border-radius:50%;border:none;
+      background:var(--accent-dark);color:#fff;font-size:1.1rem;display:flex;align-items:center;justify-content:center;
+      cursor:pointer;opacity:0;pointer-events:none;transition:var(--transition);z-index:998;
+    }
+    #scrollTop.show{opacity:1;pointer-events:auto}
+
+    /* ---------- AOS overrides ---------- */
+    [data-aos]{transition:transform 1s ease,opacity 1s ease!important}
+  </style>
+</head>
+
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar" id="navbar">
+  <span class="logo">Castelnuovo Vista</span>
+  <ul class="nav-links">
+    <li><a href="#highlights">Highlights</a></li>
+    <li><a href="#product">Progetto</a></li>
+    <li><a href="#financials">Financials</a></li>
+    <li><a href="#timeline">Roadmap</a></li>
+  </ul>
+</nav>
+
+<!-- HERO -->
+<header class="hero">
+  <div class="hero-content" data-aos="zoom-in">
+    <h1>Castelnuovo Vista Premium</h1>
+    <p class="tagline">Operazione immobiliare nel cuore del centro storico</p>
+    <span class="dates">Settembre 2025 – Settembre 2026</span>
+  </div>
+</header>
+
+<!-- INVESTMENT HIGHLIGHTS -->
+<section id="highlights">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Investment Highlights</h2>
+    <div class="grid grid-3">
+      <div class="card" data-aos="fade-up" data-aos-delay="50">
+        <i class="fa-solid fa-location-dot"></i>
+        <h3>Location premium</h3>
+        <p>Posizione sopraelevata con vista esclusiva su chiesa e parco di Castelnuovo del Garda.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="100">
+        <i class="fa-solid fa-bolt-lightning"></i>
+        <h3>Classe Energetica A</h3>
+        <p>Unico sviluppo in classe A nel centro storico, senza concorrenti diretti.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="150">
+        <i class="fa-solid fa-clock"></i>
+        <h3>Time‑to‑market</h3>
+        <p>Immobili comparabili venduti in <strong>3 mesi</strong> (media 2024).</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="200">
+        <i class="fa-solid fa-chart-line"></i>
+        <h3>Prezzo prudenziale</h3>
+        <p>3.000 €/mq vs range di mercato 2.800‑3.300 €/mq.</p>
+      </div>
+      <div class="card" data-aos="fade-up" data-aos-delay="250">
+        <i class="fa-solid fa-percent"></i>
+        <h3>ROI atteso</h3>
+        <p><span class="counter" data-count="22.5">22.5</span>&nbsp;% in 12 mesi.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- DOMANDA DI MERCATO -->
+<section id="demand" style="background:#fff">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Domanda di Mercato</h2>
+    <div data-aos="fade-up" data-aos-delay="100" style="max-width:780px;margin:auto;text-align:center">
+      <p><strong>≥ 1/3 delle unità</strong> vendute “su carta” grazie alla scarsità di appartamenti ristrutturati in classe A e al layout ideale (trilocali con cucina separata, ampi bilocali).</p>
+    </div>
+    <br>
+    <figure data-aos="zoom-in" data-aos-delay="200" style="text-align:center">
+      <img src="view.jpg" alt="Vista chiesa e parco" style="border-radius:var(--radius)">
+      <figcaption style="font-size:.9rem;margin-top:.6rem">Affaccio tipico previsto dalle unità residenziali.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<!-- PRODOTTO IMMOBILIARE -->
+<section id="product">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Prodotto Immobiliare</h2>
+    <div class="grid grid-2">
+      <div data-aos="fade-right">
+        <h3>Dettagli progetto</h3>
+        <ul style="margin-left:1rem">
+          <li>6 unità residenziali (4 trilocali, 2 bilocali)</li>
+          <li>Superficie totale: 420 mq</li>
+          <li>Accessori: 6 posti auto, balconi e giardini privati</li>
+          <li>Categoria catastale finale: A/3</li>
+          <li>Intervento: rifacimento completo (salvo muri portanti)</li>
+        </ul>
+      </div>
+      <div class="card" data-aos="fade-left" data-aos-delay="150" style="text-align:center">
+        <h3 style="margin-bottom:1rem">Prezzo medio di vendita</h3>
+        <p style="font-size:2.5rem;font-weight:700">3.000 € / mq</p>
+        <p style="font-size:.9rem">(oltre 90 k € di upside dai 6 posti auto)</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FINANCIALS -->
+<section id="financials" style="background:#fff">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Valore Economico</h2>
+    <div class="grid grid-2">
+      <div data-aos="fade-right">
+        <table>
+          <thead>
+            <tr><th>Voce</th><th>€</th><th>%</th></tr>
+          </thead>
+          <tbody>
+            <tr><td>Ricavi attesi</td><td>1.260.000</td><td>100 %</td></tr>
+            <tr><td>Costi totali</td><td>1.028.417</td><td>81,6 %</td></tr>
+            <tr>
+              <td><strong>Margine operativo</strong></td>
+              <td><strong><span class="counter" data-count="231583">231583</span></strong></td>
+              <td><strong>18,4 %</strong></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div data-aos="fade-left" data-aos-delay="100">
+        <h3>Break‑down Costi</h3>
+        <table>
+          <tbody>
+            <tr><td>Acquisto immobile</td><td>166.000 €</td><td>13,2 %</td></tr>
+            <tr><td>Gestione / Lavori / Oneri</td><td>862.417 €</td><td>68,4 %</td></tr>
+          </tbody>
+        </table>
+        <h3 style="margin-top:1.3rem">ROI progetto</h3>
+        <p style="font-size:2rem;font-weight:700"><span class="counter" data-count="22.52">22.52%</span>&nbsp;%</p>
+        <p>Investimento iniziale: 1.028.417 € | Durata: 365 gg</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- TIMELINE -->
+<section id="timeline">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Roadmap & Milestones</h2>
+    <ul class="timeline">
+      <li data-aos="fade-up"><h3>20 Settembre 2025 — Acquisto & permesso edilizio</h3><p>100 % equity raccolta</p></li>
+      <li data-aos="fade-up" data-aos-delay="60"><h3>T‑3 mesi — Pre‑vendita ≥ 2 unità</h3><p>33 % delle unità vendute “su carta”</p></li>
+      <li data-aos="fade-up" data-aos-delay="120"><h3>20 Settembre 2026 — Consegna lavori & rogiti</h3><p>6 rogiti programmati</p></li>
+      <li data-aos="fade-up" data-aos-delay="180"><h3>Entro 30 giorni — Liquidazione utili</h3><p>ROI 22,5 %</p></li>
+    </ul>
+  </div>
+</section>
+
+<!-- EXIT STRATEGY -->
+<section id="exit" style="background:#fff">
+  <div class="container">
+    <h2 class="section-title" data-aos="fade-up">Exit Strategy</h2>
+    <div class="grid grid-3">
+      <div class="card" data-aos="zoom-in" data-aos-delay="50">
+        <i class="fa-solid fa-house-user"></i>
+        <h3>Vendita retail</h3>
+        <p>80 % – cessione unità a clienti finali.</p>
+      </div>
+      <div class="card" data-aos="zoom-in" data-aos-delay="100">
+        <i class="fa-solid fa-building"></i>
+        <h3>Liquidazione in blocco</h3>
+        <p>15 % – investitore istituzionale.</p>
+      </div>
+      <div class="card" data-aos="zoom-in" data-aos-delay="150">
+        <i class="fa-solid fa-key"></i>
+        <h3>Hold & Rent</h3>
+        <p>5 % – short‑term rental Lago di Garda.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta" data-aos="fade-up">
+  <h2>Entra oggi nell’operazione “Castelnuovo Vista Premium”</h2>
+  <p>Closing round investitori entro 30 giorni.</p>
+  <button onclick="window.open('https://example.com/data-room','_blank')">Richiedi il business plan completo</button>
+</section>
+
+<!-- SCROLL‑TOP BUTTON -->
+<button id="scrollTop"><i class="fa-solid fa-arrow-up"></i></button>
+
+<!-- FOOTER -->
+<footer style="background:var(--bg-dark);color:#aaa;text-align:center;padding:1.8rem;font-size:.85rem">
+  © 2025 Castelnuovo Vista Premium | Documento confidenziale destinato a potenziali investitori
+</footer>
+
+<!-- ---------- SCRIPTS ---------- -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/countup.js/2.6.2/countUp.min.js"></script>
+
+<script>
+  /* AOS init */
+  AOS.init({ once:true, duration:1000 });
+
+  /* Sticky navbar + logo contrast */
+  const navbar = document.getElementById('navbar');
+  const scrollBtn = document.getElementById('scrollTop');
+  window.addEventListener('scroll',()=>{
+    navbar.classList.toggle('scrolled',window.scrollY>60);
+    scrollBtn.classList.toggle('show',window.scrollY>300);
+  });
+  scrollBtn.addEventListener('click',()=>window.scrollTo({top:0,behavior:'smooth'}));
+
+  /* Counters on reveal */
+  const counters = document.querySelectorAll('.counter');
+  const obs = new IntersectionObserver(entries=>{
+    entries.forEach(entry=>{
+      if(entry.isIntersecting){
+        const el=entry.target;
+        const endVal=parseFloat(el.dataset.count);
+        if(!el.classList.contains('counted')){
+          new CountUp(el,endVal,{duration:2,decimalPlaces:endVal%1?2:0}).start();
+          el.classList.add('counted');
+        }
+      }
+    });
+  },{threshold:.6});
+  counters.forEach(c=>obs.observe(c));
+</script>
+</body>
+</html>
