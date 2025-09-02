@@ -23,7 +23,7 @@ scripts = [
 
 
 # Configurazione intervallo (2 ore in secondi)
-intervallo_ore = 0.5
+intervallo_ore = 1
 intervallo_secondi = intervallo_ore * 60 * 60
 
 # Numero di post per ogni esecuzione singola

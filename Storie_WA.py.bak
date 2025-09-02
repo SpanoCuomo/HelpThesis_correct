@@ -369,7 +369,7 @@ def invia_storie_whatsapp(pc_grande=True, numero_post=1):
     php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
     local_php = fetch_to_local(php_url_raw)
     posts = extract_posts_from_php(local_php, base_url)
-    random.shuffle(posts)
+
     urls = []
     for idx, p in enumerate(posts[:numero_post]):
         rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]

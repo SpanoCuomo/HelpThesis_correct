@@ -1,0 +1,313 @@
+--- a/tuo_script.py
++++ b/tuo_script.py
+@@
+ def invia_storia(driver, file_path, testo=""):
+-    """
+-    Automatizza la creazione di uno status su WhatsApp Web:
+-    1. Clicca sul tab "Stato".
+-    2. Clicca sul pulsante per aggiungere un nuovo status (icona plus).
+-    3. Clicca sul pulsante "Foto e video".
+-    4. Carica il file (immagine o video) tramite l'input file.
+-    5. (Facoltativo) Inserisce un testo se fornito.
+-    6. Pubblica lo status.
+-    """
+-    # 1. Vai alla sezione "Stato"
+-    try:
+-        stato_tab = WebDriverWait(driver, 15).until(
+-            EC.element_to_be_clickable((By.XPATH, "//button[@aria-label='Stato']"))
+-        )
+-        stato_tab.click()
+-        time.sleep(2)
+-    except Exception as e:
+-        print("[ERRORE] Non riesco ad accedere alla sezione Stato:", e)
+-        return
+-
+-    # 2. Clicca sul pulsante per aggiungere un nuovo status (icona plus)
+-    try:
+-        aggiungi_stato = WebDriverWait(driver, 30).until(
+-            EC.element_to_be_clickable((By.XPATH, "//span[@data-icon='plus']"))
+-        )
+-        aggiungi_stato.click()
+-        time.sleep(2)
+-    except Exception as e:
+-        print("[ERRORE] Non riesco a cliccare sul pulsante Aggiungi status:", e)
+-        return
+-
+-    # 3. Clicca sul pulsante "Foto e video"
+-    try:
+-        foto_video_button = WebDriverWait(driver, 15).until(
+-            EC.element_to_be_clickable((By.XPATH, "//*[contains(text(), 'Foto e video')]"))
+-        )
+-        foto_video_button.click()
+-        time.sleep(2)
+-    except Exception as e:
+-        print("[ERRORE] Non riesco a cliccare sul pulsante 'Foto e video':", e)
+-        return
+-
+-    # 4. Carica il file (immagine o video)
+-    try:
+-        # Modifica qui il selettore in modo da accettare anche i video
+-        xp_input_file = "//input[@type='file' and (contains(@accept,'image') or contains(@accept,'video'))]"
+-        file_input = WebDriverWait(driver, 15).until(
+-            EC.presence_of_element_located((By.XPATH, xp_input_file))
+-        )
+-        # Se l'input è nascosto, forziamo la visualizzazione
+-        driver.execute_script("arguments[0].style.display = 'block';", file_input)
+-        file_input.send_keys(file_path)
+-        time.sleep(2)
+-    except Exception as e:
+-        print("[ERRORE] Impossibile caricare il file per lo status:", e)
+-        return
+-
+-    # 5. (Facoltativo) Inserisci un testo se fornito
+-    if testo:
+-        try:
+-            xp_text_field = "//div[@contenteditable='true' and @role='textbox']"
+-            text_field = WebDriverWait(driver, 10).until(
+-                EC.presence_of_element_located((By.XPATH, xp_text_field))
+-            )
+-            # Forza il click via JavaScript se l'elemento non è cliccabile direttamente
+-            driver.execute_script("arguments[0].click();", text_field)
+-            text_field.send_keys(testo)
+-            time.sleep(1)
+-        except Exception as e:
+-            print("[WARN] Non sono riuscito ad inserire il testo:", e)
+-
+-    # 6. Clicca sul pulsante per pubblicare lo status
+-    try:
+-        xp_send_status = "//div[@role='button' and @aria-label='Invia']"
+-        send_button = WebDriverWait(driver, 10).until(
+-            EC.element_to_be_clickable((By.XPATH, xp_send_status))
+-        )
+-        send_button.click()
+-        print("[OK] Status pubblicato correttamente.")
+-    except Exception as e:
+-        print("[ERRORE] Problemi nella pubblicazione dello status:", e)
++    """
++    Nuova versione robusta per il 2025:
++    - Tab 'Stato' ora è 'Aggiornamenti' / 'Updates'
++    - Dopo il '+', spesso l'input file è già presente (niente pulsante 'Foto e video')
++    - Wait più solidi e selettori multi-lingua
++    """
++    # 1) Apri tab Aggiornamenti/Updates/Status
++    try:
++        tab_xpath_variants = [
++            "//button[@aria-label='Aggiornamenti']",
++            "//button[@aria-label='Updates']",
++            "//button[@aria-label='Stato']",
++            "//div[@role='button' and .//span[contains(@data-icon,'status')]]",
++        ]
++        found = None
++        for xp in tab_xpath_variants:
++            try:
++                found = WebDriverWait(driver, 5).until(EC.element_to_be_clickable((By.XPATH, xp)))
++                if found:
++                    found.click()
++                    break
++            except Exception:
++                pass
++        if not found:
++            raise TimeoutError("Tab Aggiornamenti/Updates non trovato")
++        time.sleep(1.5)
++    except Exception as e:
++        print("[ERRORE] Accesso sezione Aggiornamenti/Status fallito:", e)
++        return
++
++    # 2) Clic su '+' (crea nuovo aggiornamento di stato)
++    try:
++        plus_xpath_variants = [
++            "//span[contains(@data-icon,'status-v3-plus')]",
++            "//span[@data-icon='plus']",
++            "//div[@role='button' and .//span[contains(@data-icon,'plus')]]",
++        ]
++        plus = None
++        for xp in plus_xpath_variants:
++            try:
++                plus = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xp)))
++                if plus:
++                    driver.execute_script("arguments[0].click();", plus)
++                    break
++            except Exception:
++                pass
++        if not plus:
++            raise TimeoutError("Bottone '+' non trovato")
++        time.sleep(1.5)
++    except Exception as e:
++        print("[ERRORE] Click sul '+' fallito:", e)
++        return
++
++    # 3) Carica file (immagine o video) — l'input è già presente nella modale
++    try:
++        xp_input_file = (
++            "//input[@type='file' and (contains(@accept,'image') or contains(@accept,'video'))]"
++        )
++        file_input = WebDriverWait(driver, 15).until(
++            EC.presence_of_element_located((By.XPATH, xp_input_file))
++        )
++        driver.execute_script("arguments[0].style.display='block';", file_input)
++        file_input.send_keys(file_path)
++    except Exception as e:
++        print("[ERRORE] Upload file status fallito:", e)
++        return
++
++    # 4) Attendi anteprima pronta (canvas/video) e campo testo
++    try:
++        # anteprima immagine/video presente
++        WebDriverWait(driver, 20).until(
++            EC.presence_of_element_located((
++                By.XPATH,
++                "//*[self::img or self::video or self::canvas]"
++            ))
++        )
++        # campo testo opzionale (se presente)
++        if testo:
++            xp_text_field = "//div[@contenteditable='true' and @role='textbox']"
++            text_field = WebDriverWait(driver, 10).until(
++                EC.presence_of_element_located((By.XPATH, xp_text_field))
++            )
++            driver.execute_script("arguments[0].click();", text_field)
++            text_field.clear()
++            text_field.send_keys(testo)
++            time.sleep(0.5)
++    except Exception as e:
++        print("[WARN] Anteprima o campo testo non pronti:", e)
++
++    # 5) Invia
++    try:
++        send_variants = [
++            "//div[@role='button' and @aria-label='Invia']",
++            "//div[@role='button' and @aria-label='Send']",
++            "//span[contains(@data-icon,'send')]//ancestor::div[@role='button']",
++        ]
++        send_btn = None
++        for xp in send_variants:
++            try:
++                send_btn = WebDriverWait(driver, 10).until(EC.element_to_be_clickable((By.XPATH, xp)))
++                if send_btn:
++                    driver.execute_script("arguments[0].click();", send_btn)
++                    break
++            except Exception:
++                pass
++        if not send_btn:
++            raise TimeoutError("Bottone 'Invia/Send' non trovato")
++        print("[OK] Status pubblicato correttamente.")
++    except Exception as e:
++        print("[ERRORE] Invio status fallito:", e)
+ 
+@@
+-def extract_posts_from_php(source, base_url):
++def extract_posts_from_php(source, base_url):
+@@
+-    pattern_video = re.compile(r"""['"]video['"]\s*=>\s*['"]([^'"]+)['"]""")
++    pattern_video = re.compile(r"""['"]video['"]\s*=>\s*['"]([^'"]+)['"]""")
++    # opzionali: 'screen' e 'stories' se presenti nel tuo posts.php
++    pattern_screen = re.compile(r"""['"]screen['"]\s*=>\s*['"]([^'"]+)['"]""")
++    pattern_stories = re.compile(r"""['"]stories['"]\s*=>\s*['"]([^'"]+)['"]""")
+@@
+-    slugs = pattern_slug.findall(content)
+-    images = pattern_image.findall(content)
+-    summaries = pattern_summary.findall(content)
+-    videos = pattern_video.findall(content)
++    slugs = pattern_slug.findall(content)
++    images = pattern_image.findall(content)
++    summaries = pattern_summary.findall(content)
++    videos = pattern_video.findall(content)
++    screens = pattern_screen.findall(content) if pattern_screen.findall(content) else []
++    stories = pattern_stories.findall(content) if pattern_stories.findall(content) else []
+@@
+-    for slug, img, summ, vid in zip(slugs, images, summaries, videos):
++    # zip lungo: allinei al minimo comune; i campi opzionali si prendono con indice se esiste
++    for i, (slug, img, summ, vid) in enumerate(zip(slugs, images, summaries, videos)):
++        scr = screens[i] if i < len(screens) else ""
++        sto = stories[i] if i < len(stories) else ""
+         posts_data.append({
+             "slug": slug,
+             "image": img,
+             "summary": summ,
+             "video": vid,
++            "screen": scr,
++            "stories": sto,
+             "full_url": base_url + slug,
+         })
+     return posts_data
+@@
+-def invia_storie_whatsapp(pc_grande=True, numero_post=1):
++def invia_storie_whatsapp(pc_grande=True, numero_post=1):
+@@
+-    driver = setup_driver(user_data_dir, profile_directory)
++    driver = setup_driver(user_data_dir, profile_directory)
+     stampa_colore(f"✅ Setup_driver: {driver}", "verde")
+@@
+-    random.shuffle(posts)
+-    urls = []
+-    for idx, p in enumerate(posts[:numero_post]):
+-        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
+-        if rel:
+-            urls.append(base_url + rel)
++    random.shuffle(posts)
++    # alterna immagine/video: se manca il video, fai fallback su immagine e mantieni alternanza
++    urls = []
++    next_is_video = True
++    for p in posts:
++        rel = ""
++        if next_is_video and p.get("video"):
++            rel = p["video"]
++            next_is_video = False
++        elif p.get("image"):
++            rel = p["image"]
++            next_is_video = True
++        elif p.get("screen"):  # ulteriore fallback
++            rel = p["screen"]
++            # non cambiamo il toggle se è uno "screen"
++        if rel:
++            urls.append(base_url + rel)
++        if len(urls) >= numero_post:
++            break
+@@
+-    driver.get("https://web.whatsapp.com/")
++    driver.get("https://web.whatsapp.com/")
+     stampa_colore("📌 Attesa iniziale (WhatsApp Web)...", "giallo")
+-    time.sleep(45)
++    # aspetta fino a quando l'interfaccia è pronta (icona profilo presente)
++    try:
++        WebDriverWait(driver, 90).until(
++            EC.presence_of_element_located((By.XPATH, "//header//img[contains(@alt,'profile') or contains(@src,'avatar')]"))
++        )
++    except Exception:
++        time.sleep(15)
+@@
+-    for idx, p in enumerate(posts[:numero_post]):
+-        rel = p["video"] if idx % 2 == 0 and p["video"] else p["image"]
+-        url = base_url + rel
+-        local = local_paths.get(url)
+-        if not local:
+-            stampa_colore(f"[⚠️ WARN] salto {url}", "giallo")
+-            continue
+-        testo = f"{p['summary']} {base_url}{p['slug']}"
+-        invia_storia(driver, local, testo)
+-        time.sleep(18)
++    # invio
++    sent = 0
++    for p in posts:
++        # ricostruisci quale media avevi scelto in fase di download
++        candidates = [p.get("video"), p.get("image"), p.get("screen")]
++        chosen = None
++        for c in candidates:
++            if not c:
++                continue
++            url = base_url + c
++            if url in local_paths:
++                chosen = url
++                break
++        if not chosen:
++            continue
++        local = local_paths[chosen]
++        testo = f"{p['summary']} {base_url}{p['slug']}"
++        invia_storia(driver, local, testo)
++        sent += 1
++        if sent >= numero_post:
++            break
++        time.sleep(18)
+@@
+-#invia_storie_whatsapp()
++# invia_storie_whatsapp()

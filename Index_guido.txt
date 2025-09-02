@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Track‑record operazioni | Castelnuovo Vista</title>
+
+  <!-- Google Fonts + FontAwesome + AOS (stesso stack dei singoli deal) -->
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;700&family=Merriweather&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
+
+  <style>
+    :root{
+      --accent:#CDA95C;--accent-dark:#8F6B30;--bg-light:#F5F0EA;--text:#333;
+      --radius:12px;--transition:.35s ease;
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    body{font-family:'Merriweather',serif;background:var(--bg-light);color:var(--text);line-height:1.55}
+    h1,h2{font-family:'Poppins',sans-serif;font-weight:700;letter-spacing:-.5px;margin-bottom:.5rem}
+    .container{max-width:1300px;margin:auto;padding:0 1.2rem}
+    /* HERO ----------------------------------------------------------- */
+    .hero{min-height:60vh;display:flex;align-items:center;justify-content:center;text-align:center;
+          background:url('img/portfolio-hero.webp') center/cover no-repeat fixed;position:relative;color:#fff}
+    .hero::before{content:'';position:absolute;inset:0;background:rgba(0,0,0,.55)}
+    .hero > div{position:relative;max-width:780px}
+    /* GRID CARDS ----------------------------------------------------- */
+    .grid{display:grid;gap:2.2rem;margin:4rem 0}
+    @media(min-width:1050px){.grid-4{grid-template-columns:repeat(4,1fr)}}
+    @media(min-width:700px) and (max-width:1049px){.grid-4{grid-template-columns:repeat(2,1fr)}}
+    .deal-card{display:block;background:#fff;border-radius:var(--radius);overflow:hidden;text-decoration:none;
+               box-shadow:0 6px 22px -8px rgba(0,0,0,.25);transition:transform .45s,var(--transition)}
+    .deal-card:hover{transform:translateY(-6px) scale(1.03)}
+    .deal-thumb{height:160px;background-size:cover;background-position:center}
+    .deal-body{padding:1.4rem}
+    .deal-body h3{font-family:'Poppins',sans-serif;font-size:1.15rem;margin-bottom:.35rem;color:var(--text)}
+    .meta{font-family:'Poppins',sans-serif;font-size:.85rem;display:flex;justify-content:space-between;color:#555}
+    .badge{display:inline-block;background:var(--accent-dark);color:#fff;font-size:.75rem;padding:.25rem .55rem;
+           border-radius:6px;margin-top:.7rem}
+    /* FOOTER --------------------------------------------------------- */
+    footer{background:#222;color:#aaa;text-align:center;font-size:.8rem;padding:1.6rem 0}
+  </style>
+</head>
+
+<body>
+  <!-- HERO ---------------------------------------------------------- -->
+  <header class="hero">
+    <div data-aos="zoom-in">
+      <h1>Il nostro track‑record</h1>
+      <p style="font-family:'Poppins',sans-serif;font-weight:500;font-size:1.1rem">
+        Operazioni concluse e in corso – dati <span style="white-space:nowrap">2024‑2026</span>
+      </p>
+    </div>
+  </header>
+
+  <!-- PORTFOLIO GRID ------------------------------------------------ -->
+  <section class="container">
+    <h2 data-aos="fade-up" style="text-align:center">Anteprime operazioni</h2>
+
+    <div class="grid grid-4">
+      <!-- BARBARANI ------------------------------------------------- -->
+      <a href="barbarani/index.html" class="deal-card" data-aos="fade-up" data-aos-delay="25">
+        <div class="deal-thumb" style="background-image:url('barbarani/hero.jpg')"></div>
+        <div class="deal-body">
+          <h3>Via B. Barbarani – Sommacampagna</h3>
+          <div class="meta">
+            <span>ROI 25 %</span>
+            <span>Durata 12 mesi</span>
+          </div>
+          <span class="badge">5 unità | Frazionamento</span>
+        </div>
+      </a>
+
+      <!-- MARANGONI ------------------------------------------------- -->
+      <a href="marangoni/index.html" class="deal-card" data-aos="fade-up" data-aos-delay="75">
+        <div class="deal-thumb" style="background-image:url('marangoni/hero.jpg')"></div>
+        <div class="deal-body">
+          <h3>Via Marangoni – Udine</h3>
+          <div class="meta">
+            <span>ROI 93 %</span>
+            <span>Durata 5 mesi</span>
+          </div>
+          <span class="badge">Light flip</span>
+        </div>
+      </a>
+
+      <!-- LEDRA ----------------------------------------------------- -->
+      <a href="ledra/index.html" class="deal-card" data-aos="fade-up" data-aos-delay="125">
+        <div class="deal-thumb" style="background-image:url('ledra/hero.jpg')"></div>
+        <div class="deal-body">
+          <h3>Viale Ledra – Udine</h3>
+          <div class="meta">
+            <span>ROI 29 %</span>
+            <span>Durata 6 mesi</span>
+          </div>
+          <span class="badge">Full‑reno</span>
+        </div>
+      </a>
+
+      <!-- PERCOTO --------------------------------------------------- -->
+      <a href="percoto/index.html" class="deal-card" data-aos="fade-up" data-aos-delay="175">
+        <div class="deal-thumb" style="background-image:url('percoto/hero.jpg')"></div>
+        <div class="deal-body">
+          <h3>Via Percoto – Udine</h3>
+          <div class="meta">
+            <span>ROI 102 %</span>
+            <span>Durata 6 mesi</span>
+          </div>
+          <span class="badge">Re‑layout & Staging</span>
+        </div>
+      </a>
+    </div>
+  </section>
+
+  <footer>
+    © 2025 Castelnuovo Vista | I risultati sono calcolati ex‑ante sulla base di business plan approvati
+  </footer>
+
+  <!-- SCRIPTS ------------------------------------------------------- -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.js"></script>
+  <script>AOS.init({once:true,duration:1000});</script>
+</body>
+</html>

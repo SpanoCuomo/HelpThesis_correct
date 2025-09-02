@@ -622,7 +622,7 @@ def crea_reel_facebook(driver, video_path, didascalia=""):
 
 
 
-def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto"):
+def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=10, publish_mode="auto"):
     global missing_media
 
     kill_all_chrome()

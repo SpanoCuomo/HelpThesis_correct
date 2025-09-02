@@ -1,0 +1,158 @@
+#!usrbinenv python3
+# -- coding utf-8 --
+
+
+
+{
+  id int,
+  q string,
+  A string,
+  B string,
+  C string,
+  correct ABCNone
+}
+
+#Logica chiave
+#Logica chiave
+#- Una riga con solo cifre può essere sia un ID domanda sia un'opzione numerica.
+  #Per distinguere i casi, si usa un lookahead è inizio domanda solo se
+#  la prossima riga non vuota NON è numerica.
+#- Le ultime 3 righe non vuote del blocco sono le opzioni (A,B,C), il resto è la domanda.
+#- Le soluzioni si leggono da righe del tipo 123 B (una per domanda).
+
+
+import argparse
+import json
+import os
+import re
+from typing import List, Tuple, Dict, Any
+
+
+NUM_ONLY_RE = re.compile(r'^sd{1,4}s$')
+PAIR_LINE_RE = re.compile(r'^s(d{1,4})s([ABC])s$', re.M)
+
+def read_lines(path str) - List[str]
+    with open(path, r, encoding=utf-8, errors=ignore) as f
+        raw = f.read()
+    return raw.replace(rn, n).replace(r, n).split(n), raw
+
+def is_number_only(s str) - bool
+    return bool(NUM_ONLY_RE.fullmatch(s))
+
+def next_nonempty_idx(lines List[str], i int)
+    j = i + 1
+    while j  len(lines) and lines[j].strip() == 
+        j += 1
+    return j if j  len(lines) else None
+
+def split_question_blocks(lines List[str]) - List[Tuple[int, List[str]]]
+    
+    Splitta in blocchi (id, righe_blocco) usando un lookahead
+    una riga numerica è INIZIO DOMANDA solo se la prossima riga non vuota NON è numerica.
+    Altrimenti è contenuto (es. opzione '15', '45', '30', ...).
+    
+    entries List[Tuple[int, List[str]]] = []
+    current_id = None
+    buf List[str] = []
+
+    i = 0
+    while i  len(lines)
+        ln = lines[i]
+        if is_number_only(ln)
+            j = next_nonempty_idx(lines, i)
+            nxt = lines[j] if j is not None else 
+            if current_id is None
+                # avvia un blocco solo se la prossima non è numerica
+                if not is_number_only(nxt)
+                    current_id = int(ln.strip())
+                    buf = []
+            else
+                if not is_number_only(nxt)
+                    # chiudi il blocco precedente e apri il nuovo
+                    entries.append((current_id, buf[]))
+                    current_id = int(ln.strip())
+                    buf = []
+                else
+                    # è contenuto (probabilmente opzione numerica)
+                    buf.append(ln.rstrip())
+        else
+            if current_id is not None
+                buf.append(ln.rstrip())
+        i += 1
+
+    if current_id is not None
+        entries.append((current_id, buf[]))
+
+    return entries
+
+def normalize_space(s str) - str
+    s = re.sub(r's+', ' ', s)
+    return s.strip()
+
+def parse_block_to_record(qid int, block List[str]) - Dict[str, Any]
+    data = [ln.strip() for ln in block if ln.strip() != ]
+    if len(data) = 4
+        q_lines = data[-3]
+        opts = data[-3]
+    else
+        q_lines = data[1]
+        opts = data[14]
+
+    # Domanda
+    q =  .join(q_lines).strip()
+    # preserva  se presente in una delle righe della domanda
+    if q and not q.endswith()
+        for ln in reversed(q_lines)
+            if ln.endswith()
+                q += 
+                break
+    q = normalize_space(q)
+
+    # Opzioni A, B, C in ordine
+    A, B, C = (opts + [, , ])[3]
+    A = normalize_space(A)
+    B = normalize_space(B)
+    C = normalize_space(C)
+
+    return {id qid, q q, A A, B B, C C}
+
+def read_answer_key(raw_text str) - Dict[int, str]
+    pairs = PAIR_LINE_RE.findall(raw_text)
+    return {int(i) l for i, l in pairs}
+
+def main()
+    
+    ap.add_argument(-i, --input, required=True, help=Percorso al file TXT.)
+    ap.add_argument(-o, --output, help=Percorso JSON di output (default input.json).)
+    args = ap.parse_args()
+
+    lines, raw = read_lines(args.input)
+    blocks = split_question_blocks(lines)
+
+    # Ordina per id (robusto nel caso l'ordine nel file sia anomalo)
+    blocks.sort(key=lambda t t[0])
+
+    records = [parse_block_to_record(qid, blk) for qid, blk in blocks]
+
+    # Mappa risposte corrette
+    ans_map = read_answer_key(raw)
+    for r in records
+        r[correct] = ans_map.get(r[id], None)
+
+    # Statistiche e warning
+    missing_correct = [r[id] for r in records if r[correct] is None]
+    missing_opts = [r[id] for r in records if not (r[A] and r[B] and r[C])]
+
+    out_path = args.output or os.path.splitext(args.input)[0] + .json
+    with open(out_path, w, encoding=utf-8) as f
+        json.dump(records, f, ensure_ascii=False, indent=2)
+
+    print(f[OK] Salvato {out_path})
+    print(f[INFO] Domande totali {len(records)})
+    if missing_correct
+        print(f[ATTENZIONE] Soluzione mancante per id {missing_correct})
+    if missing_opts
+        print(f[ATTENZIONE] Opzioni incomplete per id {missing_opts})
+
+if __name__ == __main__
+    main()

@@ -310,7 +310,7 @@ if __name__ == "__main__":
     
     
     start_time = time.time()  # Avvio cronometro (tic)
-    lista_utilizzata =  "FB_UDA_da_pagina.txt"
+    lista_utilizzata =  "FB_UDA_da_pagina.json"
     print(GREEN + "Lista utilizzata: " + lista_utilizzata + RESET)
     
     
