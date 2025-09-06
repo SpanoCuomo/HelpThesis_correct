@@ -8,6 +8,7 @@ import datetime
 # master.py
 from Storie_Facebook import invia_storie_facebook
 from Post_WA_3 import post_a_whatsapp
+from Storie_Facebook import pubblica_unico_reel
 # Ad esempio PC grande, arancione, 10 post, modalità auto (reel e storie alternate)
 ######post_a_whatsapp(pc_grande=True)
 #invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto")
@@ -23,7 +24,7 @@ scripts = [
 
 
 # Configurazione intervallo (2 ore in secondi)
-intervallo_ore = 1
+intervallo_ore = 0.2
 intervallo_secondi = intervallo_ore * 60 * 60
 
 # Numero di post per ogni esecuzione singola
@@ -36,9 +37,18 @@ def invio_periodico():
     while True:
         ora_corrente = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
         print(f"\n🔔 [{ora_corrente}] Eseguo invio storie WhatsApp...")
-        invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto")
-        invia_storie_facebook(pc_grande=True, arancione=False, numero_post=1, publish_mode="auto")
-        invia_storie_whatsapp(pc_grande=pc_grande, numero_post=numero_post_per_esecuzione)
+        
+        invia_storie_facebook(pc_id=1, page_id=1, numero_post=1,  publish_mode="auto")
+        invia_storie_facebook(pc_id=1, page_id=2, numero_post=1,  publish_mode="auto")  
+        
+        pubblica_unico_reel(
+            video_path="C://Users//UTENTE//Downloads//pubbli_libro.mp4",
+            didascalia="Acquista il libro per la preparazione del test come assistente di cancelleria su Amazon, al https://amzn.eu/d/gvcef0E ",
+            pc_id=1,     # PC grande
+            page_id=3    # Mininterno (usa quello che ti serve: 1 Arancione, 2 Blu, 3 Mininterno)
+            )
+        
+        #invia_storie_whatsapp(pc_grande=pc_grande, numero_post=numero_post_per_esecuzione)
         try:
             
             print(f"✅ Storia inviata con successo alle {ora_corrente}!\n")

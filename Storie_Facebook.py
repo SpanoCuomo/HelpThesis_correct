@@ -43,10 +43,42 @@ RESET  = "\033[0m"
 # Variabile globale per riutilizzare lo stesso driver
 driver = None
 debug_mode = False
-PC_Grande = False
-Arancione = True
+# PC_ID: 1 = grande, 2 = piccolo
+# PAGE_ID: 1 = Arancione, 2 = Blu (puoi aggiungere 3,4,...)
+PC_ID = 1
+PAGE_ID = 1
 ########################
-
+# Mappa centralizzata (estendibile) per profili e URL base
+CONFIG = {
+    # PAGE_ID 1 = Arancione
+    1: {
+        "name": "Arancione",
+        "base_url": "https://aiutotesi.altervista.org/blog/",
+        "profiles": {
+            # PC_ID 1 = grande
+            1: {"user_data_dir": r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile", "profile_directory": "Default"},
+            # PC_ID 2 = piccolo
+            2: {"user_data_dir": r"C:\ChromeProfili", "profile_directory": "Profile 2"},
+        },
+    },
+    # PAGE_ID 2 = Blu
+    2: {
+        "name": "Blu",
+        "base_url": "https://aiutotesi.altervista.org/ImmaginiSitoTesi/Video_Blu/",
+        "profiles": {
+            1: {"user_data_dir": r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile_Blu", "profile_directory": "Default"},
+            2: {"user_data_dir": r"C:\ChromeProfili", "profile_directory": "Profile 4"},
+        },
+    },
+    3: {
+        "name": "Mininterno",
+        "base_url": "https://aiutotesi.altervista.org/ImmaginiSitoTesi/Video_Blu/",
+        "profiles": {
+            1: {"user_data_dir": r"C:\Users\UTENTE\Desktop\MinInterno", "profile_directory": "Default"},
+            2: {"user_data_dir": r"C:\ChromeProfili", "profile_directory": "Profile 4"},
+        },
+    },
+}
 
 
 DOWNLOAD_DIR = os.path.join(tempfile.gettempdir(), "fb_status_temp")
@@ -109,7 +141,43 @@ def setup_driver(user_data_dir, profile_directory):
     return driver
 
         
-        
+def pubblica_unico_reel(video_path: str,
+                         didascalia: str = "",
+                         pc_id: int = PC_ID,
+                         page_id: int = PAGE_ID):
+     """
+     Pubblica UN SOLO video come Reel su Facebook, senza leggere posts.php.
+     - video_path: percorso locale o URL http/https
+     - didascalia: testo del reel
+     - pc_id/page_id: usano i profili già definiti in CONFIG
+     """
+     kill_all_chrome()
+     time.sleep(2)
+
+     if page_id not in CONFIG:
+         raise ValueError(f"PAGE_ID sconosciuto: {page_id}")
+     page_cfg = CONFIG[page_id]
+     if pc_id not in page_cfg["profiles"]:
+         raise ValueError(f"PC_ID sconosciuto per PAGE_ID {page_id}: {pc_id}")
+     prof = page_cfg["profiles"][pc_id]
+
+     drv = setup_driver(prof["user_data_dir"], prof["profile_directory"])
+     stampa_colore(f"✅ Profilo attivo: {page_cfg['name']} | PC_ID={pc_id}", "verde")
+
+     local_media = fetch_to_local(video_path)
+     if not local_media or not os.path.exists(local_media):
+         stampa_colore("❌ Video non trovato/scaricato", "rosso")
+         try: drv.quit()
+         except Exception: pass
+         return
+
+     drv.get("https://www.facebook.com/")
+     time.sleep(8)
+     crea_reel_facebook(drv, local_media, didascalia=didascalia)
+     try: drv.quit()
+     except Exception: pass
+     stampa_colore("✔ Reel unico pubblicato.", "verde")
+      
         
         
 
@@ -336,56 +404,121 @@ def crea_reel_facebook(driver, video_path, didascalia=""):
             break
 
     # ── 4. didascalia (opzionale) ─────────────────────────────────────
+    def _safe_click_any(xpaths, wait_sec=6):
+        for xp in xpaths:
+            try:
+                el = WebDriverWait(driver, wait_sec).until(EC.element_to_be_clickable((By.XPATH, xp)))
+                driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
+                el.click()
+                print(f"[DEBUG] Click su: {xp}")
+                time.sleep(0.8)
+                return True
+            except Exception:
+                continue
+        return False
+
+    def _insert_caption_via_js(el, text):
+        # Metodo affidabile per editor React/Lexical/Draft
+        driver.execute_script("""
+            const el = arguments[0];
+            const text = arguments[1];
+            el.focus();
+            try {
+              document.execCommand('selectAll', false, null);
+              document.execCommand('insertText', false, text);
+            } catch (e) {
+              el.textContent = text;
+            }
+            el.dispatchEvent(new Event('input', {bubbles: true}));
+            el.dispatchEvent(new KeyboardEvent('keydown', {bubbles:true, key:' ', code:'Space'}));
+            el.dispatchEvent(new KeyboardEvent('keyup', {bubbles:true, key:' ', code:'Space'}));
+        """, el, text)
+
+    inserted = False
     if didascalia:
-        inserted = False
-        locators = [
-            # 1) campo input classico con placeholder
-            ("input", "//*[@placeholder='Scrivi una didascalia']"),
-            # 2) div contenteditable con aria-placeholder
-            ("div", "//div[@contenteditable='true' and @aria-placeholder='Descrivi il tuo reel...']"),
-            # 3) div contenteditable generico (spoiler: a volte cambia aria-placeholder)
-            ("div", "//div[@contenteditable='true']")
+        # 4.0 Alcune UI richiedono di aprire tab "Dettagli/Details" o il campo "Aggiungi didascalia"
+        _safe_click_any([
+            "//div[@role='tab' and .//span[normalize-space()='Dettagli']]",
+            "//div[@role='tab' and .//span[normalize-space()='Details']]",
+            "//span[normalize-space()='Dettagli']/ancestor::div[@role='tab']",
+            "//span[normalize-space()='Details']/ancestor::div[@role='tab']",
+            "//*[normalize-space()='Aggiungi didascalia' or normalize-space()='Write a caption']",
+        ], wait_sec=4)
+
+        # 4.1 Prova con una rosa di locator molto ampia (IT/EN e vari framework FB)
+        locator_candidates = [
+            # IT / EN placeholder / aria
+            "//*[@placeholder='Scrivi una didascalia']",
+            "//*[@placeholder='Aggiungi una didascalia']",
+            "//*[@aria-label='Aggiungi didascalia']",
+            "//*[@aria-label='Scrivi una didascalia']",
+            "//*[@placeholder='Write a caption']",
+            "//*[@aria-label='Write a caption']",
+            # contenteditable / role textbox (Lexical/Draft)
+            "//div[@role='textbox' and @contenteditable='true']",
+            "//div[@contenteditable='true' and @data-lexical-editor='true']",
+            "//div[@contenteditable='true' and contains(@aria-placeholder,'reel')]",
+            "//div[@contenteditable='true']",
+            # alcuni casi: textarea "classico"
+            "//textarea[@name='caption' or @aria-label='Caption' or @placeholder='Caption']",
         ]
 
-        for tag, xp in locators:
+        for xp in locator_candidates:
             try:
-                el = WebDriverWait(driver, 10).until(
-                    EC.element_to_be_clickable((By.XPATH, xp))
-                )
-                # scroll + focus
+                el = WebDriverWait(driver, 8).until(EC.presence_of_element_located((By.XPATH, xp)))
                 driver.execute_script("arguments[0].scrollIntoView({block:'center'});", el)
                 driver.execute_script("arguments[0].focus();", el)
                 time.sleep(0.2)
 
-                # pulizia del contenuto precedente
-                if tag == "input":
-                    el.clear()
+                tag = el.tag_name.lower()
+                if tag == "input" or tag == "textarea":
+                    try:
+                        el.clear()
+                    except Exception:
+                        pass
                     el.send_keys(didascalia)
                 else:
-                    # svuota il div contenteditable via JS e poi scrive
-                    driver.execute_script("arguments[0].innerText = '';", el)
-                    el.click()
-                    time.sleep(0.2)
-                    el.send_keys(didascalia)
-                # forza aggiornamento UI per attivare pulsante Pubblica
-                driver.execute_script(
-                    "arguments[0].dispatchEvent(new Event('input', {bubbles:true}));",
-                    el
-                )
-                el.send_keys(Keys.TAB)  # rimuove focus
-                print(f"[OK] didascalia inserita con locator `{xp}`")
-                time.sleep(0.5)
+                    # contenteditable: usa metodo JS robusto
+                    _insert_caption_via_js(el, didascalia)
+
+                # assicurati che la UI recepisca la modifica
+                driver.execute_script("arguments[0].dispatchEvent(new Event('input', {bubbles:true}));", el)
+                try:
+                    el.send_keys(Keys.TAB)
+                except Exception:
+                    pass
+
+                print(f"[OK] didascalia inserita con locator: {xp}")
                 inserted = True
                 break
             except Exception:
                 continue
 
-    if not inserted:
-        print("[WARN] didascalia non inserita: nessun locator ha funzionato")
+    if not inserted and didascalia:
+        print("[WARN] didascalia NON inserita: nessun locator ha funzionato su questa UI")
 
-
-        if inserted:
-            print("[OK] didascalia inserita correttamente")
+    if inserted:
+        print("[OK] didascalia inserita correttamente")
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
+            
     time.sleep(5)
     print("Arrivato al Pubblica")
     # ── 5. pubblica ───────────────────────────────────────────────────
@@ -622,42 +755,32 @@ def crea_reel_facebook(driver, video_path, didascalia=""):
 
 
 
-def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish_mode="auto"):
+def invia_storie_facebook(pc_id: int = PC_ID, page_id: int = PAGE_ID, numero_post: int = 1, publish_mode: str = "auto"):
     global missing_media
 
     kill_all_chrome()
     time.sleep(2)
 
     # Configura profilo Chrome in base ai parametri
-    if pc_grande and arancione:
-        user_data_dir = r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile"
-        profile_directory = "Default"
-        stampa_colore("✅ Sono nel PC grande Arancione", "verde")
 
-    elif not pc_grande and arancione:
-        user_data_dir = r"C:\ChromeProfili"
-        profile_directory = "Profile 2"
-        stampa_colore("✅ Sono nel PC piccolo Arancione", "verde")
 
-    elif pc_grande and not arancione:
-        user_data_dir = r"C:\Users\UTENTE\Desktop\Chrome_Selenium_Profile_Blu"
-        profile_directory = "Default"
-        stampa_colore("✅ Sono nel PC grande Blu", "verde")
+# --- NUOVO: lookup da CONFIG con validazioni chiare ---
+    if page_id not in CONFIG:
+        raise ValueError(f"PAGE_ID sconosciuto: {page_id}. Definisci la pagina in CONFIG.")
+    page_cfg = CONFIG[page_id]
+    if pc_id not in page_cfg["profiles"]:
+        raise ValueError(f"PC_ID sconosciuto per PAGE_ID {page_id}: {pc_id}. Aggiungi il profilo in CONFIG.")
 
-    elif not pc_grande and not arancione:
-        user_data_dir = r"C:\ChromeProfili"
-        profile_directory = "Profile 4"
-        stampa_colore("✅ Sono nel PC piccolo Blu", "verde")
+    user_data_dir = page_cfg["profiles"][pc_id]["user_data_dir"]
+    profile_directory = page_cfg["profiles"][pc_id]["profile_directory"]
+    stampa_colore(f"✅ Profilo: PC_ID={pc_id} | PAGE_ID={page_id} ({page_cfg['name']})", "verde")
+ 
 
     driver = setup_driver(user_data_dir, profile_directory)
     stampa_colore(f"✅ Setup_driver: {driver}", "verde")
 
     # Scegli URL in base ad "arancione"
-    if arancione:
-        base_url = "https://aiutotesi.altervista.org/blog/"
-    else:
-        base_url = "https://aiutotesi.altervista.org/ImmaginiSitoTesi/Video_Blu/"
-
+    base_url = page_cfg["base_url"]
     php_url_raw = "https://aiutotesi.altervista.org/blog/posts.php?raw=1"
     local_php = fetch_to_local(php_url_raw)
     posts = extract_posts_from_php(local_php, base_url)
@@ -668,7 +791,7 @@ def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish
         if rel:
             orig_url = base_url + rel
             urls_da_scaricare.append(orig_url)
-            if not arancione and rel.lower().endswith((".mp4", ".mov", ".avi")):
+            if page_id != 1 and rel.lower().endswith((".mp4", ".mov", ".avi")):
                 name, ext = os.path.splitext(rel)
                 blu_rel = f"{name}_blu{ext}"
                 urls_da_scaricare.append(base_url + blu_rel)
@@ -706,7 +829,7 @@ def invia_storie_facebook(pc_grande=True, arancione=True, numero_post=1, publish
         full_url_media = base_url + rel
         local_media = local_paths.get(full_url_media)
 
-        if mode == "reel" and not arancione:
+        if mode == "reel" and page_id != 1:
             name, ext = os.path.splitext(rel)
             blu_url = f"{base_url}{name}_blu{ext}"
             local_media = local_paths.get(blu_url, local_media)
